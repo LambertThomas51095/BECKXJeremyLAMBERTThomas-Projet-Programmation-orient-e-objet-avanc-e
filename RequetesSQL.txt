@@ -1,0 +1,56 @@
+/!\ ATTENTION /!\
+Les nom VARIABLE_... sont les noms provisoires pour montrer
+où se situe les les variables portant sur les conditions dans l'énoncé
+
+---------
+
+Quelles sont les langues parlées par les agents d’un certains âges au sein d’une cellule ?
+entrée: Cellule.Nom, dateNaissance
+sortie: agent.last_name, agent.first_name, language.name
+
+SELECT last_name, first_name, name
+FROM Agent JOIN Ability
+ON personnal_number = agent
+	JOIN Language
+	ON code = language
+WHERE affectation = VARIABLE_NOM_CELLULE 
+AND birthdate < VARIABLE_DATE_NAISSANCE;
+
+---
+
+Dans quels pays se sont déroulées les missions d’un agent ?
+entrée: last_name, first_name, matricule[0..1]
+sortie: mission.code, mission.description, country.name
+
+SELECT code, description, name
+FROM Mission m JOIN Attribution a
+ON m.code = a.mission
+	JOIN Agent
+	ON personnal_number = a.agent
+		JOIN Mission_Location ml
+		ON m.code = ml.mission
+			JOIN Location l
+			ON l.code = ml.location
+				JOIN Country
+				ON l.position = name
+WHERE last_name = VARIABLE_LAST_NAME
+AND first_name = VARIABLE_FIRST_NAME;
+
+(ou variance avec le matricule mais à gérer dans méthode de ask)
+
+---
+
+Quels contacts sont disponible pour une mission ?
+entrée: code mission
+sortie: contact.pseudonym
+
+SELECT pseudonym
+FROM Mission m JOIN Mission_Location ml
+ON m.code = ml.mission
+	JOIN Location l
+	ON l.code = ml.location
+		JOIN Coverage c
+		ON l.code = c.location
+			JOIN Contact
+			ON personnal_number = c.contact 
+WHERE m.code = VARIABLE_CODE;

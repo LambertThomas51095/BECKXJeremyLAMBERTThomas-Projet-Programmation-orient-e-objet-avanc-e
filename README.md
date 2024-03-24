@@ -1,7 +1,7 @@
 # ProjetJava
 
 ### modif à effectuer
-
+- Checker les propositions pour les requêtes SQL dans RequeteSQL.txt : elles ne sont que pour les 3 recherches pour l'instant pas le CRUD
 
 ### propositions thread(s)
 - Réfléchir à un truc visuel
