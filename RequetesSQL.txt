@@ -34,7 +34,9 @@ ON m.code = a.mission
 				JOIN Country
 				ON l.position = name
 WHERE last_name = VARIABLE_LAST_NAME
-AND first_name = VARIABLE_FIRST_NAME;
+AND first_name = VARIABLE_FIRST_NAME
+AND VARIABLE_MATRICULE IS NULL
+OR VARIABLE_MATRICULE = personnal_Number;
 
 (ou variance avec le matricule mais à gérer dans méthode de ask)
 
