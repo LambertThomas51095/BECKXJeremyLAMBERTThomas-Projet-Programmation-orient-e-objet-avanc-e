@@ -8,4 +8,8 @@ public class BirthdayException extends Exception{
     public BirthdayException(LocalDate wrongBirthday) {
         this.wrongBirthday = wrongBirthday;
     }
+
+    public LocalDate getWrongBirthday() {
+        return wrongBirthday;
+    }
 }

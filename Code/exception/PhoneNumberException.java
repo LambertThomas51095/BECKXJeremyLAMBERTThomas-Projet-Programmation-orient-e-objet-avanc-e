@@ -6,4 +6,8 @@ public class PhoneNumberException extends Exception{
     public PhoneNumberException(String wrongPhoneNumber) {
         this.wrongPhoneNumber = wrongPhoneNumber;
     }
+
+    public String getWrongPhoneNumber() {
+        return wrongPhoneNumber;
+    }
 }

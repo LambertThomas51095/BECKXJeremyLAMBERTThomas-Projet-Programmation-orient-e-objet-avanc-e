@@ -3,6 +3,8 @@ package model;
 import exception.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,8 +20,10 @@ public class Agent {
     private Integer editorial;
     private String affectation;
 
-    public final String PHONE_PATTERN_1 = "\\d{3}/\\d{2}\\.\\d{2}\\.\\d{2}";
-    public final String PHONE_PATTERN_2 = "\\d{3}/\\d{3}\\.\\d{3}";
+    public static final String PHONE_PATTERN_1 = "\\d{3}/\\d{2}\\.\\d{2}\\.\\d{2}";
+    public static final String PHONE_PATTERN_2 = "\\d{3}/\\d{3}\\.\\d{3}";
+
+    public static final String [] POSSIBLE_GENDER = {"M","F","X"};
 
     public Agent(Integer personnalNumber, String lastName, String fisrtName, LocalDate birthday, String phoneNumber, String gender, Boolean isAlone, String pseudonym, Integer editorial, String affectation) throws GenderException, BirthdayException, PersonnalNumberException, PhoneNumberException{
         setPersonnalNumber(personnalNumber);
@@ -34,11 +38,15 @@ public class Agent {
         setAffectation(affectation);
     }
 
+    public String toString(){
+        return "Tout ok";
+    }
+
     public void setPersonnalNumber(Integer personnalNumber) throws PersonnalNumberException {
         if(personnalNumber > 0){
             this.personnalNumber = personnalNumber;
         }else{
-            throw new PersonnalNumberException(personnalNumber,"Négatif");
+            throw new PersonnalNumberException(personnalNumber,"Valeur négative ou nulle");
         }
     }
     public void setLastName(String lastName) {
@@ -69,7 +77,7 @@ public class Agent {
 
     }
     public void setGender(String gender) throws GenderException{
-        if(gender.equals("H") || gender.equals("F") || gender.equals("M")){
+        if(getPossibleGender().contains(gender)){
             this.gender = gender;
         }else{
             throw new GenderException(gender);
@@ -88,4 +96,9 @@ public class Agent {
     public void setAffectation(String affectation) {
         this.affectation = affectation;
     }
+
+    public static List getPossibleGender(){
+        return Arrays.stream(Agent.POSSIBLE_GENDER).toList();
+    }
+
 }

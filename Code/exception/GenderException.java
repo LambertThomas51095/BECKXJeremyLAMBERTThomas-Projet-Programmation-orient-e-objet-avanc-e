@@ -6,4 +6,8 @@ public class GenderException extends Exception{
     public GenderException(String wrongGender) {
         this.wrongGender = wrongGender;
     }
+
+    public String getWrongGender() {
+        return wrongGender;
+    }
 }

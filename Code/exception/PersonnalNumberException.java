@@ -7,4 +7,8 @@ public class PersonnalNumberException extends Exception{
         super(reason);
         this.wrongPersonnalNumber = wrongPersonnalNumber;
     }
+
+    public Integer getWrongPersonnalNumber() {
+        return wrongPersonnalNumber;
+    }
 }
