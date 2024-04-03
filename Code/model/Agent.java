@@ -17,15 +17,15 @@ public class Agent {
     private String gender;
     private Boolean isAlone;
     private String pseudonym;
-    private Integer editorial;
-    private String affectation;
+    private Editorial editorial;
+    private Cell affectation;
 
     public static final String PHONE_PATTERN_1 = "\\d{3}/\\d{2}\\.\\d{2}\\.\\d{2}";
     public static final String PHONE_PATTERN_2 = "\\d{3}/\\d{3}\\.\\d{3}";
 
     public static final String [] POSSIBLE_GENDER = {"M","F","X"};
 
-    public Agent(Integer personnalNumber, String lastName, String fisrtName, LocalDate birthday, String phoneNumber, String gender, Boolean isAlone, String pseudonym, Integer editorial, String affectation) throws GenderException, BirthdayException, PersonnalNumberException, PhoneNumberException{
+    public Agent(Integer personnalNumber, String lastName, String fisrtName, LocalDate birthday, String phoneNumber, String gender, Boolean isAlone) throws AgentException{
         setPersonnalNumber(personnalNumber);
         setLastName(lastName);
         setFisrtName(fisrtName);
@@ -33,20 +33,17 @@ public class Agent {
         setPhoneNumber(phoneNumber);
         setGender(gender);
         setAlone(isAlone);
-        setPseudonym(pseudonym);
-        setEditorial(editorial);
-        setAffectation(affectation);
     }
 
     public String toString(){
         return "Tout ok";
     }
 
-    public void setPersonnalNumber(Integer personnalNumber) throws PersonnalNumberException {
+    public void setPersonnalNumber(Integer personnalNumber) throws AgentException {
         if(personnalNumber > 0){
             this.personnalNumber = personnalNumber;
         }else{
-            throw new PersonnalNumberException(personnalNumber,"Valeur négative ou nulle");
+            throw new AgentException("La valeur du matricule est négative ou nulle");
         }
     }
     public void setLastName(String lastName) {
@@ -55,15 +52,15 @@ public class Agent {
     public void setFisrtName(String fisrtName) {
         this.fisrtName = fisrtName;
     }
-    public void setBirthday(LocalDate birthday) throws BirthdayException {
+    public void setBirthday(LocalDate birthday) throws AgentException {
         if(LocalDate.now().isAfter(birthday)) {
             this.birthday = birthday;
         }else{
-            throw new BirthdayException(birthday);
+            throw new AgentException("Vous avez entré une mauvaise date de naissance, celle-ci ne peut pas dépassé la date d'aujoudd'hui : "+birthday);
         }
 
     }
-    public void setPhoneNumber(String phoneNumber) throws PhoneNumberException {
+    public void setPhoneNumber(String phoneNumber) throws AgentException {
         // exemple xxx/xx.xx.xx ou xxx/xxx.xxx => voir constante
         Pattern pattern1 = Pattern.compile(PHONE_PATTERN_1);
         Pattern pattern2 = Pattern.compile(PHONE_PATTERN_2);
@@ -72,15 +69,15 @@ public class Agent {
         if(matcher1.find() || matcher2.find()){
             this.phoneNumber = phoneNumber;
         }else{
-            throw new PhoneNumberException(phoneNumber);
+            throw new AgentException("Vous avez un entré un autre format de téléphone que ceux demandés :\n"+phoneNumber);
         }
 
     }
-    public void setGender(String gender) throws GenderException{
+    public void setGender(String gender) throws AgentException{
         if(getPossibleGender().contains(gender)){
             this.gender = gender;
         }else{
-            throw new GenderException(gender);
+            throw new AgentException("Vous avez entré un mauvais genre <<"+gender+">> parmis ceux possible : " +getPossibleGender());
         }
 
     }
@@ -90,10 +87,10 @@ public class Agent {
     public void setPseudonym(String pseudonym) {
         this.pseudonym = pseudonym;
     }
-    public void setEditorial(Integer editorial) {
+    public void setEditorial(Editorial editorial) {
         this.editorial = editorial;
     }
-    public void setAffectation(String affectation) {
+    public void setAffectation(Cell affectation) {
         this.affectation = affectation;
     }
 
