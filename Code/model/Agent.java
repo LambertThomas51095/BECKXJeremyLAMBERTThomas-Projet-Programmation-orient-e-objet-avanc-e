@@ -12,12 +12,12 @@ public class Agent {
     private Integer personnalNumber;
     private String lastName;
     private String fisrtName;
-    private LocalDate birthday;
+    private LocalDate birthdate;
     private String phoneNumber;
     private String gender;
     private Boolean isAlone;
     private String pseudonym;
-    private Editorial editorial;
+    private Will editorial;
     private Cell affectation;
 
     public static final String PHONE_PATTERN_1 = "\\d{3}/\\d{2}\\.\\d{2}\\.\\d{2}";
@@ -25,11 +25,11 @@ public class Agent {
 
     public static final String [] POSSIBLE_GENDER = {"M","F","X"};
 
-    public Agent(Integer personnalNumber, String lastName, String fisrtName, LocalDate birthday, String phoneNumber, String gender, Boolean isAlone) throws AgentException{
+    public Agent(Integer personnalNumber, String lastName, String fisrtName, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone) throws AgentException{
         setPersonnalNumber(personnalNumber);
         setLastName(lastName);
         setFisrtName(fisrtName);
-        setBirthday(birthday);
+        setBirthdate(birthdate);
         setPhoneNumber(phoneNumber);
         setGender(gender);
         setAlone(isAlone);
@@ -52,11 +52,11 @@ public class Agent {
     public void setFisrtName(String fisrtName) {
         this.fisrtName = fisrtName;
     }
-    public void setBirthday(LocalDate birthday) throws AgentException {
-        if(LocalDate.now().isAfter(birthday)) {
-            this.birthday = birthday;
+    public void setBirthdate(LocalDate birthdate) throws AgentException {
+        if(LocalDate.now().isAfter(birthdate)) {
+            this.birthdate = birthdate;
         }else{
-            throw new AgentException("Vous avez entré une mauvaise date de naissance, celle-ci ne peut pas dépassé la date d'aujoudd'hui : "+birthday);
+            throw new AgentException("Vous avez entré une mauvaise date de naissance, celle-ci ne peut pas dépassé la date d'aujoudd'hui : "+birthdate);
         }
 
     }
@@ -87,11 +87,42 @@ public class Agent {
     public void setPseudonym(String pseudonym) {
         this.pseudonym = pseudonym;
     }
-    public void setEditorial(Editorial editorial) {
+    public void setEditorial(Will editorial) {
         this.editorial = editorial;
     }
     public void setAffectation(Cell affectation) {
         this.affectation = affectation;
+    }
+
+    public Integer getPersonnalNumber() {
+        return personnalNumber;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public String getFisrtName() {
+        return fisrtName;
+    }
+    public LocalDate getBirthdate() {
+        return birthdate;
+    }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+    public String getGender() {
+        return gender;
+    }
+    public Boolean getIsAlone() {
+        return isAlone;
+    }
+    public String getPseudonym() {
+        return pseudonym;
+    }
+    public Will getEditorial() {
+        return editorial;
+    }
+    public Cell getAffectation() {
+        return affectation;
     }
 
     public static List getPossibleGender(){

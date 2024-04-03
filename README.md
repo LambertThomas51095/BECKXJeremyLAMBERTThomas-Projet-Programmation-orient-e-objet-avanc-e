@@ -18,4 +18,10 @@
 - setGender
 - setPersonnalNumber
 
-2. 
+2. Classe AgentDBAccess
+- Checker le add, modify, delete
+- Pour info le read est le plus dur (je trouves...)
+- Réflechir au nom des méthodes pour l'interface DAO pour nos 3 recherches et tout ce qui en découle...
+
+3. Classe Model
+- À compléter, notamment Will et Cell nécessaire au read du CRUD
