@@ -6,7 +6,7 @@ import exception.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class AgentDBAccess implements AgentDataAccess{
+/*public class AgentDBAccess implements AgentDataAccess{
 
     public AgentDBAccess(){
 
@@ -74,10 +74,6 @@ public class AgentDBAccess implements AgentDataAccess{
         }
 
     }
-    public ArrayList<Agent> getAllAgents(){
-
-    }
-
     public void modifyAgent(Agent agent) throws ConnectionException, AccessException {
         try{
             Connection connection = SingletonConnection.getInstance();
@@ -127,4 +123,4 @@ public class AgentDBAccess implements AgentDataAccess{
         }
     }
 
-}
+}*/
