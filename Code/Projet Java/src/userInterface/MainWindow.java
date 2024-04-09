@@ -1,21 +1,29 @@
 package userInterface;
 
+import userInterface.CRUDPanels.CreatePanel;
+import userInterface.CRUDPanels.DeletePanel;
+import userInterface.CRUDPanels.EditPanel;
+import userInterface.CRUDPanels.SearchPanel;
+import userInterface.searchPanels.FirstSeachPanel;
+import userInterface.searchPanels.SecondSearchPanel;
+import userInterface.searchPanels.ThirdSearchPanel;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 public class MainWindow extends JFrame {
     private Container frameContainer;
     private JMenuBar menuBar;
     private JMenu toolMenu, manipulationMenu, searchMenu, helpMenu;
-    private JMenuItem leaveItemMenu, createItemMenu, modifyItemMenu, deleteItemMenu, searchItemMenu, search1ItemMenu, search2ItemMenu, search3ItemMenu , helpItemMenu;
+    private JMenuItem leaveItemMenu, createItemMenu, editItemMenu, deleteItemMenu, searchItemMenu, search1ItemMenu, search2ItemMenu, search3ItemMenu , helpItemMenu;
     private JPanel welcomePanel, graphicWestPanel, graphicEastPanel;
     private JLabel welcomeLabel;
 
     public MainWindow(){
         super("\"Pas vu, pas pris\" spy agency");
         setBounds(50, 50, 1200, 750);
+        this.addWindowListener(new ClosingListener());
 
         //Barre de menu
         menuBar = new JMenuBar();
@@ -39,9 +47,9 @@ public class MainWindow extends JFrame {
         createItemMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
         manipulationMenu.add(createItemMenu);
 
-        modifyItemMenu = new JMenuItem("Modifier");
-        modifyItemMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK));
-        manipulationMenu.add(modifyItemMenu);
+        editItemMenu = new JMenuItem("Modifier");
+        editItemMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
+        manipulationMenu.add(editItemMenu);
 
         deleteItemMenu = new JMenuItem("Supprimer");
         deleteItemMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_MASK));
@@ -72,7 +80,7 @@ public class MainWindow extends JFrame {
         helpMenu = new JMenu("Aide");
         helpMenu.setMnemonic('H');
 
-        helpItemMenu = new JMenuItem("Demander de l'aide");
+        helpItemMenu = new JMenuItem("Contacts");
         helpItemMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
         helpMenu.add(helpItemMenu);
 
@@ -84,6 +92,7 @@ public class MainWindow extends JFrame {
 
         welcomePanel = new JPanel();
         welcomePanel.setLayout(new FlowLayout());
+        welcomePanel.setBackground(Color.WHITE);
 
         welcomeLabel = new JLabel("test");
 
@@ -92,10 +101,69 @@ public class MainWindow extends JFrame {
         graphicWestPanel = new GraphicPanel();
         graphicEastPanel = new GraphicPanel();
 
-        frameContainer.add(welcomePanel, BorderLayout.CENTER);
         frameContainer.add(graphicWestPanel, BorderLayout.WEST);
         frameContainer.add(graphicEastPanel, BorderLayout.EAST);
+        //En dernier et pas en premier pour pouvoir le supprimer via l'indice (car = tableau) quand on change le pannel, sans toucher aux éléments graphiques
+        frameContainer.add(welcomePanel, BorderLayout.CENTER);
+
+
+        MenuBarActionListener menuBarActionListener = new MenuBarActionListener();
+        leaveItemMenu.addActionListener(menuBarActionListener);
+
+        createItemMenu.addActionListener(menuBarActionListener);
+        editItemMenu.addActionListener(menuBarActionListener);
+        deleteItemMenu.addActionListener(menuBarActionListener);
+        searchItemMenu.addActionListener(menuBarActionListener);
+
+        search1ItemMenu.addActionListener(menuBarActionListener);
+        search2ItemMenu.addActionListener(menuBarActionListener);
+        search3ItemMenu.addActionListener(menuBarActionListener);
+
+        helpItemMenu.addActionListener(menuBarActionListener);
 
         setVisible(true);
+    }
+
+    private class ClosingListener extends WindowAdapter {
+        public void windowClosing(WindowEvent e) {
+            System.exit(0);
+        }
+    }
+
+    private class MenuBarActionListener implements ActionListener{
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource() == leaveItemMenu){
+                System.exit(0);
+            }
+            else if(e.getSource() == helpItemMenu){
+                HelpWindow helpWindow = new HelpWindow();
+            }
+            else {
+                frameContainer.remove(frameContainer.getComponentCount() - 1);
+
+                if(e.getSource() == createItemMenu){
+                    frameContainer.add(new CreatePanel());
+                }
+                else if(e.getSource() == editItemMenu){
+                    frameContainer.add(new EditPanel());
+                }
+                else if(e.getSource() == deleteItemMenu){
+                    frameContainer.add(new DeletePanel());
+                }
+                else if(e.getSource() == searchItemMenu){
+                    frameContainer.add(new SearchPanel());
+                }
+                else if (e.getSource() == search1ItemMenu) {
+                    frameContainer.add(new FirstSeachPanel());
+                } else if (e.getSource() == search2ItemMenu) {
+                    frameContainer.add(new SecondSearchPanel());
+                } else if (e.getSource() == search3ItemMenu) {
+                    frameContainer.add(new ThirdSearchPanel());
+                }
+                frameContainer.getComponent(frameContainer.getComponentCount() - 1).setBackground(Color.WHITE);
+                repaint();
+                setVisible(true);
+            }
+        }
     }
 }
