@@ -43,16 +43,16 @@ inspi : https://traduc.com/blog/langues-les-plus-parlees-au-monde/#:~:text=Class
 
 | code | name | english_name | percent_world[0..1] |
 | :--: | :--: | :--: | :--: |
-| 1 | francais | french |  |
-| 2 | anglais | english |  |
-| 3 | mandarin | mandarin |  |
-| 4 | hindi | hindi |  |
-| 5 | espagnol | spanish |  |
-| 6 | arabe | arabic |  |
-| 7 | russe | russian |  |
-| 8 | portugais | portuguese |  |
-| 9 | japonnais | japanese |  |
-| 10 | allemand | german |  |
+| 1 | francais | french | 3.43 |
+| 2 | anglais | english | 31.25 |
+| 3 | mandarin | mandarin | 11.94 |
+| 4 | hindi | hindi | 7.53 |
+| 5 | espagnol | spanish | 6.85 |
+| 6 | arabe | arabic |3.43 |
+| 7 | russe | russian | 3.23 |
+| 8 | portugais | portuguese | 3.22 |
+| 9 | japonnais | japanese | 1.63 |
+| 10 | allemand | german | 1.57 |
 
 ## Attribution
 
@@ -80,8 +80,8 @@ nbLignes : 5 ?
 | 1 | sabotage |
 | 2 | inflitration |
 | 3 | assassination |
-| 4 | recup otage |
-| 5 | getting information |
+| 4 | hostage rescue |
+| 5 | information retrieval |
 
 
 ## Vehicle
@@ -117,8 +117,17 @@ nbLignes :
 
 | code | name | postal_Code | inhabitants_nb | position |
 | :--: | :--: | :--: | :--: | :--: |
-| 1 | Namur | 5100 | 112.065  | belgium |
-| 2 | Bertrix | 5100 | 8 282 | belgium |
+| 1 | Namur | 5100 | 112.065  | Belgium |
+| 2 | Bertrix | 5100 | 8 282 | Belgium |
+| 3 | Marseille | 5100 | 8 282 | France |
+| 4 | Paris | 5100 | 8 282 | France |
+| 5 | Moscow | 5100 | 8 282 | Russia |
+| 6 | Bertrix | 5100 | 8 282 | England |
+| 7 | Lisbon | 5100 | 8 282 | Portugal |
+| 7 | London | 5100 | 8 282 | England |
+| 8 | Tokyo | 5100 | 8 282 | Japan |
+| 9 | Kyoto | 5100 | 8 282 | Japan |
+| 10 | Berlin | 5100 | 8 282 | Germany |
 
 ## Coverage
 
@@ -142,8 +151,13 @@ nbLignes : 10-15 ? (en fct des langues)
 
 | name | leader | currency | government_type |
 | :--: | :--: | :--: | :--: |
-| belgium | philipe 2  | euro | democracy |
-| russia | poutin  | russian ruble | communism |
+| Belgium | Philipe | euro | federal constitutional monarchy |
+| Russia | Vladimir Poutine  | russian ruble | federal democratic state |
+| Portugal | Marcelo Rebelo de Sousa  | euro | semi-presidential republic |
+| France | Emmanuel Macron | euro | republic |
+| England | Charles III | pound sterling | parliamentary democracy |
+| Japan | Naruhito | yen | constitutional monarchy |
+| Germany | Frank-Walter Steinmeier | euro | federal parliamentary republic|
 
 ## Official_Language
 
@@ -151,4 +165,9 @@ nbLignes :
 
 | country | language |
 | :--: | :--: |
-| 1 | 1 |
+| France | 1 |
+| England | 2 |
+| Portugal | 8 |
+| Russia | 7 |
+| Japan | 9 |
+| Germany | 10 |
