@@ -6,13 +6,13 @@ import exception.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-/*public class AgentDBAccess implements AgentDataAccess{
+public class AgentDBAccess implements AgentDataAccess{
 
     public AgentDBAccess(){
 
     }
 
-
+    @Override
     public void addAgent(Agent agent) throws ConnectionException, AccessException {
         try{
             Connection connection = SingletonConnection.getInstance();
@@ -49,18 +49,18 @@ import java.util.ArrayList;
 
     }
 
-    public Agent getAgent(Integer personnalNumber, String fisrtName, String lastName) throws AgentException, ConnectionException, AccessException {
+    @Override
+    public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException {
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "Select * From Agent Where first_name = ? AND last_name = ?;";
+            String sqlInstruction = "Select * From Agent Where personnal_number = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setString(1,fisrtName);
-            preparedStatement.setString(2,lastName);
+            preparedStatement.setInt(1,personnalNumber);
             ResultSet data = preparedStatement.executeQuery();
             // chaque valeur de agent à mettre dedans
             Agent agent = new Agent(data.getInt("personnal_number"),data.getString("last_name"),data.getString("first_name"), data.getDate("birthday").toLocalDate(),data.getString("gsm"),data.getString("gender"),data.getBoolean("is_alone"));
             String cellName = data.getString("affectation");
-            // fct getCell(String cellName)
+            agent.setAffectation(getCell(cellName));
 
             String pseudonym = data.getString("pseudonym");
             if(!data.wasNull()){
@@ -68,12 +68,52 @@ import java.util.ArrayList;
             }
 
             Integer editorial = data.getInt("editorial");
-            // fct getEditorial(Integer editorialCode)
+            if(!data.wasNull()){
+                agent.setEditorial(getWill(editorial));
+            }
+
+            return agent;
         }catch (SQLException sqlException){
             throw  new AccessException(sqlException.getMessage());
         }
-
     }
+
+    @Override
+    public Will getWill(Integer code) throws ConnectionException, AccessException{
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "Select * From Will Where code = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1,code);
+            ResultSet data = preparedStatement.executeQuery();
+
+            Will will = new Will(code, data.getString("epitaph"),data.getString("funerals_type"));
+            return will;
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public Cell getCell(String name) throws ConnectionException, AccessException{
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "Select * From Will Where name = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setString(1,name);
+            ResultSet data = preparedStatement.executeQuery();
+
+            Cell cell = new Cell(name, data.getString("address"),data.getString("phone_number"));
+            return cell;
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+    @Override
+    public ArrayList<Agent> getAllAgents(){
+        return null;
+    }
+    @Override
     public void modifyAgent(Agent agent) throws ConnectionException, AccessException {
         try{
             Connection connection = SingletonConnection.getInstance();
@@ -110,7 +150,7 @@ import java.util.ArrayList;
             throw  new AccessException(sqlException.getMessage());
         }
     }
-
+    @Override
     public void deleteAgent(Agent agent) throws ConnectionException, AccessException {
         try{
             Connection connection = SingletonConnection.getInstance();
@@ -123,4 +163,4 @@ import java.util.ArrayList;
         }
     }
 
-}*/
+}
