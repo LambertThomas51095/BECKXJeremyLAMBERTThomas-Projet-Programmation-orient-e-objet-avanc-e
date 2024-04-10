@@ -11,6 +11,13 @@ public class Cell {
         this.phoneNumber = phoneNumber;
     }
 
+    @Override
+    public String toString() {
+        return  "name : " + name +
+                "\naddress : " + address +
+                "\nphoneNumber : " + phoneNumber;
+    }
+
     public String getName() {
         return name;
     }

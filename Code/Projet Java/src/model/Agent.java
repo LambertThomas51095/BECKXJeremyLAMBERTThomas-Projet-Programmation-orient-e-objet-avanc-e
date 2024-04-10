@@ -20,12 +20,12 @@ public class Agent {
     private Will editorial;
     private Cell affectation;
 
-    public static final String PHONE_PATTERN_1 = "\\d{3}/\\d{2}\\.\\d{2}\\.\\d{2}";
-    public static final String PHONE_PATTERN_2 = "\\d{3}/\\d{3}\\.\\d{3}";
+    public static final String PHONE_PATTERN_1 = "\\b\\d{3}/\\d{2}\\.\\d{2}\\.\\d{2}\\b";
+    public static final String PHONE_PATTERN_2 = "\\b\\d{3}/\\d{3}\\.\\d{3}\\b";
 
     public static final String [] POSSIBLE_GENDER = {"M","F","X"};
 
-    public Agent(Integer personnalNumber, String lastName, String fisrtName, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone) throws AgentException{
+    public Agent(Integer personnalNumber, String lastName, String fisrtName, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone, Cell affectation) throws AgentException{
         setPersonnalNumber(personnalNumber);
         setLastName(lastName);
         setFisrtName(fisrtName);
@@ -33,10 +33,21 @@ public class Agent {
         setPhoneNumber(phoneNumber);
         setGender(gender);
         setAlone(isAlone);
+        setAffectation(affectation);
     }
 
-    public String toString(){
-        return "Tout ok";
+    @Override
+    public String toString() {
+       return "personnalNumber : " + personnalNumber +
+                "\nlastName : " + lastName +
+                "\nfisrtName : " + fisrtName +
+                "\nbirthdate : " + birthdate +
+                "\nphoneNumber : " + phoneNumber +
+                "\ngender : " + gender +
+                "\nisAlone : " + isAlone +
+                "\npseudonym : " + pseudonym +
+                "\neditorial : " + editorial +
+                "\naffectation : \n----\n" + affectation + "\n----";
     }
 
     public void setPersonnalNumber(Integer personnalNumber) throws AgentException {
@@ -56,12 +67,10 @@ public class Agent {
         if(LocalDate.now().isAfter(birthdate)) {
             this.birthdate = birthdate;
         }else{
-            throw new AgentException("Vous avez entré une mauvaise date de naissance, celle-ci ne peut pas dépassé la date d'aujoudd'hui : "+birthdate);
+            throw new AgentException("Vous avez entré une mauvaise date de naissance, celle-ci ne peut pas dépasser la date d'aujourd'hui : "+birthdate);
         }
-
     }
     public void setPhoneNumber(String phoneNumber) throws AgentException {
-        // exemple xxx/xx.xx.xx ou xxx/xxx.xxx => voir constante
         Pattern pattern1 = Pattern.compile(PHONE_PATTERN_1);
         Pattern pattern2 = Pattern.compile(PHONE_PATTERN_2);
         Matcher matcher1 = pattern1.matcher(phoneNumber);
@@ -71,15 +80,14 @@ public class Agent {
         }else{
             throw new AgentException("Vous avez un entré un autre format de téléphone que ceux demandés :\n"+phoneNumber);
         }
-
     }
     public void setGender(String gender) throws AgentException{
+        gender = gender.toUpperCase();
         if(getPossibleGender().contains(gender)){
             this.gender = gender;
         }else{
             throw new AgentException("Vous avez entré un mauvais genre <<"+gender+">> parmis ceux possible : " +getPossibleGender());
         }
-
     }
     public void setAlone(Boolean alone) {
         isAlone = alone;

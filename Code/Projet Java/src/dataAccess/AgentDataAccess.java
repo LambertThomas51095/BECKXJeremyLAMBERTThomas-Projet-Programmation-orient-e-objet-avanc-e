@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public interface AgentDataAccess {
 
+    // count matricule
     void addAgent(Agent agent) throws ConnectionException, AccessException;
     Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException;
     Will getWill(Integer code) throws ConnectionException, AccessException;

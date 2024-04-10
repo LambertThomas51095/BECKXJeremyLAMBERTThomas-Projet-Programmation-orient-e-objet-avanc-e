@@ -1,12 +1,7 @@
 package userInterface;
 
-import userInterface.CRUDPanels.CreatePanel;
-import userInterface.CRUDPanels.DeletePanel;
-import userInterface.CRUDPanels.EditPanel;
-import userInterface.CRUDPanels.SearchPanel;
-import userInterface.searchPanels.FirstSeachPanel;
-import userInterface.searchPanels.SecondSearchPanel;
-import userInterface.searchPanels.ThirdSearchPanel;
+import userInterface.CRUDPanels.*;
+import userInterface.searchPanels.*;
 
 import javax.swing.*;
 import java.awt.*;

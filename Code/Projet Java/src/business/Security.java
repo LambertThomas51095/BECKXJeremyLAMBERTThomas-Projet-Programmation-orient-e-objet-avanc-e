@@ -1,73 +1,50 @@
 package business;
 
 public class Security {
-    // classe servant à crypter et décrypter.. => classe outils spécialisé en sécurité
+
+    private static final int DECALAGE = 100;
 
     public static String cryptingeMethod1(String word){
-        System.out.println("crypte");
         int charactersNb = word.length();
-        Character [] cryptCharacter = new Character[charactersNb];
-        // +7
+        Character [] cryptCharacters = new Character[charactersNb];
+
         for(int iChar = 0; iChar < charactersNb;iChar++){
             int ascii = (int) word.charAt(iChar);
-            ascii += 7;
-            cryptCharacter[iChar] = (char) ascii;
-        }
-        // effet mirroir... véirifer si nbLettres paires ou pas si oui ok si pas -1
-        for(int iChar = 0; iChar < charactersNb/2;iChar++){
-            char buffer = cryptCharacter[iChar];
-            cryptCharacter[iChar] = cryptCharacter[charactersNb-iChar-1];
-            cryptCharacter[charactersNb-iChar-1] = buffer;
-            System.out.println(cryptCharacter[iChar] + " <-> " + cryptCharacter[charactersNb-iChar-1]);
-        }
-        // +13
-        for(int iChar = 0; iChar < charactersNb;iChar++){
-            int ascii = (int) word.charAt(iChar);
-            ascii += 13;
-            cryptCharacter[iChar] = (char) ascii;
-        }
-        // créer le string
-        StringBuilder cryptWord = new StringBuilder();
-        for(int iChar = 0; iChar < charactersNb;iChar++){
-            cryptWord.append(cryptCharacter[iChar]);
+            ascii += DECALAGE;
+            cryptCharacters[iChar] = (char) ascii;
         }
 
-        return cryptWord.toString();
+        swap(cryptCharacters);
+        return assembleWord(cryptCharacters);
     }
 
     public static String decryptingeMethod1(String word){
-        System.out.println("decrypte");
         int charactersNb = word.length();
-        Character [] cryptCharacter = new Character[charactersNb];
-        // -13
+        Character [] cryptCharacters = new Character[charactersNb];
         for(int iChar = 0; iChar < charactersNb;iChar++){
             int ascii = (int) word.charAt(iChar);
-            ascii -= 13;
-            cryptCharacter[iChar] = (char) ascii;
+            ascii -= DECALAGE;
+            cryptCharacters[iChar] = (char) ascii;
         }
 
-        // effet mirroir...
+        swap(cryptCharacters);
+        return assembleWord(cryptCharacters);
+    }
+
+    private static void swap(Character [] characters){
+        int charactersNb = characters.length;
         for(int iChar = 0; iChar < charactersNb/2;iChar++){
-            char buffer = cryptCharacter[iChar];
-            cryptCharacter[iChar] = cryptCharacter[charactersNb-iChar-1];
-            cryptCharacter[charactersNb-iChar-1] = buffer;
-            System.out.println(cryptCharacter[iChar] + " <-> " + cryptCharacter[charactersNb-iChar-1]);
+            char buffer = characters[iChar];
+            characters[iChar] = characters[charactersNb-iChar-1];
+            characters[charactersNb-iChar-1] = buffer;
         }
-        // -7
-
-        for(int iChar = 0; iChar < charactersNb;iChar++){
-            int ascii = (int) word.charAt(iChar);
-            ascii -= 7;
-            cryptCharacter[iChar] = (char) ascii;
-        }
-
-
-        // créer le string
+    }
+    private static String assembleWord(Character [] characters){
         StringBuilder deCryptWord = new StringBuilder();
+        int charactersNb = characters.length;
         for(int iChar = 0; iChar < charactersNb;iChar++){
-            deCryptWord.append(cryptCharacter[iChar]);
+            deCryptWord.append(characters[iChar]);
         }
-
         return deCryptWord.toString();
     }
 }

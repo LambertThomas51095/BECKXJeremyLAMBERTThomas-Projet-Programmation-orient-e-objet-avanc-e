@@ -1,26 +1,24 @@
 import model.*;
 import exception.*;
-import userInterface.*;
 
+import userInterface.*;
+import business.Security;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
     public static void main(String[] args) {
+        String firstname = Security.cryptingeMethod1("Jeremy");
+        String lastname = Security.cryptingeMethod1("Beckx");
+        LocalDate birthdate = LocalDate.parse("12/01/2003", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        try {
+            Agent a = new Agent(1234, lastname, firstname, birthdate, "469/374.428", "m", false,new Cell("IESN","broken dreams","081"));
+            System.out.println(a);
+        }catch (AgentException e){
+            System.out.println(e.getMessage());
+        }
 
-        MainWindow mainWindow = new MainWindow();
-
-        /*try{
-            Agent a1 = new Agent(1234,"Beckx","Jérémy",LocalDate.of(2003,1,12),"111/22.33.44","l",false);
-            System.out.println(a1);
-        }catch(GenderException genderException){
-            System.out.println("Attention <" + genderException.getWrongGender() + "> n'est pas un genre possible parmis "+ Agent.getPossibleGender());
-        }catch(BirthdayException birthdayException){
-            System.out.println("Attention votre année de naissance ne peut pas dépasser la date du jour : "+LocalDate.now()+".\nVous avez introduit "+birthdayException.getWrongBirthday());
-        }catch(PersonnalNumberException personnalNumberException){
-            System.out.println("Attention le matricule n'est pas correct pour raison : "+personnalNumberException.getMessage()+".\nVous avez introduit : "+personnalNumberException.getWrongPersonnalNumber());
-        }catch(PhoneNumberException phoneNumberException){
-            System.out.println("Attention le numéro de gsm introduit : "+phoneNumberException.getWrongPhoneNumber()+" ne correpsond pas à un des modèles demandés :\n"+Agent.PHONE_PATTERN_1+"\n"+Agent.PHONE_PATTERN_2);
-        }*/
+        //MainWindow mainWindow = new MainWindow();
     }
 }

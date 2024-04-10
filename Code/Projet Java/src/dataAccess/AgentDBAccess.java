@@ -12,6 +12,8 @@ public class AgentDBAccess implements AgentDataAccess{
 
     }
 
+
+
     @Override
     public void addAgent(Agent agent) throws ConnectionException, AccessException {
         try{
@@ -58,9 +60,8 @@ public class AgentDBAccess implements AgentDataAccess{
             preparedStatement.setInt(1,personnalNumber);
             ResultSet data = preparedStatement.executeQuery();
             // chaque valeur de agent à mettre dedans
-            Agent agent = new Agent(data.getInt("personnal_number"),data.getString("last_name"),data.getString("first_name"), data.getDate("birthday").toLocalDate(),data.getString("gsm"),data.getString("gender"),data.getBoolean("is_alone"));
             String cellName = data.getString("affectation");
-            agent.setAffectation(getCell(cellName));
+            Agent agent = new Agent(data.getInt("personnal_number"),data.getString("last_name"),data.getString("first_name"), data.getDate("birthday").toLocalDate(),data.getString("gsm"),data.getString("gender"),data.getBoolean("is_alone"),getCell(cellName));
 
             String pseudonym = data.getString("pseudonym");
             if(!data.wasNull()){
