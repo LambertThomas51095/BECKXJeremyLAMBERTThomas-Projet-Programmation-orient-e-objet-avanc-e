@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class Agent {
     private Integer personnalNumber;
     private String lastName;
-    private String fisrtName;
+    private String firstName;
     private LocalDate birthdate;
     private String phoneNumber;
     private String gender;
@@ -25,22 +25,33 @@ public class Agent {
 
     public static final String [] POSSIBLE_GENDER = {"M","F","X"};
 
-    public Agent(Integer personnalNumber, String lastName, String fisrtName, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone, Cell affectation) throws AgentException{
+    public Agent(Integer personnalNumber, String lastName, String firstName, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone, String pseudonym, Will editorial, Cell affectation) throws AgentException{
         setPersonnalNumber(personnalNumber);
         setLastName(lastName);
-        setFisrtName(fisrtName);
+        setFirstName(firstName);
         setBirthdate(birthdate);
         setPhoneNumber(phoneNumber);
         setGender(gender);
         setAlone(isAlone);
+        setPseudonym(pseudonym);
+        setEditorial(editorial);
         setAffectation(affectation);
+    }
+    public Agent(Integer personnalNumber, String lastName, String firstName, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone, Cell affectation) throws AgentException{
+        this(personnalNumber,lastName,firstName,birthdate,phoneNumber,gender,isAlone,null,null,affectation);
+    }
+    public Agent(String lastName, String firstName, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone,String pseudonym, Cell affectation) throws AgentException{
+        this(null,lastName,firstName,birthdate,phoneNumber,gender,isAlone,pseudonym,null,affectation);
+    }
+    public Agent(String lastName, String firstName, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone, Cell affectation) throws AgentException{
+        this(null,lastName,firstName,birthdate,phoneNumber,gender,isAlone,null,null,affectation);
     }
 
     @Override
     public String toString() {
        return "personnalNumber : " + personnalNumber +
                 "\nlastName : " + lastName +
-                "\nfisrtName : " + fisrtName +
+                "\nfisrtName : " + firstName +
                 "\nbirthdate : " + birthdate +
                 "\nphoneNumber : " + phoneNumber +
                 "\ngender : " + gender +
@@ -50,18 +61,14 @@ public class Agent {
                 "\naffectation : \n----\n" + affectation + "\n----";
     }
 
-    public void setPersonnalNumber(Integer personnalNumber) throws AgentException {
-        if(personnalNumber > 0){
-            this.personnalNumber = personnalNumber;
-        }else{
-            throw new AgentException("La valeur du matricule est négative ou nulle");
-        }
+    public void setPersonnalNumber(Integer personnalNumber) {
+        this.personnalNumber = personnalNumber;
     }
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    public void setFisrtName(String fisrtName) {
-        this.fisrtName = fisrtName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
     public void setBirthdate(LocalDate birthdate) throws AgentException {
         if(LocalDate.now().isAfter(birthdate)) {
@@ -108,8 +115,8 @@ public class Agent {
     public String getLastName() {
         return lastName;
     }
-    public String getFisrtName() {
-        return fisrtName;
+    public String getFirstName() {
+        return firstName;
     }
     public LocalDate getBirthdate() {
         return birthdate;

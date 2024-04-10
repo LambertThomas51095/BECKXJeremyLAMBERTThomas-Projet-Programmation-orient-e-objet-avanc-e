@@ -13,6 +13,21 @@ public class AgentDBAccess implements AgentDataAccess{
     }
 
 
+    @Override
+    public int countExistingPersonnalNumber() throws ConnectionException, AccessException{
+        int nbExistingPersonnalNumber;
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "Select Count(*) as 'lol' From Agent";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+            data.next();
+            nbExistingPersonnalNumber = data.getInt(1);
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+        return nbExistingPersonnalNumber;
+    }
 
     @Override
     public void addAgent(Agent agent) throws ConnectionException, AccessException {
@@ -22,7 +37,7 @@ public class AgentDBAccess implements AgentDataAccess{
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setInt(1,agent.getPersonnalNumber());
             preparedStatement.setString(2, agent.getLastName());
-            preparedStatement.setString(3, agent.getFisrtName());
+            preparedStatement.setString(3, agent.getFirstName());
             preparedStatement.setDate(4,java.sql.Date.valueOf(agent.getBirthdate()));
             preparedStatement.setString(5, agent.getPhoneNumber());
             preparedStatement.setString(6, agent.getGender());
@@ -59,6 +74,7 @@ public class AgentDBAccess implements AgentDataAccess{
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setInt(1,personnalNumber);
             ResultSet data = preparedStatement.executeQuery();
+            data.next();
             // chaque valeur de agent à mettre dedans
             String cellName = data.getString("affectation");
             Agent agent = new Agent(data.getInt("personnal_number"),data.getString("last_name"),data.getString("first_name"), data.getDate("birthday").toLocalDate(),data.getString("gsm"),data.getString("gender"),data.getBoolean("is_alone"),getCell(cellName));
@@ -87,7 +103,7 @@ public class AgentDBAccess implements AgentDataAccess{
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setInt(1,code);
             ResultSet data = preparedStatement.executeQuery();
-
+            data.next();
             Will will = new Will(code, data.getString("epitaph"),data.getString("funerals_type"));
             return will;
         }catch (SQLException sqlException){
@@ -103,7 +119,7 @@ public class AgentDBAccess implements AgentDataAccess{
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setString(1,name);
             ResultSet data = preparedStatement.executeQuery();
-
+            data.next();
             Cell cell = new Cell(name, data.getString("address"),data.getString("phone_number"));
             return cell;
         }catch (SQLException sqlException){
@@ -121,7 +137,7 @@ public class AgentDBAccess implements AgentDataAccess{
             String sqlInstruction = "UPDATE Agent SET lastName = ?, firstname = ?, birthdate = ?, gsm = ?,gender = ? ,is_alone = ? ,affectation = ? WHERE personnal_number = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setString(1, agent.getLastName());
-            preparedStatement.setString(2, agent.getFisrtName());
+            preparedStatement.setString(2, agent.getFirstName());
             preparedStatement.setDate(3,java.sql.Date.valueOf(agent.getBirthdate()));
             preparedStatement.setString(4, agent.getPhoneNumber());
             preparedStatement.setString(5, agent.getGender());
