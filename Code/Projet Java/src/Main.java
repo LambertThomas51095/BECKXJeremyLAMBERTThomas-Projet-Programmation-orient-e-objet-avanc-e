@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Main {
     public static void main(String[] args) {
-        String firstname = Security.cryptingeMethod1("Jeremy");
+        /*String firstname = Security.cryptingeMethod1("Jeremy");
         String lastname = Security.cryptingeMethod1("Beckx");
         LocalDate birthdate = LocalDate.parse("12/01/2003", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         try {
@@ -17,8 +17,8 @@ public class Main {
             System.out.println(a);
         }catch (AgentException e){
             System.out.println(e.getMessage());
-        }
+        }*/
 
-        //MainWindow mainWindow = new MainWindow();
+        MainWindow mainWindow = new MainWindow();
     }
 }

@@ -10,6 +10,7 @@ public class HelpWindow extends JFrame {
     public HelpWindow(){
         super("\"Pas vu, pas pris\" spy agency - Contacts");
         setBounds(350, 300, 650, 250);
+        this.setResizable(false);
 
         frameContainer = this.getContentPane();
 
