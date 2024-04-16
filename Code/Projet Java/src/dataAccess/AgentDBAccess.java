@@ -4,6 +4,7 @@ import model.*;
 import exception.*;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class AgentDBAccess implements AgentDataAccess{
@@ -127,8 +128,32 @@ public class AgentDBAccess implements AgentDataAccess{
         }
     }
     @Override
-    public ArrayList<Agent> getAllAgents(){
-        return null;
+    public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException{
+        ArrayList<Agent> agents = new ArrayList<>();
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "Select * From Agent;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+            while(data.next()) {
+                String cellName = data.getString("affectation");
+                Agent agent = new Agent(data.getInt("personnal_number"), data.getString("last_name"), data.getString("first_name"), data.getDate("birthday").toLocalDate(), data.getString("gsm"), data.getString("gender"), data.getBoolean("is_alone"), getCell(cellName));
+
+                String pseudonym = data.getString("pseudonym");
+                if (!data.wasNull()) {
+                    agent.setPseudonym(pseudonym);
+                }
+
+                Integer editorial = data.getInt("editorial");
+                if (!data.wasNull()) {
+                    agent.setEditorial(getWill(editorial));
+                }
+                agents.add(agent);
+            }
+            return agents;
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
     }
     @Override
     public void modifyAgent(Agent agent) throws ConnectionException, AccessException {
@@ -175,6 +200,79 @@ public class AgentDBAccess implements AgentDataAccess{
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setInt(1,agent.getPersonnalNumber());
             preparedStatement.executeUpdate();
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public ArrayList<String> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{
+        ArrayList<String> agentsLanguages = new ArrayList<>();
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "SELECT last_name, first_name, name FROM Agent JOIN Ability ON personnal_number = agent JOIN Language ON code = language WHERE affectation = ? AND birthdate < ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setString(1,cellName);
+            preparedStatement.setDate(2,java.sql.Date.valueOf(birthdate));
+            ResultSet data = preparedStatement.executeQuery();
+            while(data.next()) {
+                StringBuilder agentLanguage = new StringBuilder();
+                agentLanguage.append(data.getString("last_name"));
+                agentLanguage.append(" ");
+                agentLanguage.append(data.getString("first_name"));
+                agentLanguage.append(" ");
+                agentLanguage.append(data.getString("name"));
+                agentsLanguages.add(agentLanguage.toString());
+            }
+            return agentsLanguages;
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+    @Override
+    public ArrayList<String> getAgentMissions(String lastName, String firstName,Integer personnalNumber) throws ConnectionException, AccessException{
+        ArrayList<String> agentMissions = new ArrayList<>();
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            PreparedStatement preparedStatement;
+            ResultSet data;
+            if(personnalNumber != null){
+                String sqlInstruction = "SELECT code, description, name FROM Mission m JOIN Attribution a ON m.code = a.mission JOIN Agent ON personnal_number = a.agent JOIN Mission_Location ml ON m.code = ml.mission JOIN Location l ON l.code = ml.location JOIN Country ON l.position = name WHERE personnal_number = ?;";
+                preparedStatement = connection.prepareStatement(sqlInstruction);
+                preparedStatement.setInt(1,personnalNumber);
+            }else{
+                String sqlInstruction = "SELECT code, description, name FROM Mission m JOIN Attribution a ON m.code = a.mission JOIN Agent ON personnal_number = a.agent JOIN Mission_Location ml ON m.code = ml.mission JOIN Location l ON l.code = ml.location JOIN Country ON l.position = name WHERE last_name = ? AND first_name = ?;";
+                preparedStatement = connection.prepareStatement(sqlInstruction);
+                preparedStatement.setString(1,lastName);
+                preparedStatement.setString(2,firstName);
+            }
+            data = preparedStatement.executeQuery();
+            while(data.next()) {
+                StringBuilder agentMission = new StringBuilder();
+                agentMission.append(data.getString("code"));
+                agentMission.append(" ");
+                agentMission.append(data.getString("description"));
+                agentMission.append(" ");
+                agentMission.append(data.getString("name"));
+                agentMissions.add(agentMission.toString());
+            }
+            return agentMissions;
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+    @Override
+    public ArrayList<String> getContacts(Integer missionCode) throws ConnectionException, AccessException{
+        ArrayList<String> contacts = new ArrayList<>();
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "SELECT pseudonym FROM Mission m JOIN Mission_Location ml ON m.code = ml.mission JOIN Location l ON l.code = ml.location JOIN Coverage c ON l.code = c.location JOIN Contact ON personnal_number = c.contact WHERE m.code = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+            while(data.next()) {
+                contacts.add(data.getString("pseudonym"));
+            }
+            return contacts;
         }catch (SQLException sqlException){
             throw  new AccessException(sqlException.getMessage());
         }

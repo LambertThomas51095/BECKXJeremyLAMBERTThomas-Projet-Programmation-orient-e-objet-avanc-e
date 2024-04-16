@@ -5,6 +5,9 @@ import exception.*;
 
 import dataAccess.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 
 public class AgentManager {
     private AgentDataAccess dao;
@@ -26,6 +29,14 @@ public class AgentManager {
         return personnalNumber;
     }
 
+    public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException{
+        return dao.getAgent(personnalNumber);
+    }
+
+    public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException{
+        return dao.getAllAgents();
+    }
+
     public void modifyAgent(Agent agent) throws ConnectionException, AccessException{
         dao.modifyAgent(agent);
     }
@@ -33,4 +44,18 @@ public class AgentManager {
     public void deleteAgent(Agent agent) throws ConnectionException, AccessException{
         dao.deleteAgent(agent);
     }
+
+
+    public ArrayList<String> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{
+        return dao.getAgentsLanguages(cellName,birthdate);
+    }
+
+    public ArrayList<String> getAgentMissions(String lastName, String firstName,Integer personnalNumber) throws ConnectionException, AccessException{
+        return dao.getAgentMissions(lastName,firstName,personnalNumber);
+    }
+
+    public ArrayList<String> getContacts(Integer missionCode) throws ConnectionException, AccessException{
+        return dao.getContacts(missionCode);
+    }
+
 }

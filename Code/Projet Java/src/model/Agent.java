@@ -71,10 +71,10 @@ public class Agent {
         this.firstName = firstName;
     }
     public void setBirthdate(LocalDate birthdate) throws AgentException {
-        if(LocalDate.now().isAfter(birthdate)) {
+        if(LocalDate.now().isAfter(birthdate) || birthdate.isEqual(LocalDate.now())) {
             this.birthdate = birthdate;
         }else{
-            throw new AgentException("Vous avez entré une mauvaise date de naissance, celle-ci ne peut pas dépasser la date d'aujourd'hui : "+birthdate);
+            throw new AgentException("Vous avez entré une mauvaise date de naissance, celle-ci ne peut pas dépasser la date d'aujourd'hui : "+LocalDate.now()+" <-> "+birthdate);
         }
     }
     public void setPhoneNumber(String phoneNumber) throws AgentException {
