@@ -2,8 +2,9 @@ package userInterface.CRUDPanels.CreationPanels;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
-public class ProfilPanel extends JPanel {
+public class ProfilPanel extends JPanel implements CreationPanel{
     private JLabel lastNameLabel, firstNameLabel, birthdateLabel, gsmLabel, genderLabel, pseudonymLabel;
     private JTextField lastNameTextField, firstNameTextField, birthdateTextField, gsmTextField, pseudonymTextField;
     private JComboBox genderComboBox;
@@ -59,5 +60,22 @@ public class ProfilPanel extends JPanel {
         pseudonymTextField = new JTextField();
         this.add(pseudonymLabel);
         this.add(pseudonymTextField);
+    }
+
+    public String isAlone(){
+        if(isAloneRadioButton.isSelected()){
+            return isAloneRadioButton.getText();
+        }
+        else if (isMarriedRadioButton.isSelected()){
+            return isMarriedRadioButton.getText();
+        }
+        else{
+            return null;
+        }
+    }
+
+    public String[] getResult(){
+        String [] values = {lastNameTextField.getText(), firstNameTextField.getText(), birthdateTextField.getText(), gsmTextField.getText(), (String)genderComboBox.getSelectedItem(), isAlone(), pseudonymTextField.getText()};
+        return values;
     }
 }
