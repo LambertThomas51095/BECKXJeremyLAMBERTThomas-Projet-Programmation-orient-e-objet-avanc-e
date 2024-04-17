@@ -13,7 +13,7 @@ public class CreatePanel extends JPanel {
     public CreatePanel(){
         this.setLayout(new BorderLayout());
 
-        creationPanels = new ProfilPanel();
+        creationPanels = new WillPanel();
         this.add(creationPanels, BorderLayout.CENTER);
 
         buttonPanel = new JPanel();
