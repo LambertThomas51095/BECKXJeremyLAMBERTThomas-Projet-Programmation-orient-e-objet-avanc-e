@@ -10,13 +10,13 @@ CREATE TABLE will (
 );
 
 CREATE TABLE cell (
-	name varchar(25),
+	name VARCHAR(25),
     address VARCHAR(50) NOT NULL,
-    phone_number VARCHAR(20)NOT NULL,
+    phone_number VARCHAR(12)NOT NULL,
     CONSTRAINT cell_name_pk primary key(name),
     CONSTRAINT address_uk UNIQUE (address),
     CONSTRAINT phone_number_uk UNIQUE (phone_number),
-    CONSTRAINT phone_number_check CHECK(phone_number LIKE '%d{3}')
+    CONSTRAINT phone_number_check CHECK(phone_number LIKE '^[:digit:]{3}/([:digit:]{2}\.[:digit:]{2}\.[:digit:]{2} | [:digit:]{3}\.[:digit:]{3})$')
 );
 
 CREATE TABLE agent (
@@ -29,21 +29,21 @@ CREATE TABLE agent (
     is_alone bit NOT NULL,
     pseudonym VARCHAR(25),
     editorial int,
-    affectation varchar(25) NOT NULL,
+    affectation VARCHAR(25) NOT NULL,
     CONSTRAINT agent_personnal_Number_pk primary key(personnal_Number),
     CONSTRAINT editorial_fk foreign key(editorial) references will(code),
     CONSTRAINT affectation_fk foreign key(affectation) references cell(name),
     CONSTRAINT gsm_uk UNIQUE (gsm),
     CONSTRAINT pseudonym_uk UNIQUE (pseudonym),
     CONSTRAINT editorial_uk UNIQUE (editorial),
-    CONSTRAINT birthdate_check CHECK(birthdate <= SYSDATENOW()),
-    CONSTRAINT gsm_check CHECK (gsm LIKE '\b\d{3}/\d{2}\.\d{2}\.\d{2}\b' || gsm LIKE '\b\d{3}/\d{3}\.\d{3}\b'),
+    CONSTRAINT birthdate_check CHECK(birthdate <= sysdate()),
+    CONSTRAINT gsm_agent_check CHECK (gsm LIKE '^[:digit:]{3}/([:digit:]{2}\.[:digit:]{2}\.[:digit:]{2} | [:digit:]{3}\.[:digit:]{3})$'),
     CONSTRAINT gender_check CHECK(gender in ('M','F','X')) 
 );
 
 CREATE TABLE mission_type (
 	code int,
-    name varchar(25) NOT NULL,
+    name VARCHAR(25) NOT NULL,
     CONSTRAINT mission_type_code_pk primary key(code),
     CONSTRAINT name_uk UNIQUE (name)
 );
@@ -72,30 +72,28 @@ CREATE TABLE attribution (
 
 CREATE TABLE vehicle (
 	personnal_number int,
-    type varchar(25) NOT NULL,
+    type VARCHAR(25) NOT NULL,
     has_weapons bit NOT NULL,
-    color varchar(20) NOT NULL,
+    color VARCHAR(20) NOT NULL,
     `use` int NOT NULL,
     CONSTRAINT personnal_number_pk primary key(personnal_number),
-    CONSTRAINT uses_fk foreign key(`use`) references mission(code),
-	CONSTRAINT type_uk UNIQUE (type)
+    CONSTRAINT uses_fk foreign key(`use`) references mission(code)
 );
 
 CREATE TABLE country (
-	name varchar(25),
-    leader varchar(25) NOT NULL,
-    currency varchar(25) NOT NULL,
-    government_type varchar(25) NOT NULL,
-    position varchar(25),
+	name VARCHAR(25),
+    leader VARCHAR(25) NOT NULL,
+    currency VARCHAR(25) NOT NULL,
+    government_type VARCHAR(25) NOT NULL,
     CONSTRAINT country_name_pk primary key(name)
 );
 
 CREATE TABLE location (
 	code int,
-    name varchar(25) NOT NULL,
+    name VARCHAR(25) NOT NULL,
     postal_code int NOT NULL,
     inhabitants_nb int NOT NULL,
-    position varchar(25) NOT NULL,
+    position VARCHAR(25) NOT NULL,
     CONSTRAINT location_code_pk primary key(code),
     CONSTRAINT position_fk foreign key(position) references country(name),
     CONSTRAINT inhabitants_nb_check CHECK(inhabitants_nb > 0)
@@ -114,7 +112,7 @@ CREATE TABLE contact (
     pseudonym VARCHAR(25) NOT NULL,
     gsm VARCHAR(20) NOT NULL,
     CONSTRAINT personnal_number_pk primary key(personnal_number),
-    CONSTRAINT gsm_check CHECK(gsm LIKE '\d{3}')
+    CONSTRAINT gsm_contact_check CHECK(gsm LIKE '^[:digit:]{3}/([:digit:]{2}\.[:digit:]{2}\.[:digit:]{2} | [:digit:]{3}\.[:digit:]{3})$')
 );
 
 CREATE TABLE coverage (
@@ -127,8 +125,8 @@ CREATE TABLE coverage (
 
 CREATE TABLE language (
 	code int,
-    name varchar(25) NOT NULL,
-    english_name varchar(25) NOT NULL,
+    name VARCHAR(25) NOT NULL,
+    english_name VARCHAR(25) NOT NULL,
     percent_world NUMERIC(5,2),
     CONSTRAINT language_code_pk primary key(code),
     CONSTRAINT percent_world_check CHECK(percent_world > 0)
@@ -136,7 +134,7 @@ CREATE TABLE language (
 
 CREATE TABLE offical_language (
 	language int,
-    country varchar(25),
+    country VARCHAR(25),
     CONSTRAINT language_country_pk primary key(language,country),
     CONSTRAINT language_country_fk foreign key(language) references language(code),
     CONSTRAINT country_language_fk foreign key(country) references country(name)
