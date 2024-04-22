@@ -15,7 +15,8 @@ CREATE TABLE cell (
     phone_number VARCHAR(20)NOT NULL,
     CONSTRAINT cell_name_pk primary key(name),
     CONSTRAINT address_uk UNIQUE (address),
-    CONSTRAINT phone_number_uk UNIQUE (phone_number)
+    CONSTRAINT phone_number_uk UNIQUE (phone_number),
+    CONSTRAINT phone_number_check CHECK(phone_number LIKE '%d{3}')
 );
 
 CREATE TABLE agent (
@@ -34,7 +35,10 @@ CREATE TABLE agent (
     CONSTRAINT affectation_fk foreign key(affectation) references cell(name),
     CONSTRAINT gsm_uk UNIQUE (gsm),
     CONSTRAINT pseudonym_uk UNIQUE (pseudonym),
-    CONSTRAINT editorial_uk UNIQUE (editorial)
+    CONSTRAINT editorial_uk UNIQUE (editorial),
+    CONSTRAINT birthdate_check CHECK(birthdate <= SYSDATENOW()),
+    CONSTRAINT gsm_check CHECK (gsm LIKE '\b\d{3}/\d{2}\.\d{2}\.\d{2}\b' || gsm LIKE '\b\d{3}/\d{3}\.\d{3}\b'),
+    CONSTRAINT gender_check CHECK(gender in ('M','F','X')) 
 );
 
 CREATE TABLE mission_type (
@@ -54,7 +58,8 @@ CREATE TABLE mission (
     category int NOT NULL,
     CONSTRAINT mission_code_pk primary key(code),
     CONSTRAINT category_fk foreign key(category) references mission_type(code),
-    CONSTRAINT description_uk UNIQUE (description)
+    CONSTRAINT description_uk UNIQUE (description),
+    CONSTRAINT end_date_check CHECK(end_date >= start_date)
 );
 
 CREATE TABLE attribution (
@@ -89,10 +94,11 @@ CREATE TABLE location (
 	code int,
     name varchar(25) NOT NULL,
     postal_code int NOT NULL,
-    inhabitants_Nb int NOT NULL,
+    inhabitants_nb int NOT NULL,
     position varchar(25) NOT NULL,
     CONSTRAINT location_code_pk primary key(code),
-    CONSTRAINT position_fk foreign key(position) references country(name)
+    CONSTRAINT position_fk foreign key(position) references country(name),
+    CONSTRAINT inhabitants_nb_check CHECK(inhabitants_nb > 0)
 );
 
 CREATE TABLE mission_location (
@@ -107,7 +113,8 @@ CREATE TABLE contact (
 	personnal_number int,
     pseudonym VARCHAR(25) NOT NULL,
     gsm VARCHAR(20) NOT NULL,
-    CONSTRAINT personnal_number_pk primary key(personnal_number)
+    CONSTRAINT personnal_number_pk primary key(personnal_number),
+    CONSTRAINT gsm_check CHECK(gsm LIKE '\d{3}')
 );
 
 CREATE TABLE coverage (
@@ -123,7 +130,8 @@ CREATE TABLE language (
     name varchar(25) NOT NULL,
     english_name varchar(25) NOT NULL,
     percent_world NUMERIC(5,2),
-    CONSTRAINT language_code_pk primary key(code)
+    CONSTRAINT language_code_pk primary key(code),
+    CONSTRAINT percent_world_check CHECK(percent_world > 0)
 );
 
 CREATE TABLE offical_language (
