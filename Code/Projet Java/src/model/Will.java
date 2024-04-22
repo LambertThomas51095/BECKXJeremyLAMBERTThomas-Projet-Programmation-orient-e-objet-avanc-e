@@ -5,13 +5,9 @@ public class Will {
     private String epitaph;
     private String funeralsType;
 
-    public Will(Integer code, String epitaph, String funeralsType) {
-        this.code = code;
+    public Will(String epitaph, String funeralsType) {
         this.epitaph = epitaph;
         this.funeralsType = funeralsType;
     }
 
-    public Integer getCode() {
-        return code;
-    }
 }

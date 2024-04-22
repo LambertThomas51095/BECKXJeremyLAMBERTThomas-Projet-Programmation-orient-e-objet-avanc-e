@@ -1,16 +1,24 @@
 package userInterface.CRUDPanels;
 
+import controller.ApplicationController;
+import model.Agent;
+import model.Cell;
+import model.Will;
 import userInterface.CRUDPanels.CreationPanels.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class CreatePanel extends JPanel {
-    private JPanel creationPanels;
-    private JPanel buttonPanel;
+    private JPanel creationPanels, buttonPanel;
     private JButton resetButton, creationButton;
+    private Agent agent;
+    private Will will;
+    private Cell cell;
 
     public CreatePanel(){
         this.setLayout(new BorderLayout());
@@ -49,9 +57,20 @@ public class CreatePanel extends JPanel {
             else if(e.getSource() == creationButton){
                 if(creationPanels instanceof ProfilPanel){
 
-                    for(String value : ((ProfilPanel) creationPanels).getResult()){
-                        JOptionPane.showMessageDialog(null, value);
+                    String [] values = ((ProfilPanel) creationPanels).getResult();
+
+                    agent.setLastName(values[0]);
+                    agent.setFirstName(values[1]);
+                    agent.setBirthdate(LocalDate.parse(values[2], DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                    agent.setPhoneNumber(values[3]);
+                    agent.setGender(values[4]);
+                    if(values[5] == "Célibataire"){
+                        agent.setAlone(true);
                     }
+                    else{
+                        agent.setAlone(false);
+                    }
+                    agent.setPseudonym(values[6]);
 
                     CreatePanel.this.remove(creationPanels);
                     creationPanels = new WillPanel();
@@ -62,8 +81,14 @@ public class CreatePanel extends JPanel {
                 }
                 else if(creationPanels instanceof WillPanel){
 
-                    for(String value : ((WillPanel) creationPanels).getResult()){
-                        JOptionPane.showMessageDialog(null, value);
+                    String [] values = ((WillPanel) creationPanels).getResult();
+
+                    will.setEpitaph(values[0]);
+                    if(values[1] != "autres"){
+                        will.setFuneralsType(values[1]);
+                    }
+                    else{
+                        will.setFuneralsType(values[2]);
                     }
 
                     CreatePanel.this.remove(creationPanels);
@@ -77,9 +102,11 @@ public class CreatePanel extends JPanel {
                 }
                 else{
 
-                    for(String value : ((CellPanel) creationPanels).getResult()){
-                        JOptionPane.showMessageDialog(null, value);
-                    }
+                    String [] values = ((CellPanel) creationPanels).getResult();
+
+                    agent.setEditorial(will);
+                    agent.setAffectation(new ApplicationController().getCell(values[0]));
+                    new ApplicationController().addAgent(agent);
 
                     JPanel confirmation = new JPanel();
                     confirmation.setLayout(new FlowLayout());

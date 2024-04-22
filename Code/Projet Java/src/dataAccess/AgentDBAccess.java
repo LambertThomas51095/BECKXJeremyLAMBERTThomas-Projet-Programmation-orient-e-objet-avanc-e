@@ -105,7 +105,7 @@ public class AgentDBAccess implements AgentDataAccess{
             preparedStatement.setInt(1,code);
             ResultSet data = preparedStatement.executeQuery();
             data.next();
-            Will will = new Will(code, data.getString("epitaph"),data.getString("funerals_type"));
+            Will will = new Will(data.getString("epitaph"),data.getString("funerals_type"));
             return will;
         }catch (SQLException sqlException){
             throw  new AccessException(sqlException.getMessage());

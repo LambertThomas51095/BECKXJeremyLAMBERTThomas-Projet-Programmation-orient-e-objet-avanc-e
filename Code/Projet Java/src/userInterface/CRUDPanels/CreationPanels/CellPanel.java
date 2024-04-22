@@ -1,5 +1,7 @@
 package userInterface.CRUDPanels.CreationPanels;
 
+import controller.ApplicationController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,7 +21,7 @@ public class CellPanel extends JPanel implements CreationPanel{
     }
 
     public String[] getCellValues(){
-        String [] values = {"", ""};
+        String [] values = new ApplicationController.getCellsNames();
         return values;
     }
 
