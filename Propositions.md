@@ -118,16 +118,16 @@ nbLignes :
 | code | name | postal_Code | inhabitants_nb | position |
 | :--: | :--: | :--: | :--: | :--: |
 | 1 | Namur | 5100 | 112.065  | Belgium |
-| 2 | Bertrix | 5100 | 8 282 | Belgium |
-| 3 | Marseille | 5100 | 8 282 | France |
-| 4 | Paris | 5100 | 8 282 | France |
-| 5 | Moscow | 5100 | 8 282 | Russia |
-| 6 | Bertrix | 5100 | 8 282 | England |
-| 7 | Lisbon | 5100 | 8 282 | Portugal |
-| 7 | London | 5100 | 8 282 | England |
-| 8 | Tokyo | 5100 | 8 282 | Japan |
-| 9 | Kyoto | 5100 | 8 282 | Japan |
-| 10 | Berlin | 5100 | 8 282 | Germany |
+| 2 | Bertrix | 6880 | 8 282 | Belgium |
+| 3 | Marseille | 13001 | 873 076 | France |
+| 4 | Paris | 75001 | 1 133 111 | France |
+| 5 | Moscow | 101035 | 13 100 000 | Russia |
+| 6 | Birmingham | B | 970 892 | England |
+| 7 | Lisbon | 1000-001 | 545 920 | Portugal |
+| 7 | London | CR0 | 7 172 091 | England |
+| 8 | Tokyo | 2232 | 37 115 035 | Japan |
+| 9 | Kyoto | 520-0461-520-0465 | 1 460 000 | Japan |
+| 10 | Berlin | 10117 | 3 760 000 | Germany |
 
 ## Coverage
 
@@ -136,6 +136,18 @@ nbLignes :
 | location | contact |
 | :--: | :--: |
 | 1 | 1 |
+| 1 | 2 |
+| 2 | 4 |
+| 3 | 6 |
+| 4 | 2 |
+| 4 | 7 |
+| 5 | 3 |
+| 6 | 1 |
+| 7 | 7 |
+| 7 | 8 |
+| 8 | 5 |
+| 9 | 1 |
+| 10 | 6 |
 
 ## Contact
 
@@ -143,7 +155,15 @@ nbLignes : 10 ?
 
 | personnal_number | pseudonym | gsm |
 | :--: | :--: | :--: |
-| 1 | bananaSplit | 987/65.43.21 |
+| 1 | bananaSplit | 987/23.89.21 |
+| 2 | SmoothieFraise | 651/65.43.21 |
+| 3 | TennisKiwi | 753/65.37.21 |
+| 4 | ApplePhone | 357/65.43.68 |
+| 5 | RioWindow | 752/25.43.21 |
+| 6 | Berlin | 651/65.01.21 |
+| 7 | 007 | 125/89.43.21 |
+| 8 | IRA | 051/653.227 |
+| 9 | IRA | 051/653.227 |
 
 ## Country
 
