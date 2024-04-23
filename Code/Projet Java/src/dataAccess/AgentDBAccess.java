@@ -19,7 +19,7 @@ public class AgentDBAccess implements AgentDataAccess{
         int nbExistingPersonnalNumber;
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "Select Count(*) as 'lol' From Agent";
+            String sqlInstruction = "Select Count(*) From Agent";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             ResultSet data = preparedStatement.executeQuery();
             data.next();
@@ -29,6 +29,7 @@ public class AgentDBAccess implements AgentDataAccess{
         }
         return nbExistingPersonnalNumber;
     }
+
 
     @Override
     public void addAgent(Agent agent) throws ConnectionException, AccessException {
@@ -66,9 +67,9 @@ public class AgentDBAccess implements AgentDataAccess{
         }
 
     }
-
     @Override
     public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException {
+        ArrayList<Cell> cells = getAllCells();
         try{
             Connection connection = SingletonConnection.getInstance();
             String sqlInstruction = "Select * From Agent Where personnal_number = ?;";
@@ -76,9 +77,9 @@ public class AgentDBAccess implements AgentDataAccess{
             preparedStatement.setInt(1,personnalNumber);
             ResultSet data = preparedStatement.executeQuery();
             data.next();
-            // chaque valeur de agent à mettre dedans
             String cellName = data.getString("affectation");
-            Agent agent = new Agent(data.getInt("personnal_number"),data.getString("last_name"),data.getString("first_name"), data.getDate("birthday").toLocalDate(),data.getString("gsm"),data.getString("gender"),data.getBoolean("is_alone"),getCell(cellName));
+            Cell cell = (Cell)cells.stream().filter(c -> c.getName().equals(cellName));
+            Agent agent = new Agent(data.getInt("personnal_number"),data.getString("last_name"),data.getString("first_name"), data.getDate("birthday").toLocalDate(),data.getString("gsm"),data.getString("gender"),data.getBoolean("is_alone"),cell);
 
             String pseudonym = data.getString("pseudonym");
             if(!data.wasNull()){
@@ -92,44 +93,13 @@ public class AgentDBAccess implements AgentDataAccess{
 
             return agent;
         }catch (SQLException sqlException){
-            throw  new AccessException(sqlException.getMessage());
-        }
-    }
-
-    @Override
-    public Will getWill(Integer code) throws ConnectionException, AccessException{
-        try{
-            Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "Select * From Will Where code = ?;";
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setInt(1,code);
-            ResultSet data = preparedStatement.executeQuery();
-            data.next();
-            Will will = new Will(data.getString("epitaph"),data.getString("funerals_type"));
-            return will;
-        }catch (SQLException sqlException){
-            throw  new AccessException(sqlException.getMessage());
-        }
-    }
-
-    @Override
-    public Cell getCell(String name) throws ConnectionException, AccessException{
-        try{
-            Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "Select * From Will Where name = ?;";
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setString(1,name);
-            ResultSet data = preparedStatement.executeQuery();
-            data.next();
-            Cell cell = new Cell(name, data.getString("address"),data.getString("phone_number"));
-            return cell;
-        }catch (SQLException sqlException){
-            throw  new AccessException(sqlException.getMessage());
+            throw new AccessException(sqlException.getMessage());
         }
     }
     @Override
     public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException{
         ArrayList<Agent> agents = new ArrayList<>();
+        ArrayList<Cell> cells = getAllCells();
         try{
             Connection connection = SingletonConnection.getInstance();
             String sqlInstruction = "Select * From Agent;";
@@ -137,7 +107,8 @@ public class AgentDBAccess implements AgentDataAccess{
             ResultSet data = preparedStatement.executeQuery();
             while(data.next()) {
                 String cellName = data.getString("affectation");
-                Agent agent = new Agent(data.getInt("personnal_number"), data.getString("last_name"), data.getString("first_name"), data.getDate("birthday").toLocalDate(), data.getString("gsm"), data.getString("gender"), data.getBoolean("is_alone"), getCell(cellName));
+                Cell cell = (Cell)cells.stream().filter(c -> c.getName().equals(cellName));
+                Agent agent = new Agent(data.getInt("personnal_number"), data.getString("last_name"), data.getString("first_name"), data.getDate("birthday").toLocalDate(), data.getString("gsm"), data.getString("gender"), data.getBoolean("is_alone"), cell);
 
                 String pseudonym = data.getString("pseudonym");
                 if (!data.wasNull()) {
@@ -171,23 +142,32 @@ public class AgentDBAccess implements AgentDataAccess{
             preparedStatement.setInt(8,agent.getPersonnalNumber());
             preparedStatement.executeUpdate();
 
-            // QUID de si on doit supp le pseudonyme, set à NULL dans la BD ? à voir dans else dcp...
             if(agent.getPseudonym() != null){
                 sqlInstruction = "UPDATE Agent SET pseudonym = ? WHERE personnal_number = ?;";
                 preparedStatement = connection.prepareStatement(sqlInstruction);
                 preparedStatement.setString(1, agent.getPseudonym());
                 preparedStatement.setInt(2,agent.getPersonnalNumber());
                 preparedStatement.executeUpdate();
+            }else{
+                sqlInstruction = "UPDATE Agent SET pseudonym = null WHERE personnal_number = ?;";
+                preparedStatement = connection.prepareStatement(sqlInstruction);
+                preparedStatement.setInt(1,agent.getPersonnalNumber());
+                preparedStatement.executeUpdate();
             }
 
-            // QUID de si on doit supp l'éditorial, set à NULL dans la BD ? à voir dans else dcp...
             if(agent.getEditorial() != null){
                 sqlInstruction = "UPDATE Agent SET editorial = ? WHERE personnal_number = ?;";
                 preparedStatement = connection.prepareStatement(sqlInstruction);
                 preparedStatement.setInt(1, agent.getEditorial().getCode());
                 preparedStatement.setInt(2,agent.getPersonnalNumber());
                 preparedStatement.executeUpdate();
+            }else{
+                sqlInstruction = "UPDATE Agent SET editorial = null WHERE personnal_number = ?;";
+                preparedStatement = connection.prepareStatement(sqlInstruction);
+                preparedStatement.setInt(1,agent.getPersonnalNumber());
+                preparedStatement.executeUpdate();
             }
+
         }catch (SQLException sqlException){
             throw  new AccessException(sqlException.getMessage());
         }
@@ -204,6 +184,83 @@ public class AgentDBAccess implements AgentDataAccess{
             throw  new AccessException(sqlException.getMessage());
         }
     }
+
+
+    @Override
+    public void addWill(Will will) throws ConnectionException, AccessException{
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "INSERT INTO Will (code, epitaph, funerals_type) VALUES (?,?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1,will.getCode());
+            preparedStatement.setString(2,will.getEpitaph());
+            preparedStatement.setString(3,will.getFuneralsType());
+            preparedStatement.executeUpdate();
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+
+    }
+    @Override
+    public Will getWill(Integer code) throws ConnectionException, AccessException{
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "Select * From Will Where code = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1,code);
+            ResultSet data = preparedStatement.executeQuery();
+            data.next();
+            Will will = new Will(code, data.getString("epitaph"),data.getString("funerals_type"));
+            return will;
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+    @Override
+    public void modifyWill(Will will) throws ConnectionException, AccessException{
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "UPDATE Will SET epitaph = ?, funerals_type = ? WHERE code = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setString(1,will.getEpitaph());
+            preparedStatement.setString(2,will.getFuneralsType());
+            preparedStatement.setInt(3,will.getCode());
+            preparedStatement.executeUpdate();
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+    @Override
+    public void deleteWill(Will will) throws ConnectionException, AccessException{
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "DELETE FROM Will WHERE code = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1,will.getCode());
+            preparedStatement.executeUpdate();
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+
+
+    @Override
+    public ArrayList<Cell> getAllCells() throws ConnectionException, AccessException{
+        ArrayList<Cell> cells = new ArrayList<>();
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "Select * From Cell;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+            while(data.next()){
+                cells.add(new Cell(data.getString("name"),data.getString("address"),data.getString("phone_number")));
+            }
+            return cells;
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+
 
     @Override
     public ArrayList<String> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{

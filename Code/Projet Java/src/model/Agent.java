@@ -20,8 +20,8 @@ public class Agent {
     private Will editorial;
     private Cell affectation;
 
-    public static final String PHONE_PATTERN_1 = "\\b\\d{3}/\\d{2}\\.\\d{2}\\.\\d{2}\\b";
-    public static final String PHONE_PATTERN_2 = "\\b\\d{3}/\\d{3}\\.\\d{3}\\b";
+    public static final String PHONE_PATTERN_1 = "^\\d{3}/\\d{2}\\.\\d{2}\\.\\d{2}$";
+    public static final String PHONE_PATTERN_2 = "^\\d{3}/\\d{3}\\.\\d{3}$";
 
     public static final String [] POSSIBLE_GENDER = {"M","F","X"};
 
