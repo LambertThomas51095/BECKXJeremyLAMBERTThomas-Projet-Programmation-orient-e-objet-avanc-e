@@ -1,9 +1,11 @@
 package userInterface.CRUDPanels.CreationPanels;
 
 import controller.ApplicationController;
+import model.Cell;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class CellPanel extends JPanel implements CreationPanel{
     private JLabel cellLabel;
@@ -21,8 +23,20 @@ public class CellPanel extends JPanel implements CreationPanel{
     }
 
     public String[] getCellValues(){
-        String [] values = new ApplicationController.getCellsNames();
-        return values;
+        try {
+            ArrayList<Cell> cells = new ApplicationController().getAllCells();
+            String [] values = {};
+
+            for(int iCell = 0; iCell < cells.size(); iCell++){
+                values[iCell] = cells.get(iCell).getName();
+            }
+
+            return values;
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "test", JOptionPane.WARNING_MESSAGE);
+        }
+        return null;
     }
 
     public String [] getResult(){

@@ -24,6 +24,9 @@ public class Will {
         return funeralsType;
     }
 
+    public void setEpitaph(String epitaph){
+        this.epitaph = epitaph;
+    }
     public void setFuneralsType(String funeralsType) {
         this.funeralsType = funeralsType;
     }
