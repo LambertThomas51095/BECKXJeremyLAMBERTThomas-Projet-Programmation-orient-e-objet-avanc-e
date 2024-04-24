@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class CreatePanel extends JPanel {
+    private ApplicationController controller;
     private JPanel creationPanels, buttonPanel;
     private JButton resetButton, creationButton;
     private Agent agent;
@@ -22,6 +23,8 @@ public class CreatePanel extends JPanel {
     private Cell cell;
 
     public CreatePanel(){
+        this.controller = new ApplicationController();
+
         this.setLayout(new BorderLayout());
 
         creationPanels = new ProfilPanel();
@@ -107,14 +110,14 @@ public class CreatePanel extends JPanel {
 
                     agent.setEditorial(will);
 
-                    ArrayList<Cell> cells = new ApplicationController().getAllCells();
+                    ArrayList<Cell> cells = controller.getAllCells();
                     Integer iCell = 0;
                     while(cells.get(iCell).getName() != values[0]){
                         iCell++;
                     }
                     agent.setAffectation(cells.get(iCell));
 
-                    new ApplicationController().addAgent(agent);
+                    controller.addAgent(agent);
 
                     JPanel confirmation = new JPanel();
                     confirmation.setLayout(new FlowLayout());

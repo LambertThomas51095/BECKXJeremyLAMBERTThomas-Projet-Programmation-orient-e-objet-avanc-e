@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 
 public class DeletePanel extends JPanel {
+    private ApplicationController controller;
     private JPanel searchPanel, informationsPanel, buttonPanel;
     private JLabel searchLabel, lastNameLabel, lastNameInformation, firstNameLabel, firstNameInformation, birthdateLabel, birthdateInformation, gsmLabel, gsmInformation, genderLabel, genderInformation, isAloneLabel, isAloneInformation, pseudonymLabel, pseudonymInformation;
     private JTextField searchTextField;
@@ -17,6 +18,8 @@ public class DeletePanel extends JPanel {
     private Agent agent;
 
     public DeletePanel(){
+        this.controller = new ApplicationController();
+
         this.setLayout(new BorderLayout());
 
         ButtonListener buttonListener = new ButtonListener();
@@ -99,7 +102,7 @@ public class DeletePanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == searchButton){
-                agent = new ApplicationController().getAgent(getMatricule());
+                agent = controller.getAgent(getMatricule());
 
                 lastNameInformation.setText(agent.getLastName());
                 firstNameInformation.setText(agent.getFirstName());
@@ -121,7 +124,7 @@ public class DeletePanel extends JPanel {
                 }
                 else{
                     if(JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer l'agent suivant ? : " + agent.getLastName() + " " + agent.getFirstName()) == JOptionPane.YES_OPTION){
-                        new ApplicationController().deleteAgent(agent);
+                        controller.deleteAgent(agent);
                         searchTextField.setText("");
                         lastNameInformation.setText("");
                         firstNameInformation.setText("");

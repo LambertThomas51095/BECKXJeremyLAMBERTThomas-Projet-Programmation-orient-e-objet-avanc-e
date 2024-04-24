@@ -8,10 +8,12 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CellPanel extends JPanel implements CreationPanel{
+    private ApplicationController controller;
     private JLabel cellLabel;
     private JComboBox cellComboBox;
 
     public CellPanel(){
+        this.controller = new ApplicationController();
         this.setLayout(new GridLayout(1, 2));
 
         cellLabel = new JLabel("Cellules : ");
@@ -24,7 +26,7 @@ public class CellPanel extends JPanel implements CreationPanel{
 
     public String[] getCellValues(){
         try {
-            ArrayList<Cell> cells = new ApplicationController().getAllCells();
+            ArrayList<Cell> cells = controller.getAllCells();
             String [] values = {};
 
             for(int iCell = 0; iCell < cells.size(); iCell++){
