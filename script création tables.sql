@@ -16,7 +16,7 @@ CREATE TABLE cell (
     CONSTRAINT cell_name_pk primary key(name),
     CONSTRAINT address_uk UNIQUE (address),
     CONSTRAINT phone_number_uk UNIQUE (phone_number),
-    CONSTRAINT phone_number_check CHECK(phone_number LIKE '^[:digit:]{3}/([:digit:]{2}\.[:digit:]{2}\.[:digit:]{2} | [:digit:]{3}\.[:digit:]{3})$')
+    CONSTRAINT phone_number_check CHECK(phone_number REGEXP('[0-9]{3}/([0-9]{2}\.[0-9]{2}\.[0-9]{2} || [0-9]{3}\.[0-9]{3})'))
 );
 
 CREATE TABLE agent (
@@ -37,7 +37,7 @@ CREATE TABLE agent (
     CONSTRAINT pseudonym_uk UNIQUE (pseudonym),
     CONSTRAINT editorial_uk UNIQUE (editorial),
     CONSTRAINT birthdate_check CHECK(birthdate <= sysdate()),
-    CONSTRAINT gsm_agent_check CHECK (gsm LIKE '^[:digit:]{3}/([:digit:]{2}\.[:digit:]{2}\.[:digit:]{2} | [:digit:]{3}\.[:digit:]{3})$'),
+    CONSTRAINT gsm_agent_check CHECK (gsm REGEXP('[0-9]{3}/([0-9]{2}\.[0-9]{2}\.[0-9]{2} || [0-9]{3}\.[0-9]{3})')),
     CONSTRAINT gender_check CHECK(gender in ('M','F','X')) 
 );
 
@@ -112,7 +112,7 @@ CREATE TABLE contact (
     pseudonym VARCHAR(25) NOT NULL,
     gsm VARCHAR(20) NOT NULL,
     CONSTRAINT personnal_number_pk primary key(personnal_number),
-    CONSTRAINT gsm_contact_check CHECK(gsm LIKE '^[:digit:]{3}/([:digit:]{2}\.[:digit:]{2}\.[:digit:]{2} | [:digit:]{3}\.[:digit:]{3})$')
+    CONSTRAINT gsm_contact_check CHECK(gsm REGEXP('[0-9]{3}/([0-9]{2}\.[0-9]{2}\.[0-9]{2} || [0-9]{3}\.[0-9]{3})'))
 );
 
 CREATE TABLE coverage (
