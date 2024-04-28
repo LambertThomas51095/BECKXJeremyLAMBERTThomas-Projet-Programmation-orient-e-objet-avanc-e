@@ -1,8 +1,17 @@
 INSERT INTO cell (name,address,phone_number)
-VALUES ("Informatique","1 Rue Morte","081/123.456"),
-("Mec balèze","47 Rue Pas là","081/153.546"),
-("Meuf stupide","325 Rue de la joute","081/86.26.57"),
-("Choses"," 5 Rue inconnu","081/568.424");
+VALUES ("Informatique","1 Rue Morte","080/123.456"),
+("Marin","47 Rue Pas là","081/153.546"),
+("Ninja","325 Rue de la joute","082/86.26.57"),
+("Mécanique"," 5 Rue inconnu","081/568.424"),
+("Chimiste","96 Place partout","085/98.87.65");
+
+INSERT INTO will(code,epitaph,funerals_type)
+VALUES (1,"Marine la marine","Incinération");
+
+Insert into agent(personnal_number,lastname,firstname,birthdate,gsm,gender,is_alone,editorial,affectation)
+VALUES (1,"|nefB","~qhtfJ","2000-03-28","469/23.12.56","M",false,null,"Informatique"),
+(2,"zwieobL","xepqiT","2002-10-15","470/78.35.82","M",true,null,"Informatique"),
+(3,'ou}vv%eo"fD',"jrltbM","2001-05-21","471/13.82.45","F",true,1,"Marin");
 
 INSERT INTO mission_type (code, name)
 VALUES (1,"sabotage"),
