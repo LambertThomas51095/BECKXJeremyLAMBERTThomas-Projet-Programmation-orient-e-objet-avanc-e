@@ -11,11 +11,14 @@ public class SearchPanel extends JPanel {
 
     public SearchPanel(){
         this.controller = new ApplicationController();
+        try {
+            model = new AllAgentsModel(controller.getAllAgents());
+            table = new JTable(model);
 
-        model = new AllAgentsModel(controller.getAllAgents());
-        table = new JTable(model);
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        this.add(scrollPane);
+            JScrollPane scrollPane = new JScrollPane(table);
+            this.add(scrollPane);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

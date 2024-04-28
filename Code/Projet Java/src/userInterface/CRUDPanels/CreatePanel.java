@@ -1,9 +1,7 @@
 package userInterface.CRUDPanels;
 
 import controller.ApplicationController;
-import model.Agent;
-import model.Cell;
-import model.Will;
+import model.*;
 import userInterface.CRUDPanels.CreationPanels.*;
 
 import javax.swing.*;
@@ -63,31 +61,34 @@ public class CreatePanel extends JPanel {
 
                     String [] values = ((ProfilPanel) creationPanels).getResult();
 
-                    agent.setLastName(values[0]);
-                    agent.setFirstName(values[1]);
-                    agent.setBirthdate(LocalDate.parse(values[2], DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-                    agent.setPhoneNumber(values[3]);
-                    agent.setGender(values[4]);
-                    if(values[5] == "Célibataire"){
-                        agent.setAlone(true);
-                    }
-                    else{
-                        agent.setAlone(false);
-                    }
-                    agent.setPseudonym(values[6]);
+                    try{
+                        agent = new Agent(values[0],values[1],LocalDate.parse(values[2], DateTimeFormatter.ofPattern("yyyy-MM-dd")),values[3],values[4],values[6]);
+                        if(values[5] == "Célibataire"){
+                            agent.setAlone(true);
+                        }
+                        else{
+                            agent.setAlone(false);
+                        }
 
-                    CreatePanel.this.remove(creationPanels);
-                    creationPanels = new WillPanel();
-                    CreatePanel.this.add(creationPanels, BorderLayout.CENTER);
+                        CreatePanel.this.remove(creationPanels);
+                        creationPanels = new WillPanel();
+                        CreatePanel.this.add(creationPanels, BorderLayout.CENTER);
+                    }catch(Exception exception){
+                        // reset  ?
+                        CreatePanel.this.remove(creationPanels);
+                        creationPanels = new ProfilPanel();
+                        CreatePanel.this.add(creationPanels, BorderLayout.CENTER);
+                        creationButton.setText("Suivant");
 
+                        System.out.println(exception.getMessage());
+                    }
                     CreatePanel.this.validate();
                     CreatePanel.this.repaint();
                 }
                 else if(creationPanels instanceof WillPanel){
 
                     String [] values = ((WillPanel) creationPanels).getResult();
-
-                    will.setEpitaph(values[0]);
+                    will = new Will(values[0]);
                     if(values[1] != "autres"){
                         will.setFuneralsType(values[1]);
                     }
@@ -96,13 +97,19 @@ public class CreatePanel extends JPanel {
                     }
 
                     CreatePanel.this.remove(creationPanels);
-                    creationPanels = new CellPanel();
-                    CreatePanel.this.add(creationPanels, BorderLayout.CENTER);
+                    try{
+                        creationPanels = new CellPanel(controller.getAllCells());
+                        CreatePanel.this.add(creationPanels, BorderLayout.CENTER);
 
-                    creationButton.setText("Enregistrer");
+                        creationButton.setText("Enregistrer");
 
-                    CreatePanel.this.validate();
-                    CreatePanel.this.repaint();
+                        CreatePanel.this.validate();
+                        CreatePanel.this.repaint();
+                    }catch(Exception exception){
+                        // gérer exception
+                        System.out.println(exception.getMessage());
+                    }
+
                 }
                 else{
 
@@ -110,24 +117,29 @@ public class CreatePanel extends JPanel {
 
                     agent.setEditorial(will);
 
-                    ArrayList<Cell> cells = controller.getAllCells();
+                    ArrayList<Cell> cells = ((CellPanel) creationPanels).getCells();
+                    //ArrayList<Cell> cells = controller.getAllCells();
                     Integer iCell = 0;
                     while(cells.get(iCell).getName() != values[0]){
                         iCell++;
                     }
                     agent.setAffectation(cells.get(iCell));
+                    try{
+                        controller.addAgent(agent);
 
-                    controller.addAgent(agent);
+                        JPanel confirmation = new JPanel();
+                        confirmation.setLayout(new FlowLayout());
+                        JLabel labelConfirmation = new JLabel("<html><h1 style=\"color: green; text-align : center;\">Agent créé avec succès !</h1><p style=\"text-align : center;\">L'agent a été ajouté à la base de données.</p><p style=\"text-align : center;\">Merci.</p><html>");
+                        confirmation.add(labelConfirmation);
+                        CreatePanel.this.removeAll();
+                        CreatePanel.this.add(confirmation, BorderLayout.CENTER);
 
-                    JPanel confirmation = new JPanel();
-                    confirmation.setLayout(new FlowLayout());
-                    JLabel labelConfirmation = new JLabel("<html><h1 style=\"color: green; text-align : center;\">Agent créé avec succès !</h1><p style=\"text-align : center;\">L'agent a été ajouté à la base de données.</p><p style=\"text-align : center;\">Merci.</p><html>");
-                    confirmation.add(labelConfirmation);
-                    CreatePanel.this.removeAll();
-                    CreatePanel.this.add(confirmation, BorderLayout.CENTER);
+                        CreatePanel.this.validate();
+                        CreatePanel.this.repaint();
+                    }catch(Exception exception){
+                        System.out.println(exception.getMessage());
+                    }
 
-                    CreatePanel.this.validate();
-                    CreatePanel.this.repaint();
                 }
             }
         }

@@ -35,11 +35,11 @@ public class AgentDBAccess implements AgentDataAccess{
     public void addAgent(Agent agent) throws ConnectionException, AccessException {
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "INSERT INTO Agent (personnal_number,lastName,firstname,birthdate,gsm,gender,is_alone,affectation) VALUES(?,?,?,?,?,?,?,?);";
+            String sqlInstruction = "INSERT INTO Agent (personnal_number,lastname,firstname,birthdate,gsm,gender,is_alone,affectation) VALUES(?,?,?,?,?,?,?,?);";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setInt(1,agent.getPersonnalNumber());
-            preparedStatement.setString(2, agent.getLastName());
-            preparedStatement.setString(3, agent.getFirstName());
+            preparedStatement.setString(2, agent.getLastname());
+            preparedStatement.setString(3, agent.getFirstname());
             preparedStatement.setDate(4,java.sql.Date.valueOf(agent.getBirthdate()));
             preparedStatement.setString(5, agent.getPhoneNumber());
             preparedStatement.setString(6, agent.getGender());
@@ -78,8 +78,8 @@ public class AgentDBAccess implements AgentDataAccess{
             ResultSet data = preparedStatement.executeQuery();
             data.next();
             String cellName = data.getString("affectation");
-            Cell cell = (Cell)cells.stream().filter(c -> c.getName().equals(cellName));
-            Agent agent = new Agent(data.getInt("personnal_number"),data.getString("last_name"),data.getString("first_name"), data.getDate("birthday").toLocalDate(),data.getString("gsm"),data.getString("gender"),data.getBoolean("is_alone"),cell);
+            Cell cell = cells.stream().filter(c -> c.getName().equals(cellName)).toList().get(0);
+            Agent agent = new Agent(data.getInt("personnal_number"),data.getString("lastname"),data.getString("firstname"), data.getDate("birthdate").toLocalDate(),data.getString("gsm"),data.getString("gender"),data.getBoolean("is_alone"),cell);
 
             String pseudonym = data.getString("pseudonym");
             if(!data.wasNull()){
@@ -107,8 +107,8 @@ public class AgentDBAccess implements AgentDataAccess{
             ResultSet data = preparedStatement.executeQuery();
             while(data.next()) {
                 String cellName = data.getString("affectation");
-                Cell cell = (Cell)cells.stream().filter(c -> c.getName().equals(cellName));
-                Agent agent = new Agent(data.getInt("personnal_number"), data.getString("last_name"), data.getString("first_name"), data.getDate("birthday").toLocalDate(), data.getString("gsm"), data.getString("gender"), data.getBoolean("is_alone"), cell);
+                Cell cell = cells.stream().filter(c -> c.getName().equals(cellName)).toList().get(0);
+                Agent agent = new Agent(data.getInt("personnal_number"), data.getString("lastname"), data.getString("firstname"), data.getDate("birthdate").toLocalDate(), data.getString("gsm"), data.getString("gender"), data.getBoolean("is_alone"), cell);
 
                 String pseudonym = data.getString("pseudonym");
                 if (!data.wasNull()) {
@@ -130,10 +130,10 @@ public class AgentDBAccess implements AgentDataAccess{
     public void modifyAgent(Agent agent) throws ConnectionException, AccessException {
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "UPDATE Agent SET lastName = ?, firstname = ?, birthdate = ?, gsm = ?,gender = ? ,is_alone = ? ,affectation = ? WHERE personnal_number = ?;";
+            String sqlInstruction = "UPDATE Agent SET lastname = ?, firstname = ?, birthdate = ?, gsm = ?,gender = ? ,is_alone = ? ,affectation = ? WHERE personnal_number = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setString(1, agent.getLastName());
-            preparedStatement.setString(2, agent.getFirstName());
+            preparedStatement.setString(1, agent.getLastname());
+            preparedStatement.setString(2, agent.getFirstname());
             preparedStatement.setDate(3,java.sql.Date.valueOf(agent.getBirthdate()));
             preparedStatement.setString(4, agent.getPhoneNumber());
             preparedStatement.setString(5, agent.getGender());
@@ -267,16 +267,16 @@ public class AgentDBAccess implements AgentDataAccess{
         ArrayList<String> agentsLanguages = new ArrayList<>();
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "SELECT last_name, first_name, name FROM Agent JOIN Ability ON personnal_number = agent JOIN Language ON code = language WHERE affectation = ? AND birthdate < ?;";
+            String sqlInstruction = "SELECT lastname, firstname, name FROM Agent JOIN Ability ON personnal_number = agent JOIN Language ON code = language WHERE affectation = ? AND birthdate < ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setString(1,cellName);
             preparedStatement.setDate(2,java.sql.Date.valueOf(birthdate));
             ResultSet data = preparedStatement.executeQuery();
             while(data.next()) {
                 StringBuilder agentLanguage = new StringBuilder();
-                agentLanguage.append(data.getString("last_name"));
+                agentLanguage.append(data.getString("lastname"));
                 agentLanguage.append(" ");
-                agentLanguage.append(data.getString("first_name"));
+                agentLanguage.append(data.getString("firstname"));
                 agentLanguage.append(" ");
                 agentLanguage.append(data.getString("name"));
                 agentsLanguages.add(agentLanguage.toString());
@@ -287,7 +287,7 @@ public class AgentDBAccess implements AgentDataAccess{
         }
     }
     @Override
-    public ArrayList<String> getAgentMissions(String lastName, String firstName,Integer personnalNumber) throws ConnectionException, AccessException{
+    public ArrayList<String> getAgentMissions(String lastname, String firstname,Integer personnalNumber) throws ConnectionException, AccessException{
         ArrayList<String> agentMissions = new ArrayList<>();
         try{
             Connection connection = SingletonConnection.getInstance();
@@ -298,10 +298,10 @@ public class AgentDBAccess implements AgentDataAccess{
                 preparedStatement = connection.prepareStatement(sqlInstruction);
                 preparedStatement.setInt(1,personnalNumber);
             }else{
-                String sqlInstruction = "SELECT code, description, name FROM Mission m JOIN Attribution a ON m.code = a.mission JOIN Agent ON personnal_number = a.agent JOIN Mission_Location ml ON m.code = ml.mission JOIN Location l ON l.code = ml.location JOIN Country ON l.position = name WHERE last_name = ? AND first_name = ?;";
+                String sqlInstruction = "SELECT code, description, name FROM Mission m JOIN Attribution a ON m.code = a.mission JOIN Agent ON personnal_number = a.agent JOIN Mission_Location ml ON m.code = ml.mission JOIN Location l ON l.code = ml.location JOIN Country ON l.position = name WHERE lastname = ? AND firstname = ?;";
                 preparedStatement = connection.prepareStatement(sqlInstruction);
-                preparedStatement.setString(1,lastName);
-                preparedStatement.setString(2,firstName);
+                preparedStatement.setString(1,lastname);
+                preparedStatement.setString(2,firstname);
             }
             data = preparedStatement.executeQuery();
             while(data.next()) {

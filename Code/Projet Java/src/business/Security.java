@@ -4,12 +4,12 @@ public class Security {
 
     private static final int DECALAGE = 0;
 
-    public static String cryptingeMethod1(String word){
+    public static String cryptingMethod(String word){
         int charactersNb = word.length();
         Character [] cryptCharacters = new Character[charactersNb];
 
         for(int iChar = 0; iChar < charactersNb;iChar++){
-            int ascii = (int) word.charAt(iChar);
+            int ascii = word.charAt(iChar);
             ascii += DECALAGE + iChar;
             cryptCharacters[iChar] = (char) ascii;
         }
@@ -18,16 +18,15 @@ public class Security {
         return assembleWord(cryptCharacters);
     }
 
-    public static String decryptingeMethod1(String word){
+    public static String decryptingMethod(String word){
         int charactersNb = word.length();
-        Character [] cryptCharacters = new Character[charactersNb];
+        Character [] cryptCharacters = word.chars().mapToObj(ch -> (char) ch).toArray(Character[]::new);
+        swap(cryptCharacters);
         for(int iChar = 0; iChar < charactersNb;iChar++){
-            int ascii = (int) word.charAt(iChar);
-            ascii -= DECALAGE - iChar;
+            int ascii = cryptCharacters[iChar];
+            ascii = ascii - DECALAGE - iChar;
             cryptCharacters[iChar] = (char) ascii;
         }
-
-        swap(cryptCharacters);
         return assembleWord(cryptCharacters);
     }
 

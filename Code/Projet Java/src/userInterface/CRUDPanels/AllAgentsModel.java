@@ -15,6 +15,7 @@ public class AllAgentsModel extends AbstractTableModel {
     public AllAgentsModel(ArrayList<Agent> agents){
 
     }
+
     public int getColumnCount(){
         return columnNames.size();
     }
@@ -28,8 +29,8 @@ public class AllAgentsModel extends AbstractTableModel {
         Agent agent = contents.get(row);
         switch (column){
             case 0 : return agent.getPersonnalNumber();
-            case 1 : return agent.getLastName();
-            case 2 : return agent.getFirstName();
+            case 1 : return agent.getLastname();
+            case 2 : return agent.getFirstname();
             case 3 : return agent.getBirthdate();
             case 4 : return agent.getPhoneNumber();
             case 5 : return agent.getGender();

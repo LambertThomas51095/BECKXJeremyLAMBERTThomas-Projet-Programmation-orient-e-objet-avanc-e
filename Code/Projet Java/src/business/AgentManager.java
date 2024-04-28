@@ -23,21 +23,31 @@ public class AgentManager {
     public int addAgent(Agent agent) throws ConnectionException, AccessException{
         int personnalNumber = dao.countExistingPersonnalNumber()+1;
         agent.setPersonnalNumber(personnalNumber);
-        agent.setLastName(Security.cryptingeMethod1(agent.getLastName()));
-        agent.setFirstName(Security.cryptingeMethod1(agent.getFirstName()));
+        agent.setLastname(Security.cryptingMethod(agent.getLastname()));
+        agent.setFirstname(Security.cryptingMethod(agent.getFirstname()));
         dao.addAgent(agent);
         if(agent.getEditorial() != null){
             dao.addWill(agent.getEditorial());
         }
         return personnalNumber;
     }
-    public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException{
-        return dao.getAgent(personnalNumber);
+    public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException {
+        Agent agent = dao.getAgent(personnalNumber);
+        agent.setFirstname(Security.decryptingMethod(agent.getFirstname()));
+        agent.setLastname(Security.decryptingMethod(agent.getLastname()));
+        return agent;
     }
     public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException{
-        return dao.getAllAgents();
+        ArrayList<Agent> agents = dao.getAllAgents();
+        for(Agent agent : agents){
+            agent.setFirstname(Security.decryptingMethod(agent.getFirstname()));
+            agent.setLastname(Security.decryptingMethod(agent.getLastname()));
+        }
+        return agents;
     }
     public void modifyAgent(Agent agent) throws ConnectionException, AccessException{
+        agent.setLastname(Security.cryptingMethod(agent.getLastname()));
+        agent.setFirstname(Security.cryptingMethod(agent.getFirstname()));
         dao.modifyAgent(agent);
         if(agent.getEditorial() != null){
             dao.modifyWill(agent.getEditorial());
@@ -54,8 +64,8 @@ public class AgentManager {
     public ArrayList<String> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{
         return dao.getAgentsLanguages(cellName,birthdate);
     }
-    public ArrayList<String> getAgentMissions(String lastName, String firstName,Integer personnalNumber) throws ConnectionException, AccessException{
-        return dao.getAgentMissions(lastName,firstName,personnalNumber);
+    public ArrayList<String> getAgentMissions(String lastname, String firstname,Integer personnalNumber) throws ConnectionException, AccessException{
+        return dao.getAgentMissions(lastname,firstname,personnalNumber);
     }
     public ArrayList<String> getContacts(Integer missionCode) throws ConnectionException, AccessException{
         return dao.getContacts(missionCode);

@@ -30,7 +30,7 @@ public class DeletePanel extends JPanel {
 
         searchLabel = new JLabel("Matricule de l'agent : ");
         searchLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        searchTextField = new JTextField();
+        searchTextField = new JTextField(10);
         searchButton = new JButton("Rechercher");
         searchButton.addActionListener(buttonListener);
         searchPanel.add(searchLabel);
@@ -102,38 +102,47 @@ public class DeletePanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == searchButton){
-                agent = controller.getAgent(getMatricule());
+                try{
+                    agent = controller.getAgent(getMatricule());
 
-                lastNameInformation.setText(agent.getLastName());
-                firstNameInformation.setText(agent.getFirstName());
-                firstNameInformation.setText(agent.getFirstName());
-                birthdateInformation.setText(agent.getBirthdate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-                gsmInformation.setText(agent.getPhoneNumber());
-                genderInformation.setText(agent.getGender());
-                if(agent.getIsAlone()){
-                    isAloneInformation.setText("Célibataire");
+                    lastNameInformation.setText(agent.getLastname());
+                    firstNameInformation.setText(agent.getFirstname());
+                    firstNameInformation.setText(agent.getFirstname());
+                    birthdateInformation.setText(agent.getBirthdate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                    gsmInformation.setText(agent.getPhoneNumber());
+                    genderInformation.setText(agent.getGender());
+                    if(agent.getIsAlone()){
+                        isAloneInformation.setText("Célibataire");
+                    }
+                    else{
+                        isAloneInformation.setText("Marié(e)");
+                    }
+                    pseudonymInformation.setText(agent.getPseudonym());
+                }catch (Exception exception){
+                    System.out.println("Problème survenu : \n" + exception.getMessage());
                 }
-                else{
-                    isAloneInformation.setText("Marié(e)");
-                }
-                pseudonymInformation.setText(agent.getPseudonym());
             }
             else {
                 if(agent == null){
                     JOptionPane.showMessageDialog(null, "Aucun agent renseigné !", "Avertissement", JOptionPane.WARNING_MESSAGE);
                 }
                 else{
-                    if(JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer l'agent suivant ? : " + agent.getLastName() + " " + agent.getFirstName()) == JOptionPane.YES_OPTION){
-                        controller.deleteAgent(agent);
-                        searchTextField.setText("");
-                        lastNameInformation.setText("");
-                        firstNameInformation.setText("");
-                        birthdateInformation.setText("");
-                        gsmInformation.setText("");
-                        genderInformation.setText("");
-                        isAloneInformation.setText("");
-                        pseudonymInformation.setText("");
-                        JOptionPane.showConfirmDialog(null, "Agent supprimé avec succès !", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+                    if(JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer l'agent suivant ? : " + agent.getLastname() + " " + agent.getFirstname()) == JOptionPane.YES_OPTION){
+                        try{
+                            controller.deleteAgent(agent);
+                            searchTextField.setText("");
+                            lastNameInformation.setText("");
+                            firstNameInformation.setText("");
+                            birthdateInformation.setText("");
+                            gsmInformation.setText("");
+                            genderInformation.setText("");
+                            isAloneInformation.setText("");
+                            pseudonymInformation.setText("");
+                            JOptionPane.showConfirmDialog(null, "Agent supprimé avec succès !", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+                        }catch(Exception exception){
+                            JOptionPane.showConfirmDialog(null, "L'agent n'a pas été surpprimé, une erreur est survenue !", "Suppression", JOptionPane.ERROR);
+                        }
+
                     }
                 }
             }

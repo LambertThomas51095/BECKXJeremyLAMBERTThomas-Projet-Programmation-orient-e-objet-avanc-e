@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 
 public class Agent {
     private Integer personnalNumber;
-    private String lastName;
-    private String firstName;
+    private String lastname;
+    private String firstname;
     private LocalDate birthdate;
     private String phoneNumber;
     private String gender;
@@ -25,10 +25,10 @@ public class Agent {
 
     public static final String [] POSSIBLE_GENDER = {"M","F","X"};
 
-    public Agent(Integer personnalNumber, String lastName, String firstName, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone, String pseudonym, Will editorial, Cell affectation) throws AgentException{
+    public Agent(Integer personnalNumber, String lastname, String firstname, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone, String pseudonym, Will editorial, Cell affectation) throws AgentException{
         setPersonnalNumber(personnalNumber);
-        setLastName(lastName);
-        setFirstName(firstName);
+        setLastname(lastname);
+        setFirstname(firstname);
         setBirthdate(birthdate);
         setPhoneNumber(phoneNumber);
         setGender(gender);
@@ -37,21 +37,18 @@ public class Agent {
         setEditorial(editorial);
         setAffectation(affectation);
     }
-    public Agent(Integer personnalNumber, String lastName, String firstName, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone, Cell affectation) throws AgentException{
-        this(personnalNumber,lastName,firstName,birthdate,phoneNumber,gender,isAlone,null,null,affectation);
+    public Agent(Integer personnalNumber, String lastname, String firstname, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone, Cell affectation) throws AgentException{
+        this(personnalNumber,lastname,firstname,birthdate,phoneNumber,gender,isAlone,null,null,affectation);
     }
-    public Agent(String lastName, String firstName, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone,String pseudonym, Cell affectation) throws AgentException{
-        this(null,lastName,firstName,birthdate,phoneNumber,gender,isAlone,pseudonym,null,affectation);
-    }
-    public Agent(String lastName, String firstName, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone, Cell affectation) throws AgentException{
-        this(null,lastName,firstName,birthdate,phoneNumber,gender,isAlone,null,null,affectation);
+    public Agent(String lastname, String firstname, LocalDate birthdate, String phoneNumber, String gender,String pseudonym) throws AgentException{
+        this(null,lastname,firstname,birthdate,phoneNumber,gender,null,pseudonym,null,null);
     }
 
     @Override
     public String toString() {
        return "personnalNumber : " + personnalNumber +
-                "\nlastName : " + lastName +
-                "\nfisrtName : " + firstName +
+                "\nlastname : " + lastname +
+                "\nfisrtName : " + firstname +
                 "\nbirthdate : " + birthdate +
                 "\nphoneNumber : " + phoneNumber +
                 "\ngender : " + gender +
@@ -64,11 +61,11 @@ public class Agent {
     public void setPersonnalNumber(Integer personnalNumber) {
         this.personnalNumber = personnalNumber;
     }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
     public void setBirthdate(LocalDate birthdate) throws AgentException {
         if(LocalDate.now().isAfter(birthdate) || birthdate.isEqual(LocalDate.now())) {
@@ -112,11 +109,11 @@ public class Agent {
     public Integer getPersonnalNumber() {
         return personnalNumber;
     }
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
     public LocalDate getBirthdate() {
         return birthdate;
