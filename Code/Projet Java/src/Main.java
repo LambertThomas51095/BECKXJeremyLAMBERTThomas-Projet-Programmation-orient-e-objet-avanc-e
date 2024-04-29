@@ -25,7 +25,7 @@ public class Main {
         System.out.println(Security.decryptingMethod(firstname));
         System.out.println(Security.decryptingMethod(lastname));
         try{
-            new AgentManager().getAllCells().stream().forEach(s -> System.out.println(s));
+            new AgentManager().getAgentMissions("Beckx", "Jeremy", 1).stream().forEach(s -> System.out.println(s));
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

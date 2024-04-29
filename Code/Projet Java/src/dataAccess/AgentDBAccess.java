@@ -190,11 +190,10 @@ public class AgentDBAccess implements AgentDataAccess{
     public void addWill(Will will) throws ConnectionException, AccessException{
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "INSERT INTO Will (code, epitaph, funerals_type) VALUES (?,?,?)";
+            String sqlInstruction = "INSERT INTO Will ( epitaph, funerals_type) VALUES (?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setInt(1,will.getCode());
-            preparedStatement.setString(2,will.getEpitaph());
-            preparedStatement.setString(3,will.getFuneralsType());
+            preparedStatement.setString(1,will.getEpitaph());
+            preparedStatement.setString(2,will.getFuneralsType());
             preparedStatement.executeUpdate();
         }catch (SQLException sqlException){
             throw  new AccessException(sqlException.getMessage());

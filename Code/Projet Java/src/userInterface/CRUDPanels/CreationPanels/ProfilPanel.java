@@ -1,8 +1,11 @@
 package userInterface.CRUDPanels.CreationPanels;
 
+import exception.AgentException;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProfilPanel extends JPanel implements CreationPanel{
     private JLabel lastNameLabel, firstNameLabel, birthdateLabel, gsmLabel, genderLabel, pseudonymLabel;
@@ -10,6 +13,8 @@ public class ProfilPanel extends JPanel implements CreationPanel{
     private JComboBox genderComboBox;
     private JRadioButton isAloneRadioButton, isMarriedRadioButton;
     private ButtonGroup isAloneRadioButtonGroup;
+
+    public static final String NO_SPACE_PATTERN = "^\\d{3}/\\d{2}\\.\\d{2}\\.\\d{2}$";
 
     public ProfilPanel(){
         this.setLayout(new GridLayout(7, 2));
@@ -83,8 +88,19 @@ public class ProfilPanel extends JPanel implements CreationPanel{
         }
     }
 
+    public String getPseudonym() {
+        String pseudonym = pseudonymTextField.getText();
+        Pattern pattern = Pattern.compile(NO_SPACE_PATTERN);
+        Matcher matcher = pattern.matcher(pseudonym);
+        if(matcher.find()){
+            return pseudonym;
+        }else{
+            return null;
+        }
+    }
+
     public String[] getResult(){
-        String [] values = {lastNameTextField.getText(), firstNameTextField.getText(), birthdateTextField.getText(), gsmTextField.getText(), getGender(), isAlone(), pseudonymTextField.getText()};
+        String [] values = {lastNameTextField.getText(), firstNameTextField.getText(), birthdateTextField.getText(), gsmTextField.getText(), getGender(), isAlone(), getPseudonym()};
         return values;
     }
 }

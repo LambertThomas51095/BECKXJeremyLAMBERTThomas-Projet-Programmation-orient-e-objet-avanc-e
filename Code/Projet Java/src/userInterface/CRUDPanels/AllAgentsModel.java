@@ -13,7 +13,21 @@ public class AllAgentsModel extends AbstractTableModel {
     private ArrayList<Agent> contents;
 
     public AllAgentsModel(ArrayList<Agent> agents){
+        columnNames = new ArrayList<>();
+        columnNames.add("PersonnalNumber");
+        columnNames.add("LastName");
+        columnNames.add("FirstName");
+        columnNames.add("Birthdate");
+        columnNames.add("PhoneNumber");
+        columnNames.add("Gender");
+        columnNames.add("IsAlone");
+        columnNames.add("Pseudonym");
+        columnNames.add("Affectation");
+        setContents(agents);
+    }
 
+    public void setContents(ArrayList<Agent> agents){
+        this.contents = agents;
     }
 
     public int getColumnCount(){
@@ -35,9 +49,8 @@ public class AllAgentsModel extends AbstractTableModel {
             case 4 : return agent.getPhoneNumber();
             case 5 : return agent.getGender();
             case 6 : return agent.getIsAlone();
-            case 7 : return agent.getPseudonym();
-            case 8 : return agent.getEditorial();
-            case 9 : return agent.getAffectation();
+            case 7 : return agent.getPseudonym() == null ? "/" : agent.getPseudonym();
+            case 8 : return agent.getAffectation().getName();
             default : return null;
         }
     }
@@ -60,10 +73,8 @@ public class AllAgentsModel extends AbstractTableModel {
                     break;
             case 7 : c = String.class;
                     break;
-            case 8 : c = Will.class;
-                    break;
-            case 9 : c = Cell.class;
-                    break;
+            case 8 : c = String.class;
+                break;
             default : c = String.class;
         }
         return c;
