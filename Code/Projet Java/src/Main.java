@@ -1,8 +1,8 @@
-//import model.*;
-//import exception.*;
+import model.*;
+import exception.*;
 
 import userInterface.*;
-//import business.Security;
+import business.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +18,18 @@ public class Main {
         }catch (AgentException e){
             System.out.println(e.getMessage());
         }*/
+        String firstname = Security.cryptingMethod("Thomas");
+        String lastname = Security.cryptingMethod("Lambert");
+        System.out.println(firstname);
+        System.out.println(lastname);
+        System.out.println(Security.decryptingMethod(firstname));
+        System.out.println(Security.decryptingMethod(lastname));
+        try{
+            new AgentManager().getContacts(1).stream().forEach(s -> System.out.println(s));
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
 
-        MainWindow mainWindow = new MainWindow();
+        //MainWindow mainWindow = new MainWindow();
     }
 }

@@ -294,11 +294,11 @@ public class AgentDBAccess implements AgentDataAccess{
             PreparedStatement preparedStatement;
             ResultSet data;
             if(personnalNumber != null){
-                String sqlInstruction = "SELECT code, description, name FROM Mission m JOIN Attribution a ON m.code = a.mission JOIN Agent ON personnal_number = a.agent JOIN Mission_Location ml ON m.code = ml.mission JOIN Location l ON l.code = ml.location JOIN Country ON l.position = name WHERE personnal_number = ?;";
+                String sqlInstruction = "SELECT m.code, description, c.name FROM Mission m JOIN Attribution a ON m.code = a.mission JOIN Agent ON personnal_number = a.agent JOIN Mission_Location ml ON m.code = ml.mission JOIN Location l ON l.code = ml.location JOIN Country c ON l.position = c.name WHERE personnal_number = ?;";
                 preparedStatement = connection.prepareStatement(sqlInstruction);
                 preparedStatement.setInt(1,personnalNumber);
             }else{
-                String sqlInstruction = "SELECT code, description, name FROM Mission m JOIN Attribution a ON m.code = a.mission JOIN Agent ON personnal_number = a.agent JOIN Mission_Location ml ON m.code = ml.mission JOIN Location l ON l.code = ml.location JOIN Country ON l.position = name WHERE lastname = ? AND firstname = ?;";
+                String sqlInstruction = "SELECT m.code, description, c.name FROM Mission m JOIN Attribution a ON m.code = a.mission JOIN Agent ON personnal_number = a.agent JOIN Mission_Location ml ON m.code = ml.mission JOIN Location l ON l.code = ml.location JOIN Country c ON l.position = c.name WHERE lastname = ? AND firstname = ?;";
                 preparedStatement = connection.prepareStatement(sqlInstruction);
                 preparedStatement.setString(1,lastname);
                 preparedStatement.setString(2,firstname);
@@ -325,6 +325,7 @@ public class AgentDBAccess implements AgentDataAccess{
             Connection connection = SingletonConnection.getInstance();
             String sqlInstruction = "SELECT pseudonym FROM Mission m JOIN Mission_Location ml ON m.code = ml.mission JOIN Location l ON l.code = ml.location JOIN Coverage c ON l.code = c.location JOIN Contact ON personnal_number = c.contact WHERE m.code = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1,missionCode);
             ResultSet data = preparedStatement.executeQuery();
             while(data.next()) {
                 contacts.add(data.getString("pseudonym"));

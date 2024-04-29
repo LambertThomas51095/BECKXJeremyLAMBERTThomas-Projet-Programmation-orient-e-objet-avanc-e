@@ -62,10 +62,17 @@ public class AgentManager {
     }
 
     public ArrayList<String> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{
-        return dao.getAgentsLanguages(cellName,birthdate);
+        ArrayList<String> agentsLanguages = dao.getAgentsLanguages(cellName,birthdate);
+        for(int iAgentLanguage = 0; iAgentLanguage<agentsLanguages.size();iAgentLanguage++){
+            String [] agentLanguage = agentsLanguages.get(iAgentLanguage).split(" ");
+            agentLanguage[0] = Security.decryptingMethod(agentLanguage[0]);
+            agentLanguage[1] = Security.decryptingMethod(agentLanguage[1]);
+            agentsLanguages.set(iAgentLanguage, agentLanguage[0] + " " + agentLanguage[1] + " " + agentLanguage[2]);
+        }
+        return agentsLanguages;
     }
     public ArrayList<String> getAgentMissions(String lastname, String firstname,Integer personnalNumber) throws ConnectionException, AccessException{
-        return dao.getAgentMissions(lastname,firstname,personnalNumber);
+        return dao.getAgentMissions(Security.cryptingMethod(lastname),Security.cryptingMethod(firstname),personnalNumber);
     }
     public ArrayList<String> getContacts(Integer missionCode) throws ConnectionException, AccessException{
         return dao.getContacts(missionCode);
