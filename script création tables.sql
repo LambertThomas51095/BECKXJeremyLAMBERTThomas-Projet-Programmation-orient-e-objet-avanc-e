@@ -20,7 +20,7 @@ CREATE TABLE cell (
 );
 
 CREATE TABLE agent (
-	personnal_number int,
+	personnal_number int auto_increment,
     lastname VARCHAR(25) NOT NULL,
     firstname VARCHAR(20) NOT NULL,
     birthdate DATE NOT NULL,
