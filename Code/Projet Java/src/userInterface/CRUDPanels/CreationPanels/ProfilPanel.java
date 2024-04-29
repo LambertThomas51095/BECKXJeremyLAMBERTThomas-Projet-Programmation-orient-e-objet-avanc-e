@@ -14,7 +14,7 @@ public class ProfilPanel extends JPanel implements CreationPanel{
     private JRadioButton isAloneRadioButton, isMarriedRadioButton;
     private ButtonGroup isAloneRadioButtonGroup;
 
-    public static final String NO_SPACE_PATTERN = "^[*]$";
+    public static final String NO_SPACE_PATTERN = "^ *$";
 
     public ProfilPanel(){
         this.setLayout(new GridLayout(7, 2));
@@ -93,9 +93,9 @@ public class ProfilPanel extends JPanel implements CreationPanel{
         Pattern pattern = Pattern.compile(NO_SPACE_PATTERN);
         Matcher matcher = pattern.matcher(pseudonym);
         if(matcher.find()){
-            return pseudonym;
-        }else{
             return null;
+        }else{
+            return pseudonym;
         }
     }
 
