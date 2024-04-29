@@ -25,11 +25,11 @@ public class Main {
         System.out.println(Security.decryptingMethod(firstname));
         System.out.println(Security.decryptingMethod(lastname));
         try{
-            new AgentManager().getContacts(1).stream().forEach(s -> System.out.println(s));
+            new AgentManager().getAllCells().stream().forEach(s -> System.out.println(s));
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
 
-        //MainWindow mainWindow = new MainWindow();
+        MainWindow mainWindow = new MainWindow();
     }
 }

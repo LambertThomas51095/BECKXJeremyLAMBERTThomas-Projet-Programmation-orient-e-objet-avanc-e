@@ -29,30 +29,14 @@ public class CellPanel extends JPanel implements CreationPanel{
     }
 
     public String[] getCellValues() throws ConnectionException, AccessException {
-        //ArrayList<Cell> cells = controller.getAllCells();
-        String [] values = {};
+        String [] values = new String[cells.size()];
 
         for(int iCell = 0; iCell < cells.size(); iCell++){
+            System.out.println(cells.get(iCell).getName());
             values[iCell] = cells.get(iCell).getName();
         }
 
         return values;
-        /*
-        try {
-            ArrayList<Cell> cells = controller.getAllCells();
-            String [] values = {};
-
-            for(int iCell = 0; iCell < cells.size(); iCell++){
-                values[iCell] = cells.get(iCell).getName();
-            }
-
-            return values;
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e.getMessage(), "test", JOptionPane.WARNING_MESSAGE);
-        }
-        return null;
-        */
     }
 
     public String [] getResult(){

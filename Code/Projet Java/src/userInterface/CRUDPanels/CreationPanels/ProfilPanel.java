@@ -74,8 +74,17 @@ public class ProfilPanel extends JPanel implements CreationPanel{
         }
     }
 
+    public String getGender(){
+        String gender = (String)genderComboBox.getSelectedItem();
+        switch(gender){
+            case "Masculin" : return "M";
+            case "Féminin" : return "F";
+            default : return "X";
+        }
+    }
+
     public String[] getResult(){
-        String [] values = {lastNameTextField.getText(), firstNameTextField.getText(), birthdateTextField.getText(), gsmTextField.getText(), (String)genderComboBox.getSelectedItem(), isAlone(), pseudonymTextField.getText()};
+        String [] values = {lastNameTextField.getText(), firstNameTextField.getText(), birthdateTextField.getText(), gsmTextField.getText(), getGender(), isAlone(), pseudonymTextField.getText()};
         return values;
     }
 }

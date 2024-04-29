@@ -40,7 +40,7 @@ public class DeletePanel extends JPanel {
 
         informationsPanel = new JPanel();
         informationsPanel.setLayout(new GridLayout(7, 2));
-        this.add(informationsPanel);
+        this.add(informationsPanel, BorderLayout.CENTER);
 
         lastNameLabel = new JLabel("Nom : ");
         lastNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -81,13 +81,13 @@ public class DeletePanel extends JPanel {
         pseudonymLabel = new JLabel("Pseudonyme : ");
         pseudonymLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         pseudonymInformation = new JLabel("");
-        this.add(pseudonymLabel);
-        this.add(pseudonymInformation);
+        informationsPanel.add(pseudonymLabel);
+        informationsPanel.add(pseudonymInformation);
 
 
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
-        this.add(buttonPanel);
+        this.add(buttonPanel, BorderLayout.SOUTH);
 
         deleteButton = new JButton("Supprimer");
         deleteButton.addActionListener(buttonListener);
@@ -128,6 +128,7 @@ public class DeletePanel extends JPanel {
                 }
                 else{
                     if(JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer l'agent suivant ? : " + agent.getLastname() + " " + agent.getFirstname()) == JOptionPane.YES_OPTION){
+                        System.out.println(agent);
                         try{
                             controller.deleteAgent(agent);
                             searchTextField.setText("");
@@ -138,9 +139,9 @@ public class DeletePanel extends JPanel {
                             genderInformation.setText("");
                             isAloneInformation.setText("");
                             pseudonymInformation.setText("");
-                            JOptionPane.showConfirmDialog(null, "Agent supprimé avec succès !", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Agent supprimé avec succès !", "Suppression", JOptionPane.INFORMATION_MESSAGE);
                         }catch(Exception exception){
-                            JOptionPane.showConfirmDialog(null, "L'agent n'a pas été surpprimé, une erreur est survenue !", "Suppression", JOptionPane.ERROR);
+                            JOptionPane.showMessageDialog(null, "L'agent n'a pas été surpprimé, une erreur est survenue !", "Suppression", JOptionPane.ERROR);
                         }
 
                     }

@@ -60,6 +60,7 @@ public class CreatePanel extends JPanel {
                 if(creationPanels instanceof ProfilPanel){
 
                     String [] values = ((ProfilPanel) creationPanels).getResult();
+                    System.out.println(values.length);
 
                     try{
                         agent = new Agent(values[0],values[1],LocalDate.parse(values[2], DateTimeFormatter.ofPattern("yyyy-MM-dd")),values[3],values[4],values[6]);
@@ -88,8 +89,9 @@ public class CreatePanel extends JPanel {
                 else if(creationPanels instanceof WillPanel){
 
                     String [] values = ((WillPanel) creationPanels).getResult();
+                    System.out.println(values.length);
                     will = new Will(values[0]);
-                    if(values[1] != "autres"){
+                    if(!values[1].equals("autres")){
                         will.setFuneralsType(values[1]);
                     }
                     else{
@@ -107,18 +109,18 @@ public class CreatePanel extends JPanel {
                         CreatePanel.this.repaint();
                     }catch(Exception exception){
                         // gérer exception
-                        System.out.println(exception.getMessage());
+                        JOptionPane.showMessageDialog(null, exception.getMessage());
                     }
 
                 }
                 else{
 
                     String [] values = ((CellPanel) creationPanels).getResult();
+                    System.out.println(values.length);
 
                     agent.setEditorial(will);
 
                     ArrayList<Cell> cells = ((CellPanel) creationPanels).getCells();
-                    //ArrayList<Cell> cells = controller.getAllCells();
                     Integer iCell = 0;
                     while(cells.get(iCell).getName() != values[0]){
                         iCell++;
