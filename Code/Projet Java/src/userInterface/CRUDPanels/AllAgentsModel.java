@@ -1,8 +1,6 @@
 package userInterface.CRUDPanels;
 
 import model.Agent;
-import model.Cell;
-import model.Will;
 
 import javax.swing.table.AbstractTableModel;
 import java.time.LocalDate;

@@ -275,9 +275,9 @@ public class AgentDBAccess implements AgentDataAccess{
             while(data.next()) {
                 StringBuilder agentLanguage = new StringBuilder();
                 agentLanguage.append(data.getString("lastname"));
-                agentLanguage.append(" ");
+                agentLanguage.append("$"); //Signe de distinction entre les éléments
                 agentLanguage.append(data.getString("firstname"));
-                agentLanguage.append(" ");
+                agentLanguage.append("$"); //Signe de distinction entre les éléments
                 agentLanguage.append(data.getString("name"));
                 agentsLanguages.add(agentLanguage.toString());
             }
@@ -307,9 +307,9 @@ public class AgentDBAccess implements AgentDataAccess{
             while(data.next()) {
                 StringBuilder agentMission = new StringBuilder();
                 agentMission.append(data.getString("code"));
-                agentMission.append(" ");
+                agentMission.append("$"); //Signe de distinction entre les éléments
                 agentMission.append(data.getString("description"));
-                agentMission.append(" ");
+                agentMission.append("$"); //Signe de distinction entre les éléments
                 agentMission.append(data.getString("name"));
                 agentMissions.add(agentMission.toString());
             }

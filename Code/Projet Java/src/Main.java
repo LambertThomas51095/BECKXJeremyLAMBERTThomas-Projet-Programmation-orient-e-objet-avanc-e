@@ -13,7 +13,7 @@ public class Main {
         String lastname = Security.cryptingeMethod1("Beckx");
         LocalDate birthdate = LocalDate.parse("12/01/2003", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         try {
-            Agent a = new Agent(1234, lastname, firstname, birthdate, "469/374.428", "m", false,new Cell("IESN","broken dreams","081"));
+            Agent a = new Agent(1234, lastname, firstname, birthdate, "0469/374.428", "m", false,new Cell("IESN","broken dreams","081"));
             System.out.println(a);
         }catch (AgentException e){
             System.out.println(e.getMessage());
@@ -25,7 +25,7 @@ public class Main {
         System.out.println(Security.decryptingMethod(firstname));
         System.out.println(Security.decryptingMethod(lastname));
         try{
-            new AgentManager().getAgentMissions("Beckx", "Jeremy", 1).stream().forEach(s -> System.out.println(s));
+            new AgentManager().getContacts(1).stream().forEach(s -> System.out.println(s));
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

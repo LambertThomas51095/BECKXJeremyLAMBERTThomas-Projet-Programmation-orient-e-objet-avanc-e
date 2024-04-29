@@ -18,7 +18,6 @@ public class CreatePanel extends JPanel {
     private JButton resetButton, creationButton;
     private Agent agent;
     private Will will;
-    private Cell cell;
 
     public CreatePanel(){
         this.controller = new ApplicationController();
@@ -88,12 +87,18 @@ public class CreatePanel extends JPanel {
                 else if(creationPanels instanceof WillPanel){
 
                     String [] values = ((WillPanel) creationPanels).getResult();
-                    will = new Will(values[0]);
-                    if(!values[1].equals("autres")){
-                        will.setFuneralsType(values[1]);
+                    if(!values[0].equals("Ne pas enregistrer")){
+                        will = new Will(values[1]);
+                        if(!values[0].equals("autres")){
+                            will.setFuneralsType(values[0]);
+                        }
+                        else{
+                            will.setFuneralsType(values[2]);
+                        }
+                        agent.setEditorial(will);
                     }
                     else{
-                        will.setFuneralsType(values[2]);
+                        agent.setEditorial(null);
                     }
 
                     CreatePanel.this.remove(creationPanels);
@@ -115,8 +120,6 @@ public class CreatePanel extends JPanel {
 
                     String [] values = ((CellPanel) creationPanels).getResult();
 
-                    agent.setEditorial(will);
-
                     ArrayList<Cell> cells = ((CellPanel) creationPanels).getCells();
                     Integer iCell = 0;
                     while(cells.get(iCell).getName() != values[0]){
@@ -124,11 +127,11 @@ public class CreatePanel extends JPanel {
                     }
                     agent.setAffectation(cells.get(iCell));
                     try{
-                        System.out.println(controller.addAgent(agent));
+                        Integer matricule = controller.addAgent(agent);
 
                         JPanel confirmation = new JPanel();
                         confirmation.setLayout(new FlowLayout());
-                        JLabel labelConfirmation = new JLabel("<html><h1 style=\"color: green; text-align : center;\">Agent créé avec succès !</h1><p style=\"text-align : center;\">L'agent a été ajouté à la base de données.</p><p style=\"text-align : center;\">Merci.</p><html>");
+                        JLabel labelConfirmation = new JLabel("<html><h1 style=\"color: green; text-align : center;\">Agent créé avec succès !</h1><p style=\"text-align : center;\">L'agent a été ajouté à la base de données.</p><p style=\"text-align : center;\">Son matricule est le n°" + matricule + "</p><p style=\"text-align : center;\">Merci.</p><html>");
                         confirmation.add(labelConfirmation);
                         CreatePanel.this.removeAll();
                         CreatePanel.this.add(confirmation, BorderLayout.CENTER);
