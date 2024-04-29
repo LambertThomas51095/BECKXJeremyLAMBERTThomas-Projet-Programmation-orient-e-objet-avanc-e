@@ -42,7 +42,7 @@ VALUES (1,"sabotage"),
 (4,"libération d'otages"),
 (5,"récolte d'informations");
 
-INSERT INTO mission (code,start_date,end_date,description,is_High_Risk,is_Women_Only,category)
+INSERT INTO mission (code,start_date,end_date,description,is_high_risk,is_women_only,category)
 VALUES (1,"2024-04-05",null,"Réussir java",false,false,5);
 
 INSERT INTO attribution (agent,mission)
@@ -83,7 +83,7 @@ VALUES (1,"bananaSplit","987/23.89.21"),
 (7,"007","125/89.43.21"),
 (8,"IRA","051/653.227");
 
-INSERT INTO coverage (location,contact)
+INSERT INTO coverage (contact,location)
 VALUES (1,1),
 (2,4),
 (3,2),

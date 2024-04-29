@@ -53,7 +53,7 @@ CREATE TABLE mission (
     start_date DATE NOT NULL,
     end_date DATE,
     description VARCHAR(75) NOT NULL,
-    is_hig_risk bit NOT NULL,
+    is_high_risk bit NOT NULL,
     is_women_only bit NOT NULL,
     category int NOT NULL,
     CONSTRAINT mission_code_pk primary key(code),
