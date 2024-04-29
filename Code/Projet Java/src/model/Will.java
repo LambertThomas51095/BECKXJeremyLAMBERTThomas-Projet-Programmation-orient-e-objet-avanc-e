@@ -24,6 +24,9 @@ public class Will {
         return funeralsType;
     }
 
+    public void setCode(Integer code) {
+        this.code = code;
+    }
     public void setFuneralsType(String funeralsType) {
         this.funeralsType = funeralsType;
     }

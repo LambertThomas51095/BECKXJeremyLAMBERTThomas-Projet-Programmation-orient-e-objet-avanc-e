@@ -14,7 +14,7 @@ public class ProfilPanel extends JPanel implements CreationPanel{
     private JRadioButton isAloneRadioButton, isMarriedRadioButton;
     private ButtonGroup isAloneRadioButtonGroup;
 
-    public static final String NO_SPACE_PATTERN = "^\\d{3}/\\d{2}\\.\\d{2}\\.\\d{2}$";
+    public static final String NO_SPACE_PATTERN = "^[*]$";
 
     public ProfilPanel(){
         this.setLayout(new GridLayout(7, 2));

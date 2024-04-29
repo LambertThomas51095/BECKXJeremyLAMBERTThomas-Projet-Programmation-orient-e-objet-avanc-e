@@ -60,7 +60,6 @@ public class CreatePanel extends JPanel {
                 if(creationPanels instanceof ProfilPanel){
 
                     String [] values = ((ProfilPanel) creationPanels).getResult();
-                    System.out.println(values.length);
 
                     try{
                         agent = new Agent(values[0],values[1],LocalDate.parse(values[2], DateTimeFormatter.ofPattern("yyyy-MM-dd")),values[3],values[4],values[6]);
@@ -89,7 +88,6 @@ public class CreatePanel extends JPanel {
                 else if(creationPanels instanceof WillPanel){
 
                     String [] values = ((WillPanel) creationPanels).getResult();
-                    System.out.println(values.length);
                     will = new Will(values[0]);
                     if(!values[1].equals("autres")){
                         will.setFuneralsType(values[1]);
@@ -116,7 +114,6 @@ public class CreatePanel extends JPanel {
                 else{
 
                     String [] values = ((CellPanel) creationPanels).getResult();
-                    System.out.println(values.length);
 
                     agent.setEditorial(will);
 
@@ -127,7 +124,7 @@ public class CreatePanel extends JPanel {
                     }
                     agent.setAffectation(cells.get(iCell));
                     try{
-                        controller.addAgent(agent);
+                        System.out.println(controller.addAgent(agent));
 
                         JPanel confirmation = new JPanel();
                         confirmation.setLayout(new FlowLayout());

@@ -32,7 +32,6 @@ public class CellPanel extends JPanel implements CreationPanel{
         String [] values = new String[cells.size()];
 
         for(int iCell = 0; iCell < cells.size(); iCell++){
-            System.out.println(cells.get(iCell).getName());
             values[iCell] = cells.get(iCell).getName();
         }
 

@@ -15,19 +15,19 @@ public class AgentDBAccess implements AgentDataAccess{
 
 
     @Override
-    public int countExistingPersonnalNumber() throws ConnectionException, AccessException{
-        int nbExistingPersonnalNumber;
+    public int getLastIncrementPersonnalNumber() throws ConnectionException, AccessException{
+        int lastIncrementPersonnalNumber;
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "Select Count(*) From Agent";
+            String sqlInstruction = "Select last_insert_id();";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             ResultSet data = preparedStatement.executeQuery();
             data.next();
-            nbExistingPersonnalNumber = data.getInt(1);
+            lastIncrementPersonnalNumber = data.getInt(1);
         }catch (SQLException sqlException){
             throw  new AccessException(sqlException.getMessage());
         }
-        return nbExistingPersonnalNumber;
+        return lastIncrementPersonnalNumber;
     }
 
 
@@ -35,17 +35,18 @@ public class AgentDBAccess implements AgentDataAccess{
     public void addAgent(Agent agent) throws ConnectionException, AccessException {
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "INSERT INTO Agent (personnal_number,lastname,firstname,birthdate,gsm,gender,is_alone,affectation) VALUES(?,?,?,?,?,?,?,?);";
+            String sqlInstruction = "INSERT INTO Agent (lastname,firstname,birthdate,gsm,gender,is_alone,affectation) VALUES(?,?,?,?,?,?,?);";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setInt(1,agent.getPersonnalNumber());
-            preparedStatement.setString(2, agent.getLastname());
-            preparedStatement.setString(3, agent.getFirstname());
-            preparedStatement.setDate(4,java.sql.Date.valueOf(agent.getBirthdate()));
-            preparedStatement.setString(5, agent.getPhoneNumber());
-            preparedStatement.setString(6, agent.getGender());
-            preparedStatement.setBoolean(7,agent.getIsAlone());
-            preparedStatement.setString(8, agent.getAffectation().getName());
+            preparedStatement.setString(1, agent.getLastname());
+            preparedStatement.setString(2, agent.getFirstname());
+            preparedStatement.setDate(3,java.sql.Date.valueOf(agent.getBirthdate()));
+            preparedStatement.setString(4, agent.getPhoneNumber());
+            preparedStatement.setString(5, agent.getGender());
+            preparedStatement.setBoolean(6,agent.getIsAlone());
+            preparedStatement.setString(7, agent.getAffectation().getName());
             preparedStatement.executeUpdate();
+
+            agent.setPersonnalNumber(getLastIncrementPersonnalNumber());
 
             if(agent.getPseudonym() != null){
                 sqlInstruction = "UPDATE Agent SET pseudonym = ? WHERE personnal_number = ?;";
@@ -190,7 +191,7 @@ public class AgentDBAccess implements AgentDataAccess{
     public void addWill(Will will) throws ConnectionException, AccessException{
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "INSERT INTO Will ( epitaph, funerals_type) VALUES (?,?)";
+            String sqlInstruction = "INSERT INTO Will (epitaph, funerals_type) VALUES (?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setString(1,will.getEpitaph());
             preparedStatement.setString(2,will.getFuneralsType());

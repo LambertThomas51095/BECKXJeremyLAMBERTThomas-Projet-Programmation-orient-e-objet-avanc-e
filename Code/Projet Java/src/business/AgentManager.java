@@ -21,15 +21,15 @@ public class AgentManager {
     }
 
     public int addAgent(Agent agent) throws ConnectionException, AccessException{
-        int personnalNumber = dao.countExistingPersonnalNumber()+1;
-        agent.setPersonnalNumber(personnalNumber);
-        agent.setLastname(Security.cryptingMethod(agent.getLastname()));
-        agent.setFirstname(Security.cryptingMethod(agent.getFirstname()));
-        dao.addAgent(agent);
         if(agent.getEditorial() != null){
             dao.addWill(agent.getEditorial());
         }
-        return personnalNumber;
+        Integer willCode = dao.getLastIncrementPersonnalNumber();
+        agent.getEditorial().setCode(willCode);
+        agent.setLastname(Security.cryptingMethod(agent.getLastname()));
+        agent.setFirstname(Security.cryptingMethod(agent.getFirstname()));
+        dao.addAgent(agent);
+        return agent.getPersonnalNumber();
     }
     public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException {
         Agent agent = dao.getAgent(personnalNumber);
@@ -50,11 +50,18 @@ public class AgentManager {
         agent.setFirstname(Security.cryptingMethod(agent.getFirstname()));
         dao.modifyAgent(agent);
         if(agent.getEditorial() != null){
-            dao.modifyWill(agent.getEditorial());
+            if(agent.getEditorial().getCode() != null){
+                dao.modifyWill(agent.getEditorial());
+            }else{
+                dao.addWill(agent.getEditorial());
+            }
         }
     }
     public void deleteAgent(Agent agent) throws ConnectionException, AccessException{
         dao.deleteAgent(agent);
+        if(agent.getEditorial() != null){
+            dao.deleteWill(agent.getEditorial());
+        }
     }
 
     public ArrayList<Cell> getAllCells() throws ConnectionException, AccessException{
