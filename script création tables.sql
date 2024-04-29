@@ -3,7 +3,7 @@
 -- USE secret_agency;
 
 CREATE TABLE will (
-	code int,
+	code int auto_increment,
     epitaph VARCHAR(75),
     funerals_type VARCHAR(20),
     CONSTRAINT will_code_pk primary key(code)
@@ -38,7 +38,7 @@ CREATE TABLE agent (
     CONSTRAINT editorial_uk UNIQUE (editorial),
     CONSTRAINT birthdate_check CHECK(birthdate <= sysdate()),
     CONSTRAINT gsm_agent_check CHECK (gsm REGEXP('^[0-9]{3}/([0-9]{2}\.[0-9]{2}\.[0-9]{2}|[0-9]{3}\.[0-9]{3})$')),
-    CONSTRAINT gender_check CHECK(gender in ('M','F','X')) 
+    CONSTRAINT gender_check CHECK(gender in ('M','F','X'))
 );
 
 CREATE TABLE mission_type (
@@ -66,7 +66,7 @@ CREATE TABLE attribution (
 	agent int,
     mission int,
     CONSTRAINT agent_mission_pk primary key(agent,mission),
-    CONSTRAINT agent_mission_fk foreign key(agent) references agent(personnal_number),
+    CONSTRAINT agent_mission_fk foreign key(agent) references agent(personnal_number) ON DELETE CASCADE,
     CONSTRAINT mission_agent_fk foreign key(mission) references mission(code)
 );
 
@@ -144,6 +144,6 @@ CREATE TABLE ability (
 	agent int,
     language int,
     CONSTRAINT agent_language_pk primary key(agent,language),
-    CONSTRAINT agent_language_fk foreign key(agent) references agent(personnal_number),
+    CONSTRAINT agent_language_fk foreign key(agent) references agent(personnal_number) ON DELETE CASCADE,
     CONSTRAINT language_agent_fk foreign key(language) references language(code)
 );
