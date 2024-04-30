@@ -1,16 +1,13 @@
 package userInterface.searchPanels;
 
 import controller.ApplicationController;
-import userInterface.CRUDPanels.AllAgentsModel;
-import userInterface.CRUDPanels.CreatePanel;
-import userInterface.CRUDPanels.DeletePanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.format.DateTimeFormatter;
+
 
 public class ThirdSearchPanel extends JPanel {
     private ApplicationController controller;

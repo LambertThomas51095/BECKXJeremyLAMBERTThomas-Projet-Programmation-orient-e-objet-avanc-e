@@ -1,7 +1,5 @@
 package userInterface.CRUDPanels.CreationPanels;
 
-import exception.AgentException;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.regex.Matcher;
