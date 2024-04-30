@@ -25,7 +25,7 @@ public class Main {
         System.out.println(Security.decryptingMethod(firstname));
         System.out.println(Security.decryptingMethod(lastname));
         try{
-            new AgentManager().getContacts(1).stream().forEach(s -> System.out.println(s));
+            new AgentManager().getAgentsLanguages("Informatique", LocalDate.parse("2023-11-12", DateTimeFormatter.ofPattern("yyyy-MM-dd"))).stream().forEach(s -> System.out.println(s));
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
