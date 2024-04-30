@@ -9,9 +9,9 @@ INSERT INTO will(epitaph,funerals_type)
 VALUES ("Marine la marine","Incinération");
 
 Insert into agent(lastname,firstname,birthdate,gsm,gender,is_alone,editorial,affectation)
-VALUES ("|nefB","~qhtfJ","2000-03-28","469/23.12.56","M",false,null,"Informatique"),
-("zwieobL","xepqiT","2002-10-15","470/78.35.82","M",true,null,"Informatique"),
-('ou}vv%eo"fD',"jrltbM","2001-05-21","471/13.82.45","F",true,1,"Marin");
+VALUES ("|nefB","~qhtfJ","2000-03-28","0469/23.12.56","M",false,null,"Informatique"),
+("zwieobL","xepqiT","2002-10-15","0470/78.35.82","M",true,null,"Informatique"),
+('ou}vv%eo"fD',"jrltbM","2001-05-21","0471/13.82.45","F",true,1,"Marin");
 
 INSERT INTO language (code,name,english_name,percent_world)
 VALUES (1,"français","french",3.43),
@@ -74,13 +74,13 @@ INSERT INTO mission_location (mission,location)
 VALUES (1,1);
 
 INSERT INTO contact (personnal_number,pseudonym,gsm)
-VALUES (1,"bananaSplit","987/23.89.21"),
-(2,"SmoothieFraise","651/65.43.21"),
-(3,"TennisKiwi","753/65.37.21"),
-(4,"ApplePhone","357/65.43.68"),
-(5,"RioWindow","752/25.43.21"),
-(6,"Berlin","651/65.01.21"),
-(7,"007","125/89.43.21"),
+VALUES (1,"bananaSplit","0987/23.89.21"),
+(2,"SmoothieFraise","0651/65.43.21"),
+(3,"TennisKiwi","0753/65.37.21"),
+(4,"ApplePhone","0357/65.43.68"),
+(5,"RioWindow","0752/25.43.21"),
+(6,"Berlin","0651/65.01.21"),
+(7,"007","0125/89.43.21"),
 (8,"IRA","051/653.227");
 
 INSERT INTO coverage (contact,location)
