@@ -37,10 +37,10 @@ public class ApplicationController {
         return manager.getAllCells();
     }
 
-    public ArrayList<String> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{
+    public ArrayList<ArrayList<String>> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{
         return manager.getAgentsLanguages(cellName,birthdate);
     }
-    public ArrayList<String> getAgentMissions(String lastName, String firstName,Integer personnalNumber) throws ConnectionException, AccessException{
+    public ArrayList<ArrayList<String>> getAgentMissions(String lastName, String firstName,Integer personnalNumber) throws ConnectionException, AccessException{
         return manager.getAgentMissions(lastName,firstName,personnalNumber);
     }
     public ArrayList<String> getContacts(Integer missionCode) throws ConnectionException, AccessException{

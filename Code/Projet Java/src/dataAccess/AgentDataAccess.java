@@ -26,7 +26,7 @@ public interface AgentDataAccess {
     ArrayList<Cell> getAllCells() throws ConnectionException, AccessException;
 
 
-    ArrayList<String> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException;
-    ArrayList<String> getAgentMissions(String lastName, String firstName,Integer personnalNumber) throws ConnectionException, AccessException;
+    ArrayList<ArrayList<String>> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException;
+    ArrayList<ArrayList<String>> getAgentMissions(String lastName, String firstName,Integer personnalNumber) throws ConnectionException, AccessException;
     ArrayList<String> getContacts(Integer missionCode) throws ConnectionException, AccessException;
 }

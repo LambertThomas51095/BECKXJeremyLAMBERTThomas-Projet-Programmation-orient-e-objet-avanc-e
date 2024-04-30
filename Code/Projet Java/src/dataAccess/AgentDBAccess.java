@@ -263,8 +263,8 @@ public class AgentDBAccess implements AgentDataAccess{
 
 
     @Override
-    public ArrayList<String> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{
-        ArrayList<String> agentsLanguages = new ArrayList<>();
+    public ArrayList<ArrayList<String>> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{
+        ArrayList<ArrayList<String>> agentsLanguages = new ArrayList<>();
         try{
             Connection connection = SingletonConnection.getInstance();
             String sqlInstruction = "SELECT lastname, firstname, name FROM Agent JOIN Ability ON personnal_number = agent JOIN Language ON code = language WHERE affectation = ? AND birthdate < ?;";
@@ -273,13 +273,11 @@ public class AgentDBAccess implements AgentDataAccess{
             preparedStatement.setDate(2,java.sql.Date.valueOf(birthdate));
             ResultSet data = preparedStatement.executeQuery();
             while(data.next()) {
-                StringBuilder agentLanguage = new StringBuilder();
-                agentLanguage.append(data.getString("lastname"));
-                agentLanguage.append("$"); //Signe de distinction entre les éléments
-                agentLanguage.append(data.getString("firstname"));
-                agentLanguage.append("$"); //Signe de distinction entre les éléments
-                agentLanguage.append(data.getString("name"));
-                agentsLanguages.add(agentLanguage.toString());
+                ArrayList<String> agentLanguage = new ArrayList<>();
+                agentLanguage.add(data.getString("lastname"));
+                agentLanguage.add(data.getString("firstname"));
+                agentLanguage.add(data.getString("name"));
+                agentsLanguages.add(agentLanguage);
             }
             return agentsLanguages;
         }catch (SQLException sqlException){
@@ -287,8 +285,8 @@ public class AgentDBAccess implements AgentDataAccess{
         }
     }
     @Override
-    public ArrayList<String> getAgentMissions(String lastname, String firstname,Integer personnalNumber) throws ConnectionException, AccessException{
-        ArrayList<String> agentMissions = new ArrayList<>();
+    public ArrayList<ArrayList<String>> getAgentMissions(String lastname, String firstname,Integer personnalNumber) throws ConnectionException, AccessException{
+        ArrayList<ArrayList<String>> agentMissions = new ArrayList<>();
         try{
             Connection connection = SingletonConnection.getInstance();
             PreparedStatement preparedStatement;
@@ -305,13 +303,11 @@ public class AgentDBAccess implements AgentDataAccess{
             }
             data = preparedStatement.executeQuery();
             while(data.next()) {
-                StringBuilder agentMission = new StringBuilder();
-                agentMission.append(data.getString("code"));
-                agentMission.append("$"); //Signe de distinction entre les éléments
-                agentMission.append(data.getString("description"));
-                agentMission.append("$"); //Signe de distinction entre les éléments
-                agentMission.append(data.getString("name"));
-                agentMissions.add(agentMission.toString());
+                ArrayList<String> agentMission = new ArrayList<>();
+                agentMission.add(data.getString("code"));
+                agentMission.add(data.getString("description"));
+                agentMission.add(data.getString("name"));
+                agentMissions.add(agentMission);
             }
             return agentMissions;
         }catch (SQLException sqlException){

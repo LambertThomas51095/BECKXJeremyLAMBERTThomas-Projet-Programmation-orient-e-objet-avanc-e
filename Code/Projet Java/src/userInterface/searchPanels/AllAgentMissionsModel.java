@@ -3,17 +3,19 @@ package userInterface.searchPanels;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
-public class AllContactsModel extends AbstractTableModel {
+public class AllAgentMissionsModel extends AbstractTableModel {
     private ArrayList<String> columnNames;
-    private ArrayList<String> contents;
+    private ArrayList<ArrayList<String>> contents;
 
-    public AllContactsModel(ArrayList<String> contents){
+    public AllAgentMissionsModel(ArrayList<ArrayList<String>> contents){
         columnNames = new ArrayList<>();
-        columnNames.add("Contacts");
+        columnNames.add("Code de mission");
+        columnNames.add("Description de la mission");
+        columnNames.add("Pays");
         setContents(contents);
     }
 
-    public void setContents(ArrayList<String> contents){
+    public void setContents(ArrayList<ArrayList<String>> contents){
         this.contents = contents;
     }
 
@@ -27,9 +29,11 @@ public class AllContactsModel extends AbstractTableModel {
         return columnNames.get(column);
     }
     public Object getValueAt(int row, int column){
-        String content = contents.get(row);
+        ArrayList<String> content = contents.get(row);
         switch (column){
-            case 0 : return content;
+            case 0 : return content.get(0);
+            case 1 : return content.get(1);
+            case 2 : return content.get(2);
             default : return null;
         }
     }

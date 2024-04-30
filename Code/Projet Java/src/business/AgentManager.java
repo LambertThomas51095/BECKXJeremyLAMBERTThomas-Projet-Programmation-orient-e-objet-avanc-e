@@ -68,17 +68,15 @@ public class AgentManager {
         return dao.getAllCells();
     }
 
-    public ArrayList<String> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{
-        ArrayList<String> agentsLanguages = dao.getAgentsLanguages(cellName,birthdate);
-        for(int iAgentLanguage = 0; iAgentLanguage<agentsLanguages.size();iAgentLanguage++){
-            String [] agentLanguage = agentsLanguages.get(iAgentLanguage).split(" ");
-            agentLanguage[0] = Security.decryptingMethod(agentLanguage[0]);
-            agentLanguage[1] = Security.decryptingMethod(agentLanguage[1]);
-            agentsLanguages.set(iAgentLanguage, agentLanguage[0] + " " + agentLanguage[1] + " " + agentLanguage[2]);
+    public ArrayList<ArrayList<String>> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{
+        ArrayList<ArrayList<String>> agentsLanguages = dao.getAgentsLanguages(cellName,birthdate);
+        for(ArrayList<String> agentLanguage : agentsLanguages){
+            agentLanguage.set(0, Security.decryptingMethod(agentLanguage.get(0)));
+            agentLanguage.set(1, Security.decryptingMethod(agentLanguage.get(1)));
         }
         return agentsLanguages;
     }
-    public ArrayList<String> getAgentMissions(String lastname, String firstname,Integer personnalNumber) throws ConnectionException, AccessException{
+    public ArrayList<ArrayList<String>> getAgentMissions(String lastname, String firstname,Integer personnalNumber) throws ConnectionException, AccessException{
         return dao.getAgentMissions(Security.cryptingMethod(lastname),Security.cryptingMethod(firstname),personnalNumber);
     }
     public ArrayList<String> getContacts(Integer missionCode) throws ConnectionException, AccessException{
