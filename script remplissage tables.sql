@@ -74,14 +74,14 @@ INSERT INTO mission_location (mission,location)
 VALUES (1,1);
 
 INSERT INTO contact (personnal_number,pseudonym,gsm)
-VALUES (1,"bananaSplit","0987/23.89.21"),
-(2,"SmoothieFraise","0651/65.43.21"),
-(3,"TennisKiwi","0753/65.37.21"),
-(4,"ApplePhone","0357/65.43.68"),
-(5,"RioWindow","0752/25.43.21"),
-(6,"Berlin","0651/65.01.21"),
-(7,"007","0125/89.43.21"),
-(8,"IRA","051/653.227");
+VALUES (1,"~rtwYfrdpbb","0987/23.89.21"),
+(2,"rtk{NlomxrqnS","0651/65.43.21"),
+(3,"rpQxmqpfT","0753/65.37.21"),
+(4,"nvvnUiorqA","0357/65.43.68"),
+(5,"vjsmZqjR","0752/25.43.21"),
+(6,"smotfB","0651/65.01.21"),
+(7,"910","0125/89.43.21"),
+(8,"CSI","051/653.227");
 
 INSERT INTO coverage (contact,location)
 VALUES (1,1),
