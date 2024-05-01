@@ -6,18 +6,12 @@ import business.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {
-        /*String firstname = Security.cryptingeMethod1("Jeremy");
-        String lastname = Security.cryptingeMethod1("Beckx");
-        LocalDate birthdate = LocalDate.parse("12/01/2003", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        try {
-            Agent a = new Agent(1234, lastname, firstname, birthdate, "0469/374.428", "m", false,new Cell("IESN","broken dreams","081"));
-            System.out.println(a);
-        }catch (AgentException e){
-            System.out.println(e.getMessage());
-        }*/
+        /*
         String firstname = Security.cryptingMethod("Thomas");
         String lastname = Security.cryptingMethod("Lambert");
         System.out.println(firstname);
@@ -25,10 +19,23 @@ public class Main {
         System.out.println(Security.decryptingMethod(firstname));
         System.out.println(Security.decryptingMethod(lastname));
         try{
-            new AgentManager().getAgentsLanguages("Informatique", LocalDate.parse("2023-11-12", DateTimeFormatter.ofPattern("yyyy-MM-dd"))).stream().forEach(s -> System.out.println(s));
+            new AgentManager().getContacts(1).stream().forEach(s -> System.out.println(s));
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
+
+        String dateText = "02/02/2024";
+        Pattern pattern = Pattern.compile(RegularExpression.DATE_FORMAT.toString());
+        Matcher matcher = pattern.matcher(dateText);
+        if(matcher.find()) {
+            LocalDate date = LocalDate.parse(dateText, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            if(!date.isAfter(LocalDate.now())){
+                System.out.println("ok");
+            }else{
+                System.out.println("plus grand que ajd");
+            }
+
+        }*/
 
         MainWindow mainWindow = new MainWindow();
     }

@@ -2,7 +2,7 @@ package business;
 
 public class Security {
 
-    private static final int DECALAGE = 0;
+    private static final int DECALAGE = 7;
 
     public static String cryptingMethod(String word){
         int charactersNb = word.length();

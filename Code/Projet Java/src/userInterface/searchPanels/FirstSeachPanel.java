@@ -1,6 +1,9 @@
 package userInterface.searchPanels;
 
 import controller.ApplicationController;
+import exception.AccessException;
+import exception.ConnectionException;
+import model.RegularExpression;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -9,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FirstSeachPanel extends JPanel {
     private ApplicationController controller;
@@ -56,29 +61,55 @@ public class FirstSeachPanel extends JPanel {
         searchPanel.add(buttonPanel);
     }
 
+    public LocalDate validateDate(){
+        String dateText = birthdateTextField.getText();
+        Pattern pattern = Pattern.compile(RegularExpression.DATE_FORMAT.toString());
+        Matcher matcher = pattern.matcher(dateText);
+        if(matcher.find()) {
+            LocalDate date = LocalDate.parse(dateText, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            if(!date.isAfter(LocalDate.now())){
+                return date;
+            }
+        }
+        return null;
+    }
+    public String validateCellName() throws ConnectionException, AccessException {
+        String cellName = cellTextField.getText();
+        if(controller.getAllCells().stream().anyMatch(cell -> cell.getName().equals(cellName))){
+            return cellName;
+        }
+        return null;
+    }
+
     private class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
             try{
-                model = new AllAgentsLanguagesModel(controller.getAgentsLanguages(cellTextField.getText(), LocalDate.parse(birthdateTextField.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
-                table = new JTable(model);
+                LocalDate date = validateDate();
+                String cellName = validateCellName();
+                if(date != null && cellName != null){
+                    model = new AllAgentsLanguagesModel(controller.getAgentsLanguages(cellName, date));
+                    table = new JTable(model);
 
-                JScrollPane scrollPane = new JScrollPane(table);
-                FirstSeachPanel.this.add(scrollPane, BorderLayout.CENTER);
+                    JScrollPane scrollPane = new JScrollPane(table);
+                    FirstSeachPanel.this.add(scrollPane, BorderLayout.CENTER);
 
-                //Centrer le texte dans les cellules
-                DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
-                custom.setHorizontalAlignment(JLabel.CENTER);
-                for(int i = 0; i < table.getColumnCount(); i++){
-                    table.getColumnModel().getColumn(i).setCellRenderer(custom);
+                    //Centrer le texte dans les cellules
+                    DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
+                    custom.setHorizontalAlignment(JLabel.CENTER);
+                    for(int i = 0; i < table.getColumnCount(); i++){
+                        table.getColumnModel().getColumn(i).setCellRenderer(custom);
+                    }
+                }else{
+                    // reset tableau ?
+                    JOptionPane.showMessageDialog(null, "Une ou plusieurs données entrées sont éronnées !", "Données incorrecte", JOptionPane.ERROR_MESSAGE);
                 }
 
                 FirstSeachPanel.this.validate();
                 FirstSeachPanel.this.repaint();
             }
             catch(Exception exception){
-                JOptionPane.showMessageDialog(null, "Le code de la mission est incorrect !", "Mission inconnue", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Une erreur avec la base de donnée est survenue.\nVeuillez nous excuser.", "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
