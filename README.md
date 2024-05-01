@@ -24,3 +24,5 @@ Terminer verif des données pour la recherche (jerem s'en occupe tkt)
 Reset les tableaux ou les mettre à vide si données entrées éronnées ou que pas de données à montrer (voir commentaire recherche 2 et 3)
 
 Ajouter tooltip sur numéro de tel et date de naissance + changer formant en dd/MM/yyyy nn ?
+
+Discussion de si auto_increment partout (mais je crois pas)  

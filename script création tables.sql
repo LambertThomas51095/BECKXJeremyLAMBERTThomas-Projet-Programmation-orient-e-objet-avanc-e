@@ -75,7 +75,7 @@ CREATE TABLE vehicle (
     type VARCHAR(25) NOT NULL,
     has_weapons bit NOT NULL,
     color VARCHAR(20) NOT NULL,
-    `use` int NOT NULL,
+    `use` int,
     CONSTRAINT personnal_number_pk primary key(personnal_number),
     CONSTRAINT uses_fk foreign key(`use`) references mission(code)
 );
@@ -132,7 +132,7 @@ CREATE TABLE language (
     CONSTRAINT percent_world_check CHECK(percent_world > 0)
 );
 
-CREATE TABLE offical_language (
+CREATE TABLE official_language (
 	language int,
     country VARCHAR(25),
     CONSTRAINT language_country_pk primary key(language,country),
