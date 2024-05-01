@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public interface AgentDataAccess {
 
-    int getLastIncrementPersonnalNumber() throws ConnectionException, AccessException;
+    int getLastIncrementId() throws ConnectionException, AccessException;
 
     void addAgent(Agent agent) throws ConnectionException, AccessException;
     Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException;
@@ -23,7 +23,13 @@ public interface AgentDataAccess {
     void modifyWill(Will will) throws ConnectionException, AccessException;
     void deleteWill(Will will) throws ConnectionException, AccessException;
 
+
     ArrayList<Cell> getAllCells() throws ConnectionException, AccessException;
+
+
+    ArrayList<Integer> getAllPersonnalNumbers() throws ConnectionException, AccessException;
+    ArrayList<ArrayList<String>> getAllAgentsName() throws ConnectionException, AccessException;
+    ArrayList<Integer> getAllMissionsCode() throws ConnectionException, AccessException;
 
 
     ArrayList<ArrayList<String>> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException;

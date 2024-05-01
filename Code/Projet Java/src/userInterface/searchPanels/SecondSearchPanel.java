@@ -1,12 +1,16 @@
 package userInterface.searchPanels;
 
 import controller.ApplicationController;
+import exception.AccessException;
+import exception.ConnectionException;
+import model.RegularExpression;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,8 +22,6 @@ public class SecondSearchPanel extends JPanel {
     private JButton searchButton;
     private JTable table;
     private AllAgentMissionsModel model;
-
-    public static final String NO_SPACE_PATTERN = "^ *$";
 
     public SecondSearchPanel(){
         this.controller = new ApplicationController();
@@ -64,40 +66,64 @@ public class SecondSearchPanel extends JPanel {
         searchPanel.add(buttonPanel);
     }
 
-    public Integer getMatricule() {
-        String matricule = agentMatriculeTextField.getText();
-        Pattern pattern = Pattern.compile(NO_SPACE_PATTERN);
-        Matcher matcher = pattern.matcher(matricule);
+    public Integer getMatricule() throws ConnectionException, AccessException{
+        String matriculeText = agentMatriculeTextField.getText();
+        Pattern pattern = Pattern.compile(RegularExpression.ONLY_NUMBER.toString());
+        Matcher matcher = pattern.matcher(matriculeText);
         if(matcher.find()){
-            return null;
-        }else{
-            return Integer.parseInt(matricule);
+            Integer matricule = Integer.parseInt(matriculeText);
+            if(controller.getAllPersonnalNumbers().contains(matricule)){
+                return matricule;
+            }
         }
+        return null;
+    }
+    public Boolean validateInformations(Integer matricule) throws ConnectionException, AccessException{
+        if(matricule == null){
+            ArrayList<String> names = new ArrayList<>();
+            names.add(agentNameTextField.getText());
+            names.add(agentFirstNameTextField.getText());
+            if(!controller.getAllAgentsName().contains(names)){ // si nom prenom good ?
+                return false;
+            }
+        }
+        return true;
     }
 
     private class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
             try{
-                model = new AllAgentMissionsModel(controller.getAgentMissions(agentNameTextField.getText(), agentFirstNameTextField.getText(), getMatricule()));
-                table = new JTable(model);
+                // verif matricule et nom prénom si null ou existe pas
+                Integer matricule = getMatricule();
+                if(validateInformations(matricule)){
+                    ArrayList<ArrayList<String>> agentMissions = controller.getAgentMissions(agentNameTextField.getText(), agentFirstNameTextField.getText(), matricule);
+                    if(agentMissions.size() > 0){
+                        model = new AllAgentMissionsModel(agentMissions);
+                        table = new JTable(model);
 
-                JScrollPane scrollPane = new JScrollPane(table);
-                SecondSearchPanel.this.add(scrollPane, BorderLayout.CENTER);
+                        JScrollPane scrollPane = new JScrollPane(table);
+                        SecondSearchPanel.this.add(scrollPane, BorderLayout.CENTER);
 
-                //Centrer le texte dans les cellules
-                DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
-                custom.setHorizontalAlignment(JLabel.CENTER);
-                for(int i = 0; i < table.getColumnCount(); i++){
-                    table.getColumnModel().getColumn(i).setCellRenderer(custom);
+                        //Centrer le texte dans les cellules
+                        DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
+                        custom.setHorizontalAlignment(JLabel.CENTER);
+                        for(int i = 0; i < table.getColumnCount(); i++){
+                            table.getColumnModel().getColumn(i).setCellRenderer(custom);
+                        }
+                    }else{
+                        // reset le tableau si possible ?... => cas où un agent n'a pas de mission
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Au moins une des données entrées est incorrectes !\n(Veuillez privilégier le matricule)", "Données incorrecte", JOptionPane.ERROR_MESSAGE);
                 }
 
                 SecondSearchPanel.this.validate();
                 SecondSearchPanel.this.repaint();
             }
             catch(Exception exception){
-                JOptionPane.showMessageDialog(null, "Le code de la mission est incorrect !", "Mission inconnue", JOptionPane.ERROR);
+                JOptionPane.showMessageDialog(null, "Une erreur avec la base de donnée est survenue.\nVeuillez nous excuser.", "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
+                System.out.println(exception.getMessage());
             }
         }
     }

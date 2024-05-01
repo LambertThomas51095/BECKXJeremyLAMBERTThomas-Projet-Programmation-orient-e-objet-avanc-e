@@ -33,8 +33,22 @@ public class ApplicationController {
         manager.deleteAgent(agent);
     }
 
+    public void deleteWill(Will will) throws ConnectionException, AccessException{
+        manager.deleteWill(will);
+    }
+
     public ArrayList<Cell> getAllCells() throws ConnectionException, AccessException{
         return manager.getAllCells();
+    }
+
+    public ArrayList<Integer> getAllPersonnalNumbers() throws ConnectionException, AccessException{
+        return manager.getAllPersonnalNumbers();
+    }
+    public ArrayList<ArrayList<String>> getAllAgentsName() throws ConnectionException, AccessException{
+        return manager.getAllAgentsName();
+    }
+    public ArrayList<Integer> getAllMissionsCode() throws ConnectionException, AccessException{
+        return manager.getAllMissionsCode();
     }
 
     public ArrayList<ArrayList<String>> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{

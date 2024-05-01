@@ -23,11 +23,14 @@ public class AgentManager {
     public int addAgent(Agent agent) throws ConnectionException, AccessException{
         if(agent.getEditorial() != null){
             dao.addWill(agent.getEditorial());
+            Integer willCode = dao.getLastIncrementId();
+            agent.getEditorial().setCode(willCode);
         }
-        Integer willCode = dao.getLastIncrementPersonnalNumber();
-        agent.getEditorial().setCode(willCode);
         agent.setLastname(Security.cryptingMethod(agent.getLastname()));
         agent.setFirstname(Security.cryptingMethod(agent.getFirstname()));
+        if(agent.getPseudonym() != null){
+            agent.setPseudonym(Security.cryptingMethod(agent.getPseudonym()));
+        }
         dao.addAgent(agent);
         return agent.getPersonnalNumber();
     }
@@ -35,6 +38,9 @@ public class AgentManager {
         Agent agent = dao.getAgent(personnalNumber);
         agent.setFirstname(Security.decryptingMethod(agent.getFirstname()));
         agent.setLastname(Security.decryptingMethod(agent.getLastname()));
+        if(agent.getPseudonym() != null){
+            agent.setPseudonym(Security.decryptingMethod(agent.getPseudonym()));
+        }
         return agent;
     }
     public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException{
@@ -42,12 +48,18 @@ public class AgentManager {
         for(Agent agent : agents){
             agent.setFirstname(Security.decryptingMethod(agent.getFirstname()));
             agent.setLastname(Security.decryptingMethod(agent.getLastname()));
+            if(agent.getPseudonym() != null){
+                agent.setPseudonym(Security.decryptingMethod(agent.getPseudonym()));
+            }
         }
         return agents;
     }
     public void modifyAgent(Agent agent) throws ConnectionException, AccessException{
         agent.setLastname(Security.cryptingMethod(agent.getLastname()));
         agent.setFirstname(Security.cryptingMethod(agent.getFirstname()));
+        if(agent.getPseudonym() != null){
+            agent.setPseudonym(Security.cryptingMethod(agent.getPseudonym()));
+        }
         dao.modifyAgent(agent);
         if(agent.getEditorial() != null){
             if(agent.getEditorial().getCode() != null){
@@ -64,8 +76,27 @@ public class AgentManager {
         }
     }
 
+    public void deleteWill(Will will) throws ConnectionException, AccessException{
+        dao.deleteWill(will);
+    }
+
     public ArrayList<Cell> getAllCells() throws ConnectionException, AccessException{
         return dao.getAllCells();
+    }
+
+    public ArrayList<Integer> getAllPersonnalNumbers() throws ConnectionException, AccessException{
+        return dao.getAllPersonnalNumbers();
+    }
+    public ArrayList<ArrayList<String>> getAllAgentsName() throws ConnectionException, AccessException{
+        ArrayList<ArrayList<String>> agentsNames = dao.getAllAgentsName();
+        for(ArrayList<String> agentNames : agentsNames){
+            agentNames.set(0, Security.decryptingMethod(agentNames.get(0)));
+            agentNames.set(1, Security.decryptingMethod(agentNames.get(1)));
+        }
+        return agentsNames;
+    }
+    public ArrayList<Integer> getAllMissionsCode() throws ConnectionException, AccessException{
+        return dao.getAllMissionsCode();
     }
 
     public ArrayList<ArrayList<String>> getAgentsLanguages(String cellName, LocalDate birthdate) throws ConnectionException, AccessException{
@@ -80,7 +111,11 @@ public class AgentManager {
         return dao.getAgentMissions(Security.cryptingMethod(lastname),Security.cryptingMethod(firstname),personnalNumber);
     }
     public ArrayList<String> getContacts(Integer missionCode) throws ConnectionException, AccessException{
-        return dao.getContacts(missionCode);
+        ArrayList<String> contacts = dao.getContacts(missionCode);
+        for(int iContact = 0; iContact < contacts.size(); iContact++){
+            contacts.set(iContact, Security.decryptingMethod(contacts.get(iContact)));
+        }
+        return contacts;
     }
 
 }

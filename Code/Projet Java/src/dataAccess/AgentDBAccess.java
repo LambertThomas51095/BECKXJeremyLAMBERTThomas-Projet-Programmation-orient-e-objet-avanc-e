@@ -15,7 +15,7 @@ public class AgentDBAccess implements AgentDataAccess{
 
 
     @Override
-    public int getLastIncrementPersonnalNumber() throws ConnectionException, AccessException{
+    public int getLastIncrementId() throws ConnectionException, AccessException{
         int lastIncrementPersonnalNumber;
         try{
             Connection connection = SingletonConnection.getInstance();
@@ -46,7 +46,7 @@ public class AgentDBAccess implements AgentDataAccess{
             preparedStatement.setString(7, agent.getAffectation().getName());
             preparedStatement.executeUpdate();
 
-            agent.setPersonnalNumber(getLastIncrementPersonnalNumber());
+            agent.setPersonnalNumber(getLastIncrementId());
 
             if(agent.getPseudonym() != null){
                 sqlInstruction = "UPDATE Agent SET pseudonym = ? WHERE personnal_number = ?;";
@@ -191,7 +191,7 @@ public class AgentDBAccess implements AgentDataAccess{
     public void addWill(Will will) throws ConnectionException, AccessException{
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "INSERT INTO Will (epitaph, funerals_type) VALUES (?,?)";
+            String sqlInstruction = "INSERT INTO will (epitaph, funerals_type) VALUES (?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setString(1,will.getEpitaph());
             preparedStatement.setString(2,will.getFuneralsType());
@@ -205,7 +205,7 @@ public class AgentDBAccess implements AgentDataAccess{
     public Will getWill(Integer code) throws ConnectionException, AccessException{
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "Select * From Will Where code = ?;";
+            String sqlInstruction = "Select * From will Where code = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setInt(1,code);
             ResultSet data = preparedStatement.executeQuery();
@@ -220,7 +220,7 @@ public class AgentDBAccess implements AgentDataAccess{
     public void modifyWill(Will will) throws ConnectionException, AccessException{
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "UPDATE Will SET epitaph = ?, funerals_type = ? WHERE code = ?;";
+            String sqlInstruction = "UPDATE will SET epitaph = ?, funerals_type = ? WHERE code = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setString(1,will.getEpitaph());
             preparedStatement.setString(2,will.getFuneralsType());
@@ -234,7 +234,7 @@ public class AgentDBAccess implements AgentDataAccess{
     public void deleteWill(Will will) throws ConnectionException, AccessException{
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "DELETE FROM Will WHERE code = ?;";
+            String sqlInstruction = "DELETE FROM will WHERE code = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setInt(1,will.getCode());
             preparedStatement.executeUpdate();
@@ -256,6 +256,58 @@ public class AgentDBAccess implements AgentDataAccess{
                 cells.add(new Cell(data.getString("name"),data.getString("address"),data.getString("phone_number")));
             }
             return cells;
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public ArrayList<Integer> getAllPersonnalNumbers() throws ConnectionException, AccessException{
+        ArrayList<Integer> personnalNumbers = new ArrayList<>();
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "Select personnal_number From agent;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+            while(data.next()){
+                personnalNumbers.add(data.getInt("personnal_number"));
+            }
+            return personnalNumbers;
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+    @Override
+    public ArrayList<ArrayList<String>> getAllAgentsName() throws ConnectionException, AccessException{
+        ArrayList<ArrayList<String>> agentsNames = new ArrayList<>();
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "Select lastname,firstname From agent;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+            while(data.next()){
+                ArrayList<String> agentNames = new ArrayList<>();
+                agentNames.add(data.getString("lastname"));
+                agentNames.add(data.getString("firstname"));
+                agentsNames.add(agentNames);
+            }
+            return agentsNames;
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+    @Override
+    public ArrayList<Integer> getAllMissionsCode() throws ConnectionException, AccessException{
+        ArrayList<Integer> missionsCode = new ArrayList<>();
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "Select code From mission;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+            while(data.next()){
+                missionsCode.add(data.getInt("code"));
+            }
+            return missionsCode;
         }catch (SQLException sqlException){
             throw  new AccessException(sqlException.getMessage());
         }

@@ -41,8 +41,8 @@ public class Security {
     private static String assembleWord(Character [] characters){
         StringBuilder deCryptWord = new StringBuilder();
         int charactersNb = characters.length;
-        for(int iChar = 0; iChar < charactersNb;iChar++){
-            deCryptWord.append(characters[iChar]);
+        for (Character character : characters) {
+            deCryptWord.append(character);
         }
         return deCryptWord.toString();
     }

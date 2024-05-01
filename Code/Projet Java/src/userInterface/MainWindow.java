@@ -60,13 +60,13 @@ public class MainWindow extends JFrame {
         searchMenu = new JMenu("Recherche");
         searchMenu.setMnemonic('S');
 
-        search1ItemMenu = new JMenuItem("Recherche 1");
+        search1ItemMenu = new JMenuItem("Langues d'une cellule");
         searchMenu.add(search1ItemMenu);
 
-        search2ItemMenu = new JMenuItem("Recherche 2");
+        search2ItemMenu = new JMenuItem("Missions d'un agents");
         searchMenu.add(search2ItemMenu);
 
-        search3ItemMenu = new JMenuItem("Recherche 3");
+        search3ItemMenu = new JMenuItem("Contacts d'une mission");
         searchMenu.add(search3ItemMenu);
 
         menuBar.add(searchMenu);
@@ -89,7 +89,7 @@ public class MainWindow extends JFrame {
         welcomePanel.setLayout(new FlowLayout());
         welcomePanel.setBackground(Color.WHITE);
 
-        welcomeLabel = new JLabel("test");
+        welcomeLabel = new JLabel("<html><h1 text-align : center;\">Bienvenu sur la page d'accueil !</h1><p style=\"font-size: 20px;\" text-align : center;>Merci de nous faire confiance : Jerem et Thoams 😏</p><p style=\"font-size: 16px;\" text-align : center;>Nos agents sont disponibles 24/7 pour vous assister.</p><html>");
 
         welcomePanel.add(welcomeLabel);
 

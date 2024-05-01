@@ -1,12 +1,18 @@
 package userInterface.searchPanels;
 
 import controller.ApplicationController;
+import exception.AccessException;
+import exception.ConnectionException;
+import model.RegularExpression;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class ThirdSearchPanel extends JPanel {
@@ -39,29 +45,53 @@ public class ThirdSearchPanel extends JPanel {
         searchPanel.add(searchButton);
     }
 
+    public Integer getMissionCode() throws ConnectionException, AccessException {
+        String missionCodeText = searchTextField.getText();
+        Pattern pattern = Pattern.compile(RegularExpression.ONLY_NUMBER.toString());
+        Matcher matcher = pattern.matcher(missionCodeText);
+        if(matcher.find()){
+            Integer missionCode = Integer.parseInt(missionCodeText);
+            if(controller.getAllMissionsCode().contains(missionCode)){
+                return missionCode;
+            }
+        }
+        return null;
+    }
+
     private class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
 
             try{
-                model = new AllContactsModel(controller.getContacts(Integer.parseInt(searchTextField.getText())));
-                table = new JTable(model);
+                Integer missionCode = getMissionCode();
+                if(missionCode != null){ // verif que le code existe car chaine vide peut signifer pas de contact !
+                    ArrayList<String> contacts = controller.getContacts(missionCode);
+                    if(contacts.size() > 0){
+                        model = new AllContactsModel(contacts);
+                        table = new JTable(model);
 
-                JScrollPane scrollPane = new JScrollPane(table);
-                ThirdSearchPanel.this.add(scrollPane, BorderLayout.CENTER);
+                        JScrollPane scrollPane = new JScrollPane(table);
+                        ThirdSearchPanel.this.add(scrollPane, BorderLayout.CENTER);
 
-                //Centrer le texte dans les cellules
-                DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
-                custom.setHorizontalAlignment(JLabel.CENTER);
-                for(int i = 0; i < table.getColumnCount(); i++){
-                    table.getColumnModel().getColumn(i).setCellRenderer(custom);
+                        //Centrer le texte dans les cellules
+                        DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
+                        custom.setHorizontalAlignment(JLabel.CENTER);
+                        for(int i = 0; i < table.getColumnCount(); i++){
+                            table.getColumnModel().getColumn(i).setCellRenderer(custom);
+                        }
+                    }else{
+                        // tableau vide => affiché : "Aucun contact" ?
+                    }
+                }else{
+                    // reset le tableau ?...
+                    JOptionPane.showMessageDialog(null, "Le code de mission entrée n'existe pas", "Données incorrecte", JOptionPane.ERROR_MESSAGE);
                 }
 
                 ThirdSearchPanel.this.validate();
                 ThirdSearchPanel.this.repaint();
             }
             catch(Exception exception){
-                JOptionPane.showMessageDialog(null, "Le code de la mission est incorrect !", "Mission inconnue", JOptionPane.ERROR);
+                JOptionPane.showMessageDialog(null, "Une erreur avec la base de donnée est survenue.\nVeuillez nous excuser.", "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

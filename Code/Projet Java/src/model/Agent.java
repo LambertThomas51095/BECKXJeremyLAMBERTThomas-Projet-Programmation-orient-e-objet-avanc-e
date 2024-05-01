@@ -20,8 +20,6 @@ public class Agent {
     private Will editorial;
     private Cell affectation;
 
-    public static final String PHONE_PATTERN_1 = "^\\d{3}/(\\d{2}\\.\\d{2}\\.\\d{2}|\\d{3}\\.\\d{3})$";
-
     public static final String [] POSSIBLE_GENDER = {"M","F","X"};
 
     public Agent(Integer personnalNumber, String lastname, String firstname, LocalDate birthdate, String phoneNumber, String gender, Boolean isAlone, String pseudonym, Will editorial, Cell affectation) throws AgentException{
@@ -74,9 +72,9 @@ public class Agent {
         }
     }
     public void setPhoneNumber(String phoneNumber) throws AgentException {
-        Pattern pattern1 = Pattern.compile(PHONE_PATTERN_1);
-        Matcher matcher1 = pattern1.matcher(phoneNumber);
-        if(matcher1.find()){
+        Pattern pattern = Pattern.compile(RegularExpression.PHONE_NUMBER.toString());
+        Matcher matcher = pattern.matcher(phoneNumber);
+        if(matcher.find()){
             this.phoneNumber = phoneNumber;
         }else{
             throw new AgentException("Vous avez un entré un autre format de téléphone que ceux demandés :\n"+phoneNumber);
