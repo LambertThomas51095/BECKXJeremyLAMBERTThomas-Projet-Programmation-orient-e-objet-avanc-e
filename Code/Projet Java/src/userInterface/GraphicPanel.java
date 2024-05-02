@@ -21,7 +21,7 @@ public class GraphicPanel extends JPanel {
         for(int iLine = 0; iLine < ROWS_NB; iLine++){
             for(int iCol = 0;iCol < COLS_NB;iCol++){
                 JLabel label = new JLabel(randomNumber().toString());
-                label.setForeground(Color.getHSBColor(120, 86, 58));
+                label.setForeground(new Color(20,148,20));
                 add(label);
             }
         }
