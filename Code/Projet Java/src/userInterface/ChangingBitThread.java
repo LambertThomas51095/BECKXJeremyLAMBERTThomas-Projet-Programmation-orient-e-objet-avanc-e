@@ -17,7 +17,7 @@ public class ChangingBitThread extends Thread{
                 for(int iLine = 0; iLine < GraphicPanel.ROWS_NB; iLine++){
                     for(int iCol = 0;iCol < GraphicPanel.COLS_NB;iCol++){
                         JLabel label = (JLabel)graphicPanel.getComponent(iLine*GraphicPanel.COLS_NB+iCol);
-                        label.setText(graphicPanel.randomNumber().toString());
+                        label.setText(graphicPanel.randomCharacter());
                     }
                 }
                 sleep(30);
