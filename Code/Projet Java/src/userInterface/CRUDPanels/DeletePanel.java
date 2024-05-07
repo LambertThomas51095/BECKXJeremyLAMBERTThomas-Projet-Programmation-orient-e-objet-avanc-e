@@ -108,7 +108,7 @@ public class DeletePanel extends JPanel {
                     lastNameInformation.setText(agent.getLastname());
                     firstNameInformation.setText(agent.getFirstname());
                     firstNameInformation.setText(agent.getFirstname());
-                    birthdateInformation.setText(agent.getBirthdate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                    birthdateInformation.setText(agent.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                     gsmInformation.setText(agent.getPhoneNumber());
                     genderInformation.setText(agent.getGender());
                     if(agent.getIsAlone()){

@@ -61,7 +61,7 @@ public class CreatePanel extends JPanel {
                     String [] values = ((ProfilPanel) creationPanels).getResult();
 
                     try{
-                        agent = new Agent(values[0],values[1],LocalDate.parse(values[2], DateTimeFormatter.ofPattern("yyyy-MM-dd")),values[3],values[4],values[6]);
+                        agent = new Agent(values[0],values[1],LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")),values[3],values[4],values[6]);
                         if(values[5] == "Célibataire"){
                             agent.setAlone(true);
                         }
@@ -73,12 +73,6 @@ public class CreatePanel extends JPanel {
                         creationPanels = new WillPanel();
                         CreatePanel.this.add(creationPanels, BorderLayout.CENTER);
                     }catch(Exception exception){
-                        // reset  ?
-                        CreatePanel.this.remove(creationPanels);
-                        creationPanels = new ProfilPanel();
-                        CreatePanel.this.add(creationPanels, BorderLayout.CENTER);
-                        creationButton.setText("Suivant");
-
                         System.out.println(exception.getMessage());
                     }
                     CreatePanel.this.validate();
