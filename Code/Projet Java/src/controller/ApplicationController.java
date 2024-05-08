@@ -37,7 +37,7 @@ public class ApplicationController {
         manager.deleteWill(will);
     }
 
-    public ArrayList<Cell> getAllCells() throws ConnectionException, AccessException{
+    public ArrayList<Cell> getAllCells( ) throws ConnectionException, AccessException{
         return manager.getAllCells();
     }
 
