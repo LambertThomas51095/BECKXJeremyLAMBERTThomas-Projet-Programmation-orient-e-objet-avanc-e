@@ -60,14 +60,15 @@ public class AgentManager {
         if(agent.getPseudonym() != null){
             agent.setPseudonym(Security.cryptingMethod(agent.getPseudonym()));
         }
-        dao.modifyAgent(agent);
         if(agent.getEditorial() != null){
             if(agent.getEditorial().getCode() != null){
                 dao.modifyWill(agent.getEditorial());
             }else{
                 dao.addWill(agent.getEditorial());
+                agent.getEditorial().setCode(dao.getLastIncrementId());
             }
         }
+        dao.modifyAgent(agent);
     }
     public void deleteAgent(Agent agent) throws ConnectionException, AccessException{
         dao.deleteAgent(agent);

@@ -20,7 +20,7 @@ public class ChangingBitThread extends Thread{
                         label.setText(graphicPanel.randomCharacter());
                     }
                 }
-                sleep(10);
+                sleep(30);
             }catch(Exception e){
                 System.out.println(e.getMessage());
             }

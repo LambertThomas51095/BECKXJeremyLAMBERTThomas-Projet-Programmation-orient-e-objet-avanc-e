@@ -48,15 +48,12 @@ public class WillPanel extends JPanel implements EditPanel {
 
     public String getFuneralType(){
         if(will == null){
-            System.out.println("test3");
             return "Ne pas enregistrer";
         }
         else if(!will.getFuneralsType().equals("Inhumation") && !will.getFuneralsType().equals("Crémation")){
-            System.out.println("test2");
             return "Autres";
         }
         else{
-            System.out.println("test1");
             return will.getFuneralsType();
         }
     }
