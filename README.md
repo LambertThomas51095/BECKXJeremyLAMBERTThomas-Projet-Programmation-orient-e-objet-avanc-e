@@ -8,10 +8,3 @@ Si il y a un soucis lors de la création d'un agent, mais que le programme sait 
 
 
 Recheck aussi chacune des classes au cas ou mais on a un peu de time (je ferai ca dans la semaine chill)
-
---
-
-
-Reset les tableaux ou les mettre à vide si données entrées éronnées ou que pas de données à montrer (voir commentaire recherche 2 et 3)
-
-Discussion de si auto_increment partout (mais je crois pas)  
