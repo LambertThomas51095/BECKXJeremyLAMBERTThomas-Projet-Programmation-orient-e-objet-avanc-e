@@ -33,6 +33,7 @@ CREATE TABLE agent (
     CONSTRAINT agent_personnal_Number_pk primary key(personnal_Number),
     CONSTRAINT editorial_fk foreign key(editorial) references will(code),
     CONSTRAINT affectation_fk foreign key(affectation) references cell(name),
+    CONSTRAINT lastname_firstname_uk UNIQUE(lastname, firstname),
     CONSTRAINT gsm_uk UNIQUE (gsm),
     CONSTRAINT pseudonym_uk UNIQUE (pseudonym),
     CONSTRAINT editorial_uk UNIQUE (editorial),
