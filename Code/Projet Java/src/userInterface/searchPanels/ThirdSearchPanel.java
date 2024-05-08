@@ -64,12 +64,15 @@ public class ThirdSearchPanel extends JPanel {
 
             try{
                 Integer missionCode = getMissionCode();
-                if(missionCode != null){ // verif que le code existe car chaine vide peut signifer pas de contact !
+                if(missionCode != null){
                     ArrayList<String> contacts = controller.getContacts(missionCode);
                     if(contacts.size() > 0){
                         model = new AllContactsModel(contacts);
                         table = new JTable(model);
 
+                        if(ThirdSearchPanel.this.getComponentCount() == 2){
+                            ThirdSearchPanel.this.remove(1);
+                        }
                         JScrollPane scrollPane = new JScrollPane(table);
                         ThirdSearchPanel.this.add(scrollPane, BorderLayout.CENTER);
 
@@ -80,10 +83,15 @@ public class ThirdSearchPanel extends JPanel {
                             table.getColumnModel().getColumn(i).setCellRenderer(custom);
                         }
                     }else{
-                        // tableau vide => affiché : "Aucun contact" ?
+                        if(ThirdSearchPanel.this.getComponentCount() == 2){
+                            ThirdSearchPanel.this.remove(1);
+                        }
+                        JOptionPane.showMessageDialog(null, "Aucun contact n'est attribuée à cet mission", "Aucun contact attribué", JOptionPane.ERROR_MESSAGE);
                     }
                 }else{
-                    // reset le tableau ?...
+                    if(ThirdSearchPanel.this.getComponentCount() == 2){
+                        ThirdSearchPanel.this.remove(1);
+                    }
                     JOptionPane.showMessageDialog(null, "Le code de mission entrée n'existe pas", "Données incorrecte", JOptionPane.ERROR_MESSAGE);
                 }
 

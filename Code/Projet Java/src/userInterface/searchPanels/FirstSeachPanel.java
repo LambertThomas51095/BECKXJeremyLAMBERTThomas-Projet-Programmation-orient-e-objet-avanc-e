@@ -90,7 +90,9 @@ public class FirstSeachPanel extends JPanel {
                 if(date != null && cellName != null){
                     model = new AllAgentsLanguagesModel(controller.getAgentsLanguages(cellName, date));
                     table = new JTable(model);
-
+                    if(FirstSeachPanel.this.getComponentCount() == 2){
+                        FirstSeachPanel.this.remove(1);
+                    }
                     JScrollPane scrollPane = new JScrollPane(table);
                     FirstSeachPanel.this.add(scrollPane, BorderLayout.CENTER);
 
@@ -101,7 +103,9 @@ public class FirstSeachPanel extends JPanel {
                         table.getColumnModel().getColumn(i).setCellRenderer(custom);
                     }
                 }else{
-                    // reset tableau ?
+                    if(FirstSeachPanel.this.getComponentCount() == 2){
+                        FirstSeachPanel.this.remove(1);
+                    }
                     JOptionPane.showMessageDialog(null, "Une ou plusieurs données entrées sont éronnées !", "Données incorrecte", JOptionPane.ERROR_MESSAGE);
                 }
 

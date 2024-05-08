@@ -102,6 +102,9 @@ public class SecondSearchPanel extends JPanel {
                         model = new AllAgentMissionsModel(agentMissions);
                         table = new JTable(model);
 
+                        if(SecondSearchPanel.this.getComponentCount() == 2){
+                            SecondSearchPanel.this.remove(1);
+                        }
                         JScrollPane scrollPane = new JScrollPane(table);
                         SecondSearchPanel.this.add(scrollPane, BorderLayout.CENTER);
 
@@ -112,9 +115,15 @@ public class SecondSearchPanel extends JPanel {
                             table.getColumnModel().getColumn(i).setCellRenderer(custom);
                         }
                     }else{
-                        // reset le tableau si possible ?... => cas où un agent n'a pas de mission
+                        if(SecondSearchPanel.this.getComponentCount() == 2){
+                            SecondSearchPanel.this.remove(1);
+                        }
+                        JOptionPane.showMessageDialog(null, "Aucune mission n'est attribuée à cet agent", "Aucunne mission attribuée", JOptionPane.ERROR_MESSAGE);
                     }
                 }else{
+                    if(SecondSearchPanel.this.getComponentCount() == 2){
+                        SecondSearchPanel.this.remove(1);
+                    }
                     JOptionPane.showMessageDialog(null, "Au moins une des données entrées est incorrectes !\n(Veuillez privilégier le matricule)", "Données incorrecte", JOptionPane.ERROR_MESSAGE);
                 }
 
