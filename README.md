@@ -8,3 +8,4 @@ Si il y a un soucis lors de la création d'un agent, mais que le programme sait 
 
 
 Recheck aussi chacune des classes au cas ou mais on a un peu de time (je ferai ca dans la semaine chill)
+
