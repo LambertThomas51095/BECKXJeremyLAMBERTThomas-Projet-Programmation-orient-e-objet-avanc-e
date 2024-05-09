@@ -34,7 +34,7 @@ public class AgentManager {
         dao.addAgent(agent);
         return agent.getPersonnalNumber();
     }
-    public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException {
+    public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException, WillException {
         Agent agent = dao.getAgent(personnalNumber);
         agent.setFirstname(Security.decryptingMethod(agent.getFirstname()));
         agent.setLastname(Security.decryptingMethod(agent.getLastname()));
@@ -43,7 +43,7 @@ public class AgentManager {
         }
         return agent;
     }
-    public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException{
+    public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException, WillException{
         ArrayList<Agent> agents = dao.getAllAgents();
         for(Agent agent : agents){
             agent.setFirstname(Security.decryptingMethod(agent.getFirstname()));

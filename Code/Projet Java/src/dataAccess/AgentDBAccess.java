@@ -69,7 +69,7 @@ public class AgentDBAccess implements AgentDataAccess{
 
     }
     @Override
-    public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException{
+    public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException, WillException{
         ArrayList<Cell> cells = getAllCells();
         try{
             Connection connection = SingletonConnection.getInstance();
@@ -98,7 +98,7 @@ public class AgentDBAccess implements AgentDataAccess{
         }
     }
     @Override
-    public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException{
+    public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException, WillException{
         ArrayList<Agent> agents = new ArrayList<>();
         ArrayList<Cell> cells = getAllCells();
         try{

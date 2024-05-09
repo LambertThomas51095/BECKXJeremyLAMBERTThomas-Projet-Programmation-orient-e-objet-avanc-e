@@ -12,14 +12,14 @@ public interface AgentDataAccess {
     int getLastIncrementId() throws ConnectionException, AccessException;
 
     void addAgent(Agent agent) throws ConnectionException, AccessException;
-    Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException;
-    ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException;
+    Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException, WillException;
+    ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException, WillException;
     void modifyAgent(Agent agent) throws ConnectionException, AccessException;
     void deleteAgent(Agent agent) throws ConnectionException, AccessException;
 
 
     void addWill(Will will) throws ConnectionException, AccessException;
-    Will getWill(Integer code) throws ConnectionException, AccessException;
+    Will getWill(Integer code) throws ConnectionException, AccessException, WillException;
     void modifyWill(Will will) throws ConnectionException, AccessException;
     void deleteWill(Will will) throws ConnectionException, AccessException;
 

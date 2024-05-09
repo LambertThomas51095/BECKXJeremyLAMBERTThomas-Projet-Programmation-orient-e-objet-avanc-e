@@ -20,10 +20,10 @@ public class ApplicationController {
     public int addAgent(Agent agent) throws ConnectionException, AccessException, AgentException {
         return manager.addAgent(agent);
     }
-    public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException{
+    public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException, WillException{
         return manager.getAgent(personnalNumber);
     }
-    public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException{
+    public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException, WillException{
         return manager.getAllAgents();
     }
     public void modifyAgent(Agent agent) throws ConnectionException, AccessException, AgentException{
