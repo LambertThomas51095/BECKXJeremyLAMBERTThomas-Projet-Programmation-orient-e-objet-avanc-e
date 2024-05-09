@@ -80,12 +80,15 @@ public class CreatePanel extends JPanel {
 
                     try{
                         String [] values = ((WillPanel) creationPanels).getResult();
+
                         if(!values[0].equals("Ne pas enregistrer")){
                             will = new Will(values[1]);
                            if(!values[0].equals("autres")){
                                 will.setFuneralsType(values[0]);
+                               System.out.println(values[2]);
                            }
                            else{
+                               System.out.println(values[2]);
                               will.setFuneralsType(values[2]);
                            }
                             agent.setEditorial(will);

@@ -2,6 +2,9 @@ package model;
 
 import exception.*;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Will {
     private Integer code;
     private String epitaph;
@@ -32,16 +35,28 @@ public class Will {
         this.code = code;
     }
     public void setFuneralsType(String funeralsType) throws WillException{
-        if(funeralsType.length() <= FUNERALS_TYPE_LENGTH){
-            this.funeralsType = funeralsType;
+        if(funeralsType != null && funeralsType.length() <= FUNERALS_TYPE_LENGTH) {
+            Pattern pattern = Pattern.compile(RegularExpression.NO_SPACE_PATTERN.toString());
+            Matcher matcher = pattern.matcher(funeralsType);
+            if (!matcher.find()) {
+                this.funeralsType = funeralsType;
+            } else {
+                throw new WillException("Vous devez entrer obligatoirement un type de funérail !");
+            }
         }
-        else{
+        else if(funeralsType != null){
             throw new WillException("Le type de funérail entré est trop long !\nMaximum " + FUNERALS_TYPE_LENGTH + " charactères");
         }
     }
     public void setEpitaph(String epitaph) throws WillException{
         if(epitaph.length() <= EPITAPH_LENGTH){
-            this.epitaph = epitaph;
+            Pattern pattern = Pattern.compile(RegularExpression.NO_SPACE_PATTERN.toString());
+            Matcher matcher = pattern.matcher(epitaph);
+            if(!matcher.find()){
+                this.epitaph = epitaph;
+            }else{
+                throw new WillException("Vous devez entrer obligatoirement un épitaphe !");
+            }
         }
         else{
             throw new WillException("L'épitaph entré est trop long !\nMaximum " + EPITAPH_LENGTH + " charactères");

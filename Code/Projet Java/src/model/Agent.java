@@ -65,7 +65,13 @@ public class Agent {
     }
     public void setLastname(String lastname) throws AgentException {
         if(lastname.length() <= LAST_NAME_LENGTH){
-            this.lastname = lastname;
+            Pattern pattern = Pattern.compile(RegularExpression.NO_SPACE_PATTERN.toString());
+            Matcher matcher = pattern.matcher(lastname);
+            if(!matcher.find()){
+                this.lastname = lastname;
+            }else{
+                throw new AgentException("Vous devez entrer obligatoirement un nom !");
+            }
         }
         else{
             throw new AgentException("Le nom entré est trop long !\nMaximum " + LAST_NAME_LENGTH + " charactères");
@@ -73,7 +79,13 @@ public class Agent {
     }
     public void setFirstname(String firstname) throws AgentException{
         if(firstname.length() <= FIRST_NAME_LENGTH){
-            this.firstname = firstname;
+            Pattern pattern = Pattern.compile(RegularExpression.NO_SPACE_PATTERN.toString());
+            Matcher matcher = pattern.matcher(firstname);
+            if(!matcher.find()){
+                this.firstname = firstname;
+            }else{
+                throw new AgentException("Vous devez entrer obligatoirement un prénom !");
+            }
         }
         else{
             throw new AgentException("Le prénom entré est trop long !\nMaximum " + FIRST_NAME_LENGTH + " charactères");
@@ -118,7 +130,7 @@ public class Agent {
         isAlone = alone;
     }
     public void setPseudonym(String pseudonym) throws AgentException{
-        if(pseudonym.length() <= PSEUDONYM_LENGTH){
+        if(pseudonym == null || pseudonym.length() <= PSEUDONYM_LENGTH){
             this.pseudonym = pseudonym;
         }
         else{

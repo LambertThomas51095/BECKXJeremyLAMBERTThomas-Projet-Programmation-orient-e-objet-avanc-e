@@ -1,6 +1,7 @@
 package userInterface.CRUDPanels.CreationPanels;
 
 import exception.*;
+import model.RegularExpression;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +14,6 @@ public class ProfilPanel extends JPanel implements CreationPanel{
     private JComboBox genderComboBox;
     private JRadioButton isAloneRadioButton, isMarriedRadioButton;
     private ButtonGroup isAloneRadioButtonGroup;
-
-    public static final String NO_SPACE_PATTERN = "^ *$";
 
     public ProfilPanel(){
         this.setLayout(new GridLayout(7, 2));
@@ -90,7 +89,7 @@ public class ProfilPanel extends JPanel implements CreationPanel{
 
     public String getPseudonym() {
         String pseudonym = pseudonymTextField.getText();
-        Pattern pattern = Pattern.compile(NO_SPACE_PATTERN);
+        Pattern pattern = Pattern.compile(RegularExpression.NO_SPACE_PATTERN.toString());
         Matcher matcher = pattern.matcher(pseudonym);
         if(matcher.find()){
             return null;
@@ -99,7 +98,7 @@ public class ProfilPanel extends JPanel implements CreationPanel{
         }
     }
 
-    public String[] getResult(){
+    public String[] getResult() throws AgentException{
         String [] values = {lastNameTextField.getText(), firstNameTextField.getText(), birthdateTextField.getText(), gsmTextField.getText(), getGender(), isAlone(), getPseudonym()};
         return values;
     }
