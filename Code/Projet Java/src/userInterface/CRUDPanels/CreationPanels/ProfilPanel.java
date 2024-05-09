@@ -1,5 +1,7 @@
 package userInterface.CRUDPanels.CreationPanels;
 
+import exception.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.regex.Matcher;
@@ -65,7 +67,7 @@ public class ProfilPanel extends JPanel implements CreationPanel{
         this.add(pseudonymTextField);
     }
 
-    public String isAlone(){
+    public String isAlone() throws AgentException{
         if(isAloneRadioButton.isSelected()){
             return isAloneRadioButton.getText();
         }
@@ -73,7 +75,7 @@ public class ProfilPanel extends JPanel implements CreationPanel{
             return isMarriedRadioButton.getText();
         }
         else{
-            return null;
+            throw new AgentException("Vous devez sélectionner un statut !");
         }
     }
 

@@ -56,9 +56,9 @@ public class CreatePanel extends JPanel {
             else if(e.getSource() == creationButton){
                 if(creationPanels instanceof ProfilPanel){
 
-                    String [] values = ((ProfilPanel) creationPanels).getResult();
-
                     try{
+
+                        String [] values = ((ProfilPanel) creationPanels).getResult();
                         agent = new Agent(values[0],values[1],LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")),values[3],values[4],values[6]);
                         if(values[5] == "Célibataire"){
                             agent.setAlone(true);
