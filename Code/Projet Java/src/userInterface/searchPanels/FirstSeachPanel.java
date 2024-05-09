@@ -106,14 +106,14 @@ public class FirstSeachPanel extends JPanel {
                     if(FirstSeachPanel.this.getComponentCount() == 2){
                         FirstSeachPanel.this.remove(1);
                     }
-                    JOptionPane.showMessageDialog(null, "Une ou plusieurs données entrées sont éronnées !", "Données incorrecte", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Une ou plusieurs données entrées sont érronées !", "Données incorrectes", JOptionPane.ERROR_MESSAGE);
                 }
 
                 FirstSeachPanel.this.validate();
                 FirstSeachPanel.this.repaint();
             }
             catch(Exception exception){
-                JOptionPane.showMessageDialog(null, "Une erreur avec la base de donnée est survenue.\nVeuillez nous excuser.", "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Une erreur avec la base de donnée est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

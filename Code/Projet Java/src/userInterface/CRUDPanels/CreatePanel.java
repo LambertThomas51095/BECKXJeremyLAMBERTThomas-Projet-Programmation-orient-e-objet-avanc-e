@@ -50,8 +50,6 @@ public class CreatePanel extends JPanel {
                 creationPanels = new ProfilPanel();
                 CreatePanel.this.add(creationPanels, BorderLayout.CENTER);
 
-                creationButton.setText("Suivant");
-
                 CreatePanel.this.validate();
                 CreatePanel.this.repaint();
             }
@@ -73,30 +71,31 @@ public class CreatePanel extends JPanel {
                         creationPanels = new WillPanel();
                         CreatePanel.this.add(creationPanels, BorderLayout.CENTER);
                     }catch(Exception exception){
-                        System.out.println(exception.getMessage());
+                        JOptionPane.showMessageDialog(null, "Une erreur est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                     }
                     CreatePanel.this.validate();
                     CreatePanel.this.repaint();
                 }
                 else if(creationPanels instanceof WillPanel){
 
-                    String [] values = ((WillPanel) creationPanels).getResult();
-                    if(!values[0].equals("Ne pas enregistrer")){
-                        will = new Will(values[1]);
-                        if(!values[0].equals("autres")){
-                            will.setFuneralsType(values[0]);
+                    try{
+                        String [] values = ((WillPanel) creationPanels).getResult();
+                        if(!values[0].equals("Ne pas enregistrer")){
+                            will = new Will(values[1]);
+                           if(!values[0].equals("autres")){
+                                will.setFuneralsType(values[0]);
+                           }
+                           else{
+                              will.setFuneralsType(values[2]);
+                           }
+                            agent.setEditorial(will);
                         }
                         else{
-                            will.setFuneralsType(values[2]);
+                            agent.setEditorial(null);
                         }
-                        agent.setEditorial(will);
-                    }
-                    else{
-                        agent.setEditorial(null);
-                    }
 
-                    CreatePanel.this.remove(creationPanels);
-                    try{
+                        CreatePanel.this.remove(creationPanels);
+
                         creationPanels = new CellPanel(controller.getAllCells());
                         CreatePanel.this.add(creationPanels, BorderLayout.CENTER);
 
@@ -105,8 +104,7 @@ public class CreatePanel extends JPanel {
                         CreatePanel.this.validate();
                         CreatePanel.this.repaint();
                     }catch(Exception exception){
-                        // gérer exception
-                        JOptionPane.showMessageDialog(null, exception.getMessage());
+                        JOptionPane.showMessageDialog(null, "Une erreur est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                     }
 
                 }
@@ -133,7 +131,7 @@ public class CreatePanel extends JPanel {
                         CreatePanel.this.validate();
                         CreatePanel.this.repaint();
                     }catch(Exception exception){
-                        System.out.println(exception.getMessage());
+                        JOptionPane.showMessageDialog(null, "Une erreur est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                     }
 
                 }

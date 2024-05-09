@@ -118,21 +118,20 @@ public class SecondSearchPanel extends JPanel {
                         if(SecondSearchPanel.this.getComponentCount() == 2){
                             SecondSearchPanel.this.remove(1);
                         }
-                        JOptionPane.showMessageDialog(null, "Aucune mission n'est attribuée à cet agent", "Aucunne mission attribuée", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Aucune mission n'est attribuée à cet agent", "Aucune mission attribuée", JOptionPane.ERROR_MESSAGE);
                     }
                 }else{
                     if(SecondSearchPanel.this.getComponentCount() == 2){
                         SecondSearchPanel.this.remove(1);
                     }
-                    JOptionPane.showMessageDialog(null, "Au moins une des données entrées est incorrectes !\n(Veuillez privilégier le matricule)", "Données incorrecte", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Au moins une des données entrées est incorrecte !\n(Veuillez privilégier le matricule)", "Données incorrectes", JOptionPane.ERROR_MESSAGE);
                 }
 
                 SecondSearchPanel.this.validate();
                 SecondSearchPanel.this.repaint();
             }
             catch(Exception exception){
-                JOptionPane.showMessageDialog(null, "Une erreur avec la base de donnée est survenue.\nVeuillez nous excuser.", "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
-                System.out.println(exception.getMessage());
+                JOptionPane.showMessageDialog(null, "Une erreur avec la base de donnée est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

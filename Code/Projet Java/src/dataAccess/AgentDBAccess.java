@@ -69,7 +69,7 @@ public class AgentDBAccess implements AgentDataAccess{
 
     }
     @Override
-    public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException {
+    public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException{
         ArrayList<Cell> cells = getAllCells();
         try{
             Connection connection = SingletonConnection.getInstance();
@@ -202,7 +202,7 @@ public class AgentDBAccess implements AgentDataAccess{
 
     }
     @Override
-    public Will getWill(Integer code) throws ConnectionException, AccessException{
+    public Will getWill(Integer code) throws ConnectionException, AccessException, WillException{
         try{
             Connection connection = SingletonConnection.getInstance();
             String sqlInstruction = "Select * From will Where code = ?;";

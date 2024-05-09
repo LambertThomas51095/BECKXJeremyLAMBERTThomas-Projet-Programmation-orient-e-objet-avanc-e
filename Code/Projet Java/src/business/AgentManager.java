@@ -20,7 +20,7 @@ public class AgentManager {
         this.dao = dao;
     }
 
-    public int addAgent(Agent agent) throws ConnectionException, AccessException{
+    public int addAgent(Agent agent) throws ConnectionException, AccessException, AgentException{
         if(agent.getEditorial() != null){
             dao.addWill(agent.getEditorial());
             Integer willCode = dao.getLastIncrementId();
@@ -54,7 +54,7 @@ public class AgentManager {
         }
         return agents;
     }
-    public void modifyAgent(Agent agent) throws ConnectionException, AccessException{
+    public void modifyAgent(Agent agent) throws ConnectionException, AccessException, AgentException{
         agent.setLastname(Security.cryptingMethod(agent.getLastname()));
         agent.setFirstname(Security.cryptingMethod(agent.getFirstname()));
         if(agent.getPseudonym() != null){

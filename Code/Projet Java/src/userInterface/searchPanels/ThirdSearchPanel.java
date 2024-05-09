@@ -86,20 +86,20 @@ public class ThirdSearchPanel extends JPanel {
                         if(ThirdSearchPanel.this.getComponentCount() == 2){
                             ThirdSearchPanel.this.remove(1);
                         }
-                        JOptionPane.showMessageDialog(null, "Aucun contact n'est attribuée à cet mission", "Aucun contact attribué", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Aucun contact n'est attribué à cette mission", "Aucun contact attribué", JOptionPane.ERROR_MESSAGE);
                     }
                 }else{
                     if(ThirdSearchPanel.this.getComponentCount() == 2){
                         ThirdSearchPanel.this.remove(1);
                     }
-                    JOptionPane.showMessageDialog(null, "Le code de mission entrée n'existe pas", "Données incorrecte", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Le code de mission entrée n'existe pas", "Donnée incorrecte", JOptionPane.ERROR_MESSAGE);
                 }
 
                 ThirdSearchPanel.this.validate();
                 ThirdSearchPanel.this.repaint();
             }
             catch(Exception exception){
-                JOptionPane.showMessageDialog(null, "Une erreur avec la base de donnée est survenue.\nVeuillez nous excuser.", "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Une erreur avec la base de donnée est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

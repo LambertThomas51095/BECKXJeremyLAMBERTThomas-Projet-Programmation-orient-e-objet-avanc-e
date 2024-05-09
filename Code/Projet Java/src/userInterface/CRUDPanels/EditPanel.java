@@ -75,12 +75,10 @@ public class EditPanel extends JPanel {
                     editPanels = new ProfilPanel(agent);
                     EditPanel.this.add(editPanels, BorderLayout.CENTER);
 
-                    editButton.setText("Suivant");
-
                     EditPanel.this.validate();
                     EditPanel.this.repaint();
                 }catch (Exception exception){
-                    System.out.println("Problème survenu : \n" + exception.getMessage());
+                    JOptionPane.showMessageDialog(null, "Une erreur est survenue lors de la recherche de l'agent.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }
             else if(e.getSource() == resetButton){
@@ -95,10 +93,10 @@ public class EditPanel extends JPanel {
             }
             else if(e.getSource() == editButton){
                 if(editPanels instanceof ProfilPanel){
+                    try{
 
                     String [] values = ((ProfilPanel) editPanels).getResult();
 
-                    try{
                         agent.setLastname(values[0]);
                         agent.setFirstname(values[1]);
                         agent.setBirthdate(LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")));
@@ -117,33 +115,33 @@ public class EditPanel extends JPanel {
                         editPanels = new WillPanel(tempWill);
                         EditPanel.this.add(editPanels, BorderLayout.CENTER);
                     }catch(Exception exception){
-                        System.out.println(exception.getMessage());
+                        JOptionPane.showMessageDialog(null, "Une erreur est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                     }
                     EditPanel.this.validate();
                     EditPanel.this.repaint();
                 }
                 else if(editPanels instanceof WillPanel){
-
-                    String [] values = ((WillPanel) editPanels).getResult();
-                    if(!values[0].equals("Ne pas enregistrer")){
-                        will = new Will(values[1]);
-                        if(!values[0].equals("autres")){
-                            will.setFuneralsType(values[0]);
+                    try{
+                        String [] values = ((WillPanel) editPanels).getResult();
+                        if(!values[0].equals("Ne pas enregistrer")){
+                            will = new Will(values[1]);
+                            if(!values[0].equals("autres")){
+                               will.setFuneralsType(values[0]);
+                            }
+                            else{
+                                will.setFuneralsType(values[2]);
+                            }
+                            agent.setEditorial(will);
                         }
                         else{
-                            will.setFuneralsType(values[2]);
+                            if (agent.getEditorial() != null) {
+                                destroyWill = true;
+                            }
+                            agent.setEditorial(null);
                         }
-                        agent.setEditorial(will);
-                    }
-                    else{
-                        if (agent.getEditorial() != null) {
-                            destroyWill = true;
-                        }
-                        agent.setEditorial(null);
-                    }
 
-                    EditPanel.this.remove(editPanels);
-                    try{
+                        EditPanel.this.remove(editPanels);
+
                         editPanels = new CellPanel(controller.getAllCells(), agent.getAffectation());
                         EditPanel.this.add(editPanels, BorderLayout.CENTER);
 
@@ -152,7 +150,7 @@ public class EditPanel extends JPanel {
                         EditPanel.this.validate();
                         EditPanel.this.repaint();
                     }catch(Exception exception){
-                        JOptionPane.showMessageDialog(null, exception.getMessage());
+                        JOptionPane.showMessageDialog(null, "Une erreur est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                     }
 
                 }
@@ -185,10 +183,10 @@ public class EditPanel extends JPanel {
                             }
                         }
                         catch(Exception exception){
-                            JOptionPane.showMessageDialog(null, exception.getMessage());
+                            JOptionPane.showMessageDialog(null, "Une erreur est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                         }
                     }catch(Exception exception){
-                        System.out.println(exception.getMessage());
+                        JOptionPane.showMessageDialog(null, "Une erreur est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                     }
 
                 }

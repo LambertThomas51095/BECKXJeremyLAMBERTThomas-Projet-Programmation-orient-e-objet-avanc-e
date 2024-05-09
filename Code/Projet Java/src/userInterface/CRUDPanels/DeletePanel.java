@@ -119,7 +119,7 @@ public class DeletePanel extends JPanel {
                     }
                     pseudonymInformation.setText(agent.getPseudonym());
                 }catch (Exception exception){
-                    System.out.println("Problème survenu : \n" + exception.getMessage());
+                    JOptionPane.showMessageDialog(null, "Une erreur est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }
             else {
@@ -128,7 +128,6 @@ public class DeletePanel extends JPanel {
                 }
                 else{
                     if(JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer l'agent suivant ? : " + agent.getLastname() + " " + agent.getFirstname()) == JOptionPane.YES_OPTION){
-                        System.out.println(agent);
                         try{
                             controller.deleteAgent(agent);
                             searchTextField.setText("");
@@ -141,7 +140,7 @@ public class DeletePanel extends JPanel {
                             pseudonymInformation.setText("");
                             JOptionPane.showMessageDialog(null, "Agent supprimé avec succès !", "Suppression", JOptionPane.INFORMATION_MESSAGE);
                         }catch(Exception exception){
-                            JOptionPane.showMessageDialog(null, "L'agent n'a pas été surpprimé, une erreur est survenue !", "Suppression", JOptionPane.ERROR);
+                            JOptionPane.showMessageDialog(null, "L'agent n'a pas été supprimé, une erreur est survenue !\n Erreur : " + exception.getMessage(), "Suppression", JOptionPane.ERROR);
                         }
 
                     }

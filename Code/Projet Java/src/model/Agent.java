@@ -11,12 +11,17 @@ import java.util.regex.Pattern;
 public class Agent {
     private Integer personnalNumber;
     private String lastname;
+    private static Integer LAST_NAME_LENGTH = 25;
     private String firstname;
+    private static Integer FIRST_NAME_LENGTH = 20;
     private LocalDate birthdate;
     private String phoneNumber;
+    private static Integer PHONE_NUMBER_LENGTH = 13;
     private String gender;
+    private static Integer GENDER_LENGTH = 1;
     private Boolean isAlone;
     private String pseudonym;
+    private static Integer PSEUDONYM_LENGTH = 25;
     private Will editorial;
     private Cell affectation;
 
@@ -58,11 +63,21 @@ public class Agent {
     public void setPersonnalNumber(Integer personnalNumber) {
         this.personnalNumber = personnalNumber;
     }
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastname(String lastname) throws AgentException {
+        if(lastname.length() <= LAST_NAME_LENGTH){
+            this.lastname = lastname;
+        }
+        else{
+            throw new AgentException("Le nom entré est trop long !\nMaximum " + LAST_NAME_LENGTH + " charactères");
+        }
     }
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstname(String firstname) throws AgentException{
+        if(firstname.length() <= FIRST_NAME_LENGTH){
+            this.firstname = firstname;
+        }
+        else{
+            throw new AgentException("Le prénom entré est trop long !\nMaximum " + FIRST_NAME_LENGTH + " charactères");
+        }
     }
     public void setBirthdate(LocalDate birthdate) throws AgentException {
         if(LocalDate.now().isAfter(birthdate) || birthdate.isEqual(LocalDate.now())) {
@@ -72,27 +87,43 @@ public class Agent {
         }
     }
     public void setPhoneNumber(String phoneNumber) throws AgentException {
-        Pattern pattern = Pattern.compile(RegularExpression.PHONE_NUMBER.toString());
-        Matcher matcher = pattern.matcher(phoneNumber);
-        if(matcher.find()){
-            this.phoneNumber = phoneNumber;
-        }else{
-            throw new AgentException("Vous avez un entré un autre format de téléphone que ceux demandés :\n"+phoneNumber);
+        if(phoneNumber.length() <= PHONE_NUMBER_LENGTH){
+            Pattern pattern = Pattern.compile(RegularExpression.PHONE_NUMBER.toString());
+            Matcher matcher = pattern.matcher(phoneNumber);
+            if(matcher.find()){
+                this.phoneNumber = phoneNumber;
+            }else{
+                throw new AgentException("Vous avez un entré un autre format de téléphone que ceux demandés :\n"+phoneNumber);
+            }
+        }
+        else{
+            throw new AgentException("Le numéro de téléphone entré est trop long !\nMaximum " + PHONE_NUMBER_LENGTH + " charactères");
         }
     }
     public void setGender(String gender) throws AgentException{
-        gender = gender.toUpperCase();
-        if(getPossibleGender().contains(gender)){
-            this.gender = gender;
-        }else{
-            throw new AgentException("Vous avez entré un mauvais genre <<"+gender+">> parmis ceux possible : " +getPossibleGender());
+        if(gender.length() <= GENDER_LENGTH){
+            gender = gender.toUpperCase();
+            if(getPossibleGender().contains(gender)){
+                this.gender = gender;
+            }else{
+                throw new AgentException("Vous avez entré un mauvais genre <<"+gender+">> parmis ceux possible : " +getPossibleGender());
+            }
         }
+        else{
+            throw new AgentException("Le genre entré est trop long !\nMaximum " + GENDER_LENGTH + " charactères");
+        }
+
     }
     public void setAlone(Boolean alone) {
         isAlone = alone;
     }
-    public void setPseudonym(String pseudonym) {
-        this.pseudonym = pseudonym;
+    public void setPseudonym(String pseudonym) throws AgentException{
+        if(pseudonym.length() <= PSEUDONYM_LENGTH){
+            this.pseudonym = pseudonym;
+        }
+        else{
+            throw new AgentException("Le pseudonym entré est trop long !\nMaximum " + PSEUDONYM_LENGTH + " charactères");
+        }
     }
     public void setEditorial(Will editorial) {
         this.editorial = editorial;

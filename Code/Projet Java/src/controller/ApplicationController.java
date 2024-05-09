@@ -17,7 +17,7 @@ public class ApplicationController {
     }
 
 
-    public int addAgent(Agent agent) throws ConnectionException, AccessException {
+    public int addAgent(Agent agent) throws ConnectionException, AccessException, AgentException {
         return manager.addAgent(agent);
     }
     public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException{
@@ -26,7 +26,7 @@ public class ApplicationController {
     public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException{
         return manager.getAllAgents();
     }
-    public void modifyAgent(Agent agent) throws ConnectionException, AccessException{
+    public void modifyAgent(Agent agent) throws ConnectionException, AccessException, AgentException{
         manager.modifyAgent(agent);
     }
     public void deleteAgent(Agent agent) throws ConnectionException, AccessException{
