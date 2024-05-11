@@ -13,8 +13,7 @@ private Agent agent1;
     @BeforeEach
     public void setUp(){
         try{
-            agent1 = new Agent(1234,"beckx","jeremy", LocalDate.of(2003,01,12),"123/45.67.89","m",false,new Cell("iesn","broekn dreams","081"));
-            //agent2 = new Agent(1234,"beckx","jeremy", LocalDate.of(2003,01,12),"123/45.67.89","m",false,new Cell("iesn","broekn dreams","081"));
+            agent1 = new Agent(1,"beckx","jeremy", LocalDate.of(2003,01,12),"0123/45.67.89","m",false,new Cell("iesn","broken dreams","081"));
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
@@ -114,8 +113,8 @@ private Agent agent1;
     @Test
     public void testPhoneNumberPattern1(){
         try{
-            agent1.setPhoneNumber("469/53.26.98");
-            assertEquals("469/53.26.98",agent1.getPhoneNumber());
+            agent1.setPhoneNumber("0469/53.26.98");
+            assertEquals("0469/53.26.98",agent1.getPhoneNumber());
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
@@ -123,8 +122,8 @@ private Agent agent1;
     @Test
     public void testPhoneNumberPattern2(){
         try{
-            agent1.setPhoneNumber("469/532.698");
-            assertEquals("469/532.698",agent1.getPhoneNumber());
+            agent1.setPhoneNumber("0469/532.698");
+            assertEquals("0469/532.698",agent1.getPhoneNumber());
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
