@@ -18,6 +18,7 @@ public class ChangingBitThread extends Thread{
                     for(int iCol = 0;iCol < GraphicPanel.COLS_NB;iCol++){
                         JLabel label = (JLabel)graphicPanel.getComponent(iLine*GraphicPanel.COLS_NB+iCol);
                         label.setText(graphicPanel.randomCharacter());
+                        label.setFont(new Font("Consolas",Font.PLAIN,18));
                     }
                 }
                 sleep(30);

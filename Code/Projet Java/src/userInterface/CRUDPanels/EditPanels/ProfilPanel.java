@@ -1,16 +1,21 @@
 package userInterface.CRUDPanels.EditPanels;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.github.lgooddatepicker.zinternaltools.DateVetoPolicyMinimumMaximumDate;
 import model.Agent;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ProfilPanel extends JPanel implements EditPanel {
     private JLabel lastNameLabel, firstNameLabel, birthdateLabel, gsmLabel, genderLabel, pseudonymLabel;
-    private JTextField lastNameTextField, firstNameTextField, birthdateTextField, gsmTextField, pseudonymTextField;
+    private JTextField lastNameTextField, firstNameTextField, gsmTextField, pseudonymTextField;
+    private DatePicker datePicker;
     private JComboBox genderComboBox;
     private JRadioButton isAloneRadioButton, isMarriedRadioButton;
     private ButtonGroup isAloneRadioButtonGroup;
@@ -36,9 +41,12 @@ public class ProfilPanel extends JPanel implements EditPanel {
 
         birthdateLabel = new JLabel("Date de naissance : ");
         birthdateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        birthdateTextField = new JTextField(agent.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        datePicker = new DatePicker();
+        DatePickerSettings datePickerSetting = new DatePickerSettings();
+        datePicker.setSettings(datePickerSetting);
+        datePicker.getComponentDateTextField().setEnabled(false);
+        datePickerSetting.setVetoPolicy(new DateVetoPolicyMinimumMaximumDate(LocalDate.MIN,LocalDate.now()));
         this.add(birthdateLabel);
-        this.add(birthdateTextField);
 
         gsmLabel = new JLabel("Numéro de téléphone : ");
         gsmLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -123,7 +131,7 @@ public class ProfilPanel extends JPanel implements EditPanel {
     }
 
     public String[] getResult() {
-        String[] values = {lastNameTextField.getText(), firstNameTextField.getText(), birthdateTextField.getText(), gsmTextField.getText(), getGender(), isAlone(), getPseudonym()};
+        String[] values = {lastNameTextField.getText(), firstNameTextField.getText(), datePicker.getText(), gsmTextField.getText(), getGender(), isAlone(), getPseudonym()};
         return values;
     }
 }
