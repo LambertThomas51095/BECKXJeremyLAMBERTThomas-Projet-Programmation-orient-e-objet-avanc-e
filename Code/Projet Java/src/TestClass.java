@@ -1,5 +1,7 @@
-/*import model.*;
+import model.*;
 import exception.*;
+
+import  business.Security;
 
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,8 +15,8 @@ private Agent agent1;
     @BeforeEach
     public void setUp(){
         try{
-            agent1 = new Agent(1,"beckx","jeremy", LocalDate.of(2003,01,12),"0123/45.67.89","m",false,new Cell("iesn","broken dreams","081"));
-        }catch(Exception e){
+            agent1 = new Agent(1234,"beckx","jeremy", LocalDate.of(2003,01,12),"0123/45.67.89","m",false,new Cell("iesn","broekn dreams","081/12.12.12"));
+        }catch(AgentException e){
             System.out.println(e.getMessage());
         }
     }
@@ -30,7 +32,7 @@ private Agent agent1;
             LocalDate date = LocalDate.now();
             agent1.setBirthdate(date);
             assertEquals(date,agent1.getBirthdate());
-        }catch(Exception e){
+        }catch(AgentException e){
             System.out.println(e.getMessage());
         }
     }
@@ -40,7 +42,7 @@ private Agent agent1;
             LocalDate date = LocalDate.now().minusDays(1);
             agent1.setBirthdate(date);
             assertEquals(date,agent1.getBirthdate());
-        }catch(Exception e){
+        }catch(AgentException e){
             System.out.println(e.getMessage());
         }
     }
@@ -51,7 +53,7 @@ private Agent agent1;
         try{
             agent1.setGender("M");
             assertEquals("M",agent1.getGender());
-        }catch(Exception e){
+        }catch(AgentException e){
             System.out.println(e.getMessage());
         }
     }
@@ -60,7 +62,7 @@ private Agent agent1;
         try{
             agent1.setGender("F");
             assertEquals("F",agent1.getGender());
-        }catch(Exception e){
+        }catch(AgentException e){
             System.out.println(e.getMessage());
         }
     }
@@ -69,7 +71,7 @@ private Agent agent1;
         try{
             agent1.setGender("X");
             assertEquals("X",agent1.getGender());
-        }catch(Exception e){
+        }catch(AgentException e){
             System.out.println(e.getMessage());
         }
     }
@@ -78,7 +80,7 @@ private Agent agent1;
         try{
             agent1.setGender("m");
             assertEquals("M",agent1.getGender());
-        }catch(Exception e){
+        }catch(AgentException e){
             System.out.println(e.getMessage());
         }
     }
@@ -87,7 +89,7 @@ private Agent agent1;
         try{
             agent1.setGender("f");
             assertEquals("F",agent1.getGender());
-        }catch(Exception e){
+        }catch(AgentException e){
             System.out.println(e.getMessage());
         }
     }
@@ -96,7 +98,7 @@ private Agent agent1;
         try{
             agent1.setGender("x");
             assertEquals("X",agent1.getGender());
-        }catch(Exception e){
+        }catch(AgentException e){
             System.out.println(e.getMessage());
         }
     }
@@ -115,7 +117,7 @@ private Agent agent1;
         try{
             agent1.setPhoneNumber("0469/53.26.98");
             assertEquals("0469/53.26.98",agent1.getPhoneNumber());
-        }catch(Exception e){
+        }catch(AgentException e){
             System.out.println(e.getMessage());
         }
     }
@@ -124,7 +126,7 @@ private Agent agent1;
         try{
             agent1.setPhoneNumber("0469/532.698");
             assertEquals("0469/532.698",agent1.getPhoneNumber());
-        }catch(Exception e){
+        }catch(AgentException e){
             System.out.println(e.getMessage());
         }
     }
@@ -144,5 +146,14 @@ private Agent agent1;
     public void testPhoneNumberRandom4(){
         assertThrows(AgentException.class, () -> agent1.setPhoneNumber("4469/53.26.98"));
     }
+
+    // Security test
+    @Test
+    public void testCryptingName(){
+        assertEquals("ࡋ࠸ࡃࡄ࠼ࠧ",Security.cryptingMethod("Thomas"));
+    }
+    @Test
+    public void testDecryptingName(){
+        assertEquals("Thomas",Security.decryptingMethod("ࡋ࠸ࡃࡄ࠼ࠧ"));
+    }
 }
-*/
