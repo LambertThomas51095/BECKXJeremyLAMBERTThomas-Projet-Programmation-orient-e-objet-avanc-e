@@ -1,20 +1,12 @@
 package userInterface.CRUDPanels;
 
 import controller.ApplicationController;
-import model.Cell;
-import model.Will;
-import userInterface.CRUDPanels.EditPanels.CellPanel;
-import userInterface.CRUDPanels.EditPanels.ProfilPanel;
-import userInterface.CRUDPanels.EditPanels.WillPanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class SearchPanel extends JPanel {
     private ApplicationController controller;
@@ -29,6 +21,7 @@ public class SearchPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.controller = new ApplicationController();
         ButtonListener buttonListener = new ButtonListener();
+
         try {
             model = new AllAgentsModel(controller.getAllAgents());
             table = new JTable(model);
@@ -61,14 +54,31 @@ public class SearchPanel extends JPanel {
     private class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int selectedLine = listSelect.getMinSelectionIndex();
+            Integer selectedLine = listSelect.getMinSelectionIndex();
             try {
                 controller.deleteAgent(controller.getAgent((Integer)table.getValueAt(selectedLine, 0)));
             }
             catch(Exception exception){
                 JOptionPane.showMessageDialog(null, "Une erreur est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
-            scrollPane = new JScrollPane(new JTable(model));
+            listSelect.clearSelection();
+            try{
+                SearchPanel.this.remove(scrollPane);
+                table = new JTable(new AllAgentsModel(controller.getAllAgents()));
+                scrollPane = new JScrollPane(table);
+                SearchPanel.this.add(scrollPane, BorderLayout.CENTER);
+
+                //Centrer le texte dans les cellules
+                DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
+                custom.setHorizontalAlignment(JLabel.CENTER);
+                for(int i = 0; i < table.getColumnCount(); i++){
+                    table.getColumnModel().getColumn(i).setCellRenderer(custom);
+                }
+            }
+            catch(Exception exception){
+                JOptionPane.showMessageDialog(null, "Une erreur est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+
             SearchPanel.this.validate();
             SearchPanel.this.repaint();
         }

@@ -56,7 +56,7 @@ public class MainWindow extends JFrame {
         deleteItemMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_MASK));
         manipulationMenu.add(deleteItemMenu);
 
-        searchItemMenu = new JMenuItem("Rechercher");
+        searchItemMenu = new JMenuItem("Lister");
         searchItemMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
         manipulationMenu.add(searchItemMenu);
 

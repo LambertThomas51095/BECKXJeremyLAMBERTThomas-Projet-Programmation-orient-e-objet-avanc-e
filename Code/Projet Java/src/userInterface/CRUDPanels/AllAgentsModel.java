@@ -12,13 +12,13 @@ public class AllAgentsModel extends AbstractTableModel {
 
     public AllAgentsModel(ArrayList<Agent> agents){
         columnNames = new ArrayList<>();
-        columnNames.add("PersonnalNumber");
-        columnNames.add("LastName");
-        columnNames.add("FirstName");
-        columnNames.add("Birthdate");
-        columnNames.add("PhoneNumber");
-        columnNames.add("Gender");
-        columnNames.add("IsAlone");
+        columnNames.add("Numéro personnel");
+        columnNames.add("Nom");
+        columnNames.add("Prénom");
+        columnNames.add("Date de naissance");
+        columnNames.add("Numéro de téléphone");
+        columnNames.add("Genre");
+        columnNames.add("Est célibataire");
         columnNames.add("Pseudonym");
         columnNames.add("Affectation");
         setContents(agents);

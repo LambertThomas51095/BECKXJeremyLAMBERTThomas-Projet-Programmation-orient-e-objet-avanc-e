@@ -1,9 +1,8 @@
 package controller;
 
+import business.AgentManager;
 import model.*;
 import exception.*;
-
-import business.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

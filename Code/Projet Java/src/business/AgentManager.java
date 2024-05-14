@@ -1,9 +1,8 @@
 package business;
 
+import dataAccess.*;
 import model.*;
 import exception.*;
-
-import dataAccess.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
