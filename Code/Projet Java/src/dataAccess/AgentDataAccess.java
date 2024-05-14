@@ -16,7 +16,6 @@ public interface AgentDataAccess {
     ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException, WillException;
     void modifyAgent(Agent agent) throws ConnectionException, AccessException;
     void deleteAgent(Agent agent) throws ConnectionException, AccessException;
-    void deleteAgentSearchPanel(Integer personnal_number) throws ConnectionException, AccessException;
 
 
     void addWill(Will will) throws ConnectionException, AccessException;

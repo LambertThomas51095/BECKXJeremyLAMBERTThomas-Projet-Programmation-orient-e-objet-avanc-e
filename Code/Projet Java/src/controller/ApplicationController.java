@@ -33,10 +33,6 @@ public class ApplicationController {
         manager.deleteAgent(agent);
     }
 
-    public void deleteAgentSearchPanel(Integer personnal_number) throws ConnectionException, AccessException, AgentException, WillException{
-        manager.deleteAgentSearchPanel(personnal_number);
-    }
-
     public void deleteWill(Will will) throws ConnectionException, AccessException{
         manager.deleteWill(will);
     }

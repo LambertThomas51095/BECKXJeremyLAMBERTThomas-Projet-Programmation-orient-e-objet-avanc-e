@@ -188,20 +188,6 @@ public class AgentDBAccess implements AgentDataAccess{
     }
 
     @Override
-    public void deleteAgentSearchPanel(Integer personnal_number) throws ConnectionException, AccessException {
-        try{
-            Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "DELETE FROM Agent WHERE personnal_number = ?;";
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setInt(1, personnal_number);
-            preparedStatement.executeUpdate();
-        }catch (SQLException sqlException){
-            throw  new AccessException(sqlException.getMessage());
-        }
-    }
-
-
-    @Override
     public void addWill(Will will) throws ConnectionException, AccessException{
         try{
             Connection connection = SingletonConnection.getInstance();

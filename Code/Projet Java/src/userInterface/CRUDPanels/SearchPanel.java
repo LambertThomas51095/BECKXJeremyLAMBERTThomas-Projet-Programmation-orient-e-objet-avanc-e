@@ -63,7 +63,7 @@ public class SearchPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             int selectedLine = listSelect.getMinSelectionIndex();
             try {
-                controller.deleteAgentSearchPanel((Integer) table.getValueAt(selectedLine, 0));
+                controller.deleteAgent(controller.getAgent((Integer)table.getValueAt(selectedLine, 0)));
             }
             catch(Exception exception){
                 JOptionPane.showMessageDialog(null, "Une erreur est survenue.\nVeuillez nous excuser.\nErreur : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);

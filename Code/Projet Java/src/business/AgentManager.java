@@ -77,14 +77,6 @@ public class AgentManager {
         }
     }
 
-    public void deleteAgentSearchPanel(Integer personnal_number) throws ConnectionException, AccessException, AgentException, WillException{
-        Agent agent = this.getAgent(personnal_number);
-        if(agent.getEditorial() != null){
-            dao.deleteWill(agent.getEditorial());
-        }
-        dao.deleteAgentSearchPanel(personnal_number);
-    }
-
     public void deleteWill(Will will) throws ConnectionException, AccessException{
         dao.deleteWill(will);
     }
