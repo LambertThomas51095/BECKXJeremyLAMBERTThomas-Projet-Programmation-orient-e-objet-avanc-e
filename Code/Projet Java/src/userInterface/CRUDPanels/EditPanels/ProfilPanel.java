@@ -46,7 +46,9 @@ public class ProfilPanel extends JPanel implements EditPanel {
         datePicker.setSettings(datePickerSetting);
         datePicker.getComponentDateTextField().setEnabled(false);
         datePickerSetting.setVetoPolicy(new DateVetoPolicyMinimumMaximumDate(LocalDate.MIN,LocalDate.now()));
+        datePicker.setDate(agent.getBirthdate());
         this.add(birthdateLabel);
+        this.add(datePicker);
 
         gsmLabel = new JLabel("Numéro de téléphone : ");
         gsmLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -131,7 +133,7 @@ public class ProfilPanel extends JPanel implements EditPanel {
     }
 
     public String[] getResult() {
-        String[] values = {lastNameTextField.getText(), firstNameTextField.getText(), datePicker.getText(), gsmTextField.getText(), getGender(), isAlone(), getPseudonym()};
+        String[] values = {lastNameTextField.getText(), firstNameTextField.getText(), datePicker.toString(), gsmTextField.getText(), getGender(), isAlone(), getPseudonym()};
         return values;
     }
 }

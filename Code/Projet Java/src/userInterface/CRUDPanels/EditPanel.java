@@ -99,7 +99,7 @@ public class EditPanel extends JPanel {
 
                         agent.setLastname(values[0]);
                         agent.setFirstname(values[1]);
-                        agent.setBirthdate(LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                        agent.setBirthdate(LocalDate.parse(values[2]));
                         agent.setPhoneNumber(values[3]);
                         agent.setGender(values[4]);
                         if(values[5] == "Célibataire"){
