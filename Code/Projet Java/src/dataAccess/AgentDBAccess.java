@@ -6,6 +6,7 @@ import exception.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class AgentDBAccess implements AgentDataAccess{
 
@@ -79,7 +80,7 @@ public class AgentDBAccess implements AgentDataAccess{
             ResultSet data = preparedStatement.executeQuery();
             data.next();
             String cellName = data.getString("affectation");
-            Cell cell = cells.stream().filter(c -> c.getName().equals(cellName)).toList().get(0);
+            Cell cell = cells.stream().filter(c -> c.getName().equals(cellName)).collect(Collectors.toList()).get(0);
             Agent agent = new Agent(data.getInt("personnal_number"),data.getString("lastname"),data.getString("firstname"), data.getDate("birthdate").toLocalDate(),data.getString("gsm"),data.getString("gender"),data.getBoolean("is_alone"),cell);
 
             String pseudonym = data.getString("pseudonym");
@@ -108,7 +109,7 @@ public class AgentDBAccess implements AgentDataAccess{
             ResultSet data = preparedStatement.executeQuery();
             while(data.next()) {
                 String cellName = data.getString("affectation");
-                Cell cell = cells.stream().filter(c -> c.getName().equals(cellName)).toList().get(0);
+                Cell cell = cells.stream().filter(c -> c.getName().equals(cellName)).collect(Collectors.toList()).get(0);
                 Agent agent = new Agent(data.getInt("personnal_number"), data.getString("lastname"), data.getString("firstname"), data.getDate("birthdate").toLocalDate(), data.getString("gsm"), data.getString("gender"), data.getBoolean("is_alone"), cell);
 
                 String pseudonym = data.getString("pseudonym");
@@ -180,6 +181,19 @@ public class AgentDBAccess implements AgentDataAccess{
             String sqlInstruction = "DELETE FROM Agent WHERE personnal_number = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setInt(1,agent.getPersonnalNumber());
+            preparedStatement.executeUpdate();
+        }catch (SQLException sqlException){
+            throw  new AccessException(sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public void deleteAgentSearchPanel(Integer personnal_number) throws ConnectionException, AccessException {
+        try{
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "DELETE FROM Agent WHERE personnal_number = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, personnal_number);
             preparedStatement.executeUpdate();
         }catch (SQLException sqlException){
             throw  new AccessException(sqlException.getMessage());

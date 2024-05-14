@@ -21,7 +21,7 @@ public class ChangingBitThread extends Thread{
                         label.setFont(new Font("Consolas",Font.PLAIN,18));
                     }
                 }
-                sleep(30);
+                sleep(50);
             }catch(Exception e){
                 System.out.println(e.getMessage());
             }

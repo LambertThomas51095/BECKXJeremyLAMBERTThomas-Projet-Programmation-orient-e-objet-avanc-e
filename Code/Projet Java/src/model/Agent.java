@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Agent {
     private Integer personnalNumber;
@@ -176,7 +177,7 @@ public class Agent {
     }
 
     public static List getPossibleGender(){
-        return Arrays.stream(Agent.POSSIBLE_GENDER).toList();
+        return Arrays.stream(Agent.POSSIBLE_GENDER).collect(Collectors.toList());
     }
 
 }
