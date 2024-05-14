@@ -26,7 +26,6 @@ public class SearchPanel extends JPanel {
             model = new AllAgentsModel(controller.getAllAgents());
             table = new JTable(model);
             table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            listSelect = table.getSelectionModel();
 
             scrollPane = new JScrollPane(table);
             this.add(scrollPane, BorderLayout.CENTER);
@@ -54,6 +53,7 @@ public class SearchPanel extends JPanel {
     private class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            listSelect = table.getSelectionModel();
             Integer selectedLine = listSelect.getMinSelectionIndex();
             try {
                 controller.deleteAgent(controller.getAgent((Integer)table.getValueAt(selectedLine, 0)));
