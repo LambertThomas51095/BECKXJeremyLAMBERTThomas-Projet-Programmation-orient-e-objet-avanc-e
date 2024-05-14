@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,11 +21,11 @@ public class FirstSeachPanel extends JPanel {
     private ApplicationController controller;
     private JPanel searchPanel, valuesPanel, buttonPanel;
     private JLabel cellLabel, birthdateLabel;
-    private JTextField cellTextField, birthdateTextField;
+    private JTextField cellTextField;
     private JButton searchButton;
     private JTable table;
     private AllAgentsLanguagesModel model;
-    private JComboBox yearsBox, monthsBox, daysBox;
+    private JSpinner dateSpinner;
 
     public FirstSeachPanel(){
         this.controller = new ApplicationController();
@@ -44,12 +46,15 @@ public class FirstSeachPanel extends JPanel {
         cellTextField = new JTextField(10);
         birthdateLabel = new JLabel("Date de naissance maximale : ");
         birthdateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        // add JComboBox x3 ..
-        birthdateTextField = new JTextField(10);
+        Date today = new Date();
+        dateSpinner = new JSpinner(new SpinnerDateModel(today, null, today, Calendar.MONTH));
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(dateSpinner, "dd/MM/yyyy");
+        dateSpinner.setEditor(editor);
+
         valuesPanel.add(cellLabel);
         valuesPanel.add(cellTextField);
         valuesPanel.add(birthdateLabel);
-        valuesPanel.add(birthdateTextField);
+        valuesPanel.add(dateSpinner);
 
         searchPanel.add(valuesPanel);
 
@@ -61,40 +66,6 @@ public class FirstSeachPanel extends JPanel {
         buttonPanel.add(searchButton);
 
         searchPanel.add(buttonPanel);
-    }
-
-    public LocalDate validateDate(){
-        String dateText = birthdateTextField.getText();
-        Pattern pattern = Pattern.compile(RegularExpression.DATE_FORMAT.toString());
-        Matcher matcher = pattern.matcher(dateText);
-        if(matcher.find()) {
-            LocalDate date = LocalDate.parse(dateText, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            if(!date.isAfter(LocalDate.now())){
-                return date;
-            }
-        }
-        return null;
-    }
-
-    public Integer [] addDays(int nbDays){
-        Integer [] days = new Integer[nbDays];
-        for(int iDays = 1; iDays <= nbDays; iDays++){
-            days[iDays] = iDays;
-        }
-        return days;
-    }
-    public void updateDaysNumber(){
-        int nbDays;
-        if(((String)monthsBox.getSelectedItem()).equals("Février")){
-            // regarder si année bisextile => 28 ou 29 (changer nbDays)
-            nbDays = 28;
-        }else{
-            // regarder en fct du mois 30 ou 31
-            nbDays = 30;
-        }
-        daysBox.removeAllItems();
-        // à vérifier si bonne fct pour add dans le JComboBox à nouveau car pas sur..
-        daysBox.addItem(nbDays);
     }
 
     public String validateCellName() throws ConnectionException, AccessException {
@@ -109,9 +80,11 @@ public class FirstSeachPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             try{
-                LocalDate date = validateDate();
+                Date bufferDate = (Date)dateSpinner.getValue();
+                LocalDate date = LocalDate.of(bufferDate.getYear()+1900,bufferDate.getMonth()+1,bufferDate.getDate());
+                System.out.println(date);
                 String cellName = validateCellName();
-                if(date != null && cellName != null){
+                if(cellName != null){
                     model = new AllAgentsLanguagesModel(controller.getAgentsLanguages(cellName, date));
                     table = new JTable(model);
                     if(FirstSeachPanel.this.getComponentCount() == 2){
