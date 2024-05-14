@@ -23,6 +23,7 @@ public class FirstSeachPanel extends JPanel {
     private JButton searchButton;
     private JTable table;
     private AllAgentsLanguagesModel model;
+    private JComboBox yearsBox, monthsBox, daysBox;
 
     public FirstSeachPanel(){
         this.controller = new ApplicationController();
@@ -43,6 +44,7 @@ public class FirstSeachPanel extends JPanel {
         cellTextField = new JTextField(10);
         birthdateLabel = new JLabel("Date de naissance maximale : ");
         birthdateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        // add JComboBox x3 ..
         birthdateTextField = new JTextField(10);
         valuesPanel.add(cellLabel);
         valuesPanel.add(cellTextField);
@@ -73,6 +75,28 @@ public class FirstSeachPanel extends JPanel {
         }
         return null;
     }
+
+    public Integer [] addDays(int nbDays){
+        Integer [] days = new Integer[nbDays];
+        for(int iDays = 1; iDays <= nbDays; iDays++){
+            days[iDays] = iDays;
+        }
+        return days;
+    }
+    public void updateDaysNumber(){
+        int nbDays;
+        if(((String)monthsBox.getSelectedItem()).equals("Février")){
+            // regarder si année bisextile => 28 ou 29 (changer nbDays)
+            nbDays = 28;
+        }else{
+            // regarder en fct du mois 30 ou 31
+            nbDays = 30;
+        }
+        daysBox.removeAllItems();
+        // à vérifier si bonne fct pour add dans le JComboBox à nouveau car pas sur..
+        daysBox.addItem(nbDays);
+    }
+
     public String validateCellName() throws ConnectionException, AccessException {
         String cellName = cellTextField.getText();
         if(controller.getAllCells().stream().anyMatch(cell -> cell.getName().equals(cellName))){
