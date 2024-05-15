@@ -80,7 +80,6 @@ public class FirstSeachPanel extends JPanel {
             try{
                 JFormattedTextField dateText = ((JSpinner.DefaultEditor)editor).getTextField();
                 LocalDate date = LocalDate.parse(dateText.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                System.out.println(date);
                 
                 String cellName = validateCellName();
                 if(cellName != null){
