@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -22,6 +23,7 @@ public class FirstSeachPanel extends JPanel {
     private JTable table;
     private AllAgentsLanguagesModel model;
     private JSpinner dateSpinner;
+    private JSpinner.DateEditor editor;
 
     public FirstSeachPanel(){
         this.controller = new ApplicationController();
@@ -44,7 +46,7 @@ public class FirstSeachPanel extends JPanel {
         birthdateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         Date today = new Date();
         dateSpinner = new JSpinner(new SpinnerDateModel(today, null, today, Calendar.MONTH));
-        JSpinner.DateEditor editor = new JSpinner.DateEditor(dateSpinner, "dd/MM/yyyy");
+        editor = new JSpinner.DateEditor(dateSpinner, "dd/MM/yyyy");
         dateSpinner.setEditor(editor);
 
         valuesPanel.add(cellLabel);
@@ -76,9 +78,10 @@ public class FirstSeachPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             try{
-                Date bufferDate = (Date)dateSpinner.getValue();
-                LocalDate date = LocalDate.of(bufferDate.getYear()+1900,bufferDate.getMonth()+1,bufferDate.getDate());
+                JFormattedTextField dateText = ((JSpinner.DefaultEditor)editor).getTextField();
+                LocalDate date = LocalDate.parse(dateText.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                 System.out.println(date);
+                
                 String cellName = validateCellName();
                 if(cellName != null){
                     model = new AllAgentsLanguagesModel(controller.getAgentsLanguages(cellName, date));
