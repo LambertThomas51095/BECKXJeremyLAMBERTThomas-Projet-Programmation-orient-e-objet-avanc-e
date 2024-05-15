@@ -16,8 +16,8 @@ public class AgentDBAccess implements AgentDataAccess{
 
 
     @Override
-    public int getLastIncrementId() throws ConnectionException, AccessException{
-        int lastIncrementPersonnalNumber;
+    public Integer getLastIncrementId() throws ConnectionException, AccessException{
+        Integer lastIncrementPersonnalNumber;
         try{
             Connection connection = SingletonConnection.getInstance();
             String sqlInstruction = "Select last_insert_id();";

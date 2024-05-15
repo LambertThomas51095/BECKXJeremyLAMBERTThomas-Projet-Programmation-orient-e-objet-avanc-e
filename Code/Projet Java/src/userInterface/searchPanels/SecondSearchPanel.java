@@ -83,7 +83,7 @@ public class SecondSearchPanel extends JPanel {
             ArrayList<String> names = new ArrayList<>();
             names.add(agentNameTextField.getText());
             names.add(agentFirstNameTextField.getText());
-            if(!controller.getAllAgentsName().contains(names)){ // si nom prenom good ?
+            if(!controller.getAllAgentsName().contains(names)){
                 return false;
             }
         }
@@ -94,7 +94,6 @@ public class SecondSearchPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             try{
-                // verif matricule et nom prénom si null ou existe pas
                 Integer matricule = getMatricule();
                 if(validateInformations(matricule)){
                     ArrayList<ArrayList<String>> agentMissions = controller.getAgentMissions(agentNameTextField.getText(), agentFirstNameTextField.getText(), matricule);
@@ -111,7 +110,7 @@ public class SecondSearchPanel extends JPanel {
                         //Centrer le texte dans les cellules
                         DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
                         custom.setHorizontalAlignment(JLabel.CENTER);
-                        for(int i = 0; i < table.getColumnCount(); i++){
+                        for(Integer i = 0; i < table.getColumnCount(); i++){
                             table.getColumnModel().getColumn(i).setCellRenderer(custom);
                         }
                     }else{

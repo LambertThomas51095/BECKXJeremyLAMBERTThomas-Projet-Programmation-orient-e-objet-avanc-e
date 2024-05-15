@@ -19,7 +19,7 @@ public class AgentManager {
         this.dao = dao;
     }
 
-    public int addAgent(Agent agent) throws ConnectionException, AccessException, AgentException{
+    public Integer addAgent(Agent agent) throws ConnectionException, AccessException, AgentException{
         if(agent.getEditorial() != null){
             dao.addWill(agent.getEditorial());
             Integer willCode = dao.getLastIncrementId();
@@ -112,7 +112,7 @@ public class AgentManager {
     }
     public ArrayList<String> getContacts(Integer missionCode) throws ConnectionException, AccessException{
         ArrayList<String> contacts = dao.getContacts(missionCode);
-        for(int iContact = 0; iContact < contacts.size(); iContact++){
+        for(Integer iContact = 0; iContact < contacts.size(); iContact++){
             contacts.set(iContact, Security.decryptingMethod(contacts.get(iContact)));
         }
         return contacts;

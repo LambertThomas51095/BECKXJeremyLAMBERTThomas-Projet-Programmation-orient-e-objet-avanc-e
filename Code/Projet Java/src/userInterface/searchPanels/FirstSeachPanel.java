@@ -3,7 +3,6 @@ package userInterface.searchPanels;
 import controller.ApplicationController;
 import exception.AccessException;
 import exception.ConnectionException;
-import model.RegularExpression;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -11,11 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class FirstSeachPanel extends JPanel {
     private ApplicationController controller;
@@ -96,7 +92,7 @@ public class FirstSeachPanel extends JPanel {
                     //Centrer le texte dans les cellules
                     DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
                     custom.setHorizontalAlignment(JLabel.CENTER);
-                    for(int i = 0; i < table.getColumnCount(); i++){
+                    for(Integer i = 0; i < table.getColumnCount(); i++){
                         table.getColumnModel().getColumn(i).setCellRenderer(custom);
                     }
                 }else{

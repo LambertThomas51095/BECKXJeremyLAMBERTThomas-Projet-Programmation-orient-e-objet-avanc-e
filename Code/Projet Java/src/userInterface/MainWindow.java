@@ -1,16 +1,11 @@
 package userInterface;
 
-import com.github.lgooddatepicker.components.DatePicker;
-import com.github.lgooddatepicker.components.DatePickerSettings;
-import com.github.lgooddatepicker.zinternaltools.DateVetoPolicyMinimumMaximumDate;
 import userInterface.CRUDPanels.*;
 import userInterface.searchPanels.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.time.LocalDate;
-import java.util.Locale;
 
 public class MainWindow extends JFrame {
     private Container frameContainer;
@@ -19,7 +14,6 @@ public class MainWindow extends JFrame {
     private JMenuItem leaveItemMenu, createItemMenu, editItemMenu, deleteItemMenu, searchItemMenu, search1ItemMenu, search2ItemMenu, search3ItemMenu , helpItemMenu;
     private JPanel welcomePanel, graphicWestPanel, graphicEastPanel;
     private JLabel welcomeLabel;
-    private DatePicker datePicker;
 
     public MainWindow(){
         super("\"Pas vu, pas pris\" spy agency");

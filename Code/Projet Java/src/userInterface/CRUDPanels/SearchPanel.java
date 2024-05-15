@@ -33,7 +33,7 @@ public class SearchPanel extends JPanel {
             //Centrer le texte dans les cellules
             DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
             custom.setHorizontalAlignment(JLabel.CENTER);
-            for(int i = 0; i < table.getColumnCount(); i++){
+            for(Integer i = 0; i < table.getColumnCount(); i++){
                 table.getColumnModel().getColumn(i).setCellRenderer(custom);
             }
 
@@ -71,7 +71,7 @@ public class SearchPanel extends JPanel {
                 //Centrer le texte dans les cellules
                 DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
                 custom.setHorizontalAlignment(JLabel.CENTER);
-                for(int i = 0; i < table.getColumnCount(); i++){
+                for(Integer i = 0; i < table.getColumnCount(); i++){
                     table.getColumnModel().getColumn(i).setCellRenderer(custom);
                 }
             }

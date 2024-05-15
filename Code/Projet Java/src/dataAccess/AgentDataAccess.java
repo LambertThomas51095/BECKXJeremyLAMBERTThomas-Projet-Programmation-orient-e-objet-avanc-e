@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public interface AgentDataAccess {
 
-    int getLastIncrementId() throws ConnectionException, AccessException;
+    Integer getLastIncrementId() throws ConnectionException, AccessException;
 
     void addAgent(Agent agent) throws ConnectionException, AccessException;
     Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException, WillException;

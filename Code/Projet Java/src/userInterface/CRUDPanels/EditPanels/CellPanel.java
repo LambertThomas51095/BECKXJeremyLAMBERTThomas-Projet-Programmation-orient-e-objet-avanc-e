@@ -16,7 +16,7 @@ public class CellPanel extends JPanel implements EditPanel {
     private ArrayList<Cell> cells;
     private Cell cell;
 
-    public CellPanel(ArrayList<Cell> cells, Cell cell) throws ConnectionException, AccessException{
+    public CellPanel(ArrayList<Cell> cells, Cell cell){
         this.cell = cell;
         this.cells = cells;
         this.controller = new ApplicationController();
@@ -31,10 +31,10 @@ public class CellPanel extends JPanel implements EditPanel {
         this.add(cellComboBox);
     }
 
-    public String[] getCellValues() throws ConnectionException, AccessException {
+    public String[] getCellValues(){
         String [] values = new String[cells.size()];
 
-        for(int iCell = 0; iCell < cells.size(); iCell++){
+        for(Integer iCell = 0; iCell < cells.size(); iCell++){
             values[iCell] = cells.get(iCell).getName();
         }
 

@@ -13,9 +13,8 @@ public class ChangingBitThread extends Thread{
     public void run(){
         while(true){
             try{
-// changer les bits de chaque case du graphicPanel
-                for(int iLine = 0; iLine < GraphicPanel.ROWS_NB; iLine++){
-                    for(int iCol = 0;iCol < GraphicPanel.COLS_NB;iCol++){
+                for(Integer iLine = 0; iLine < GraphicPanel.ROWS_NB; iLine++){
+                    for(Integer iCol = 0;iCol < GraphicPanel.COLS_NB;iCol++){
                         JLabel label = (JLabel)graphicPanel.getComponent(iLine*GraphicPanel.COLS_NB+iCol);
                         label.setText(graphicPanel.randomCharacter());
                         label.setFont(new Font("Consolas",Font.PLAIN,18));

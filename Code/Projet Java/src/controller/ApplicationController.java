@@ -16,7 +16,7 @@ public class ApplicationController {
     }
 
 
-    public int addAgent(Agent agent) throws ConnectionException, AccessException, AgentException {
+    public Integer addAgent(Agent agent) throws ConnectionException, AccessException, AgentException {
         return manager.addAgent(agent);
     }
     public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException, WillException{

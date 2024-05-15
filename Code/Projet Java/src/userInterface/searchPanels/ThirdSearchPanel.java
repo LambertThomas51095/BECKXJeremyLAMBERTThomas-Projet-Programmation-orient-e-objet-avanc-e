@@ -61,7 +61,6 @@ public class ThirdSearchPanel extends JPanel {
     private class ButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
             try{
                 Integer missionCode = getMissionCode();
                 if(missionCode != null){
@@ -79,7 +78,7 @@ public class ThirdSearchPanel extends JPanel {
                         //Centrer le texte dans les cellules
                         DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
                         custom.setHorizontalAlignment(JLabel.CENTER);
-                        for(int i = 0; i < table.getColumnCount(); i++){
+                        for(Integer i = 0; i < table.getColumnCount(); i++){
                             table.getColumnModel().getColumn(i).setCellRenderer(custom);
                         }
                     }else{

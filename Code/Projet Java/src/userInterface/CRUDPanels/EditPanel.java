@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class EditPanel extends JPanel {
@@ -23,7 +22,7 @@ public class EditPanel extends JPanel {
     private Agent agent;
     private Will will;
     private Will tempWill;
-    private boolean destroyWill;
+    private Boolean destroyWill;
 
     public EditPanel(){
         this.destroyWill = false;
