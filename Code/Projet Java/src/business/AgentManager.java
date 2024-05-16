@@ -25,40 +25,24 @@ public class AgentManager {
             Integer willCode = dao.getLastIncrementId();
             agent.getEditorial().setCode(willCode);
         }
-        agent.setLastname(Security.cryptingMethod(agent.getLastname()));
-        agent.setFirstname(Security.cryptingMethod(agent.getFirstname()));
-        if(agent.getPseudonym() != null){
-            agent.setPseudonym(Security.cryptingMethod(agent.getPseudonym()));
-        }
+        cryptingInformations(agent);
         dao.addAgent(agent);
         return agent.getPersonnalNumber();
     }
     public Agent getAgent(Integer personnalNumber) throws AgentException, ConnectionException, AccessException, WillException {
         Agent agent = dao.getAgent(personnalNumber);
-        agent.setFirstname(Security.decryptingMethod(agent.getFirstname()));
-        agent.setLastname(Security.decryptingMethod(agent.getLastname()));
-        if(agent.getPseudonym() != null){
-            agent.setPseudonym(Security.decryptingMethod(agent.getPseudonym()));
-        }
+        decryptingInformations(agent);
         return agent;
     }
     public ArrayList<Agent> getAllAgents() throws AgentException, ConnectionException, AccessException, WillException{
         ArrayList<Agent> agents = dao.getAllAgents();
         for(Agent agent : agents){
-            agent.setFirstname(Security.decryptingMethod(agent.getFirstname()));
-            agent.setLastname(Security.decryptingMethod(agent.getLastname()));
-            if(agent.getPseudonym() != null){
-                agent.setPseudonym(Security.decryptingMethod(agent.getPseudonym()));
-            }
+            decryptingInformations(agent);
         }
         return agents;
     }
     public void modifyAgent(Agent agent) throws ConnectionException, AccessException, AgentException{
-        agent.setLastname(Security.cryptingMethod(agent.getLastname()));
-        agent.setFirstname(Security.cryptingMethod(agent.getFirstname()));
-        if(agent.getPseudonym() != null){
-            agent.setPseudonym(Security.cryptingMethod(agent.getPseudonym()));
-        }
+        cryptingInformations(agent);
         if(agent.getEditorial() != null){
             if(agent.getEditorial().getCode() != null){
                 dao.modifyWill(agent.getEditorial());
@@ -118,4 +102,18 @@ public class AgentManager {
         return contacts;
     }
 
+    public void cryptingInformations(Agent agent) throws ConnectionException, AccessException, AgentException{
+        agent.setLastname(Security.cryptingMethod(agent.getLastname()));
+        agent.setFirstname(Security.cryptingMethod(agent.getFirstname()));
+        if(agent.getPseudonym() != null){
+            agent.setPseudonym(Security.cryptingMethod(agent.getPseudonym()));
+        }
+    }
+    public void decryptingInformations(Agent agent) throws ConnectionException, AccessException, AgentException{
+        agent.setFirstname(Security.decryptingMethod(agent.getFirstname()));
+        agent.setLastname(Security.decryptingMethod(agent.getLastname()));
+        if(agent.getPseudonym() != null){
+            agent.setPseudonym(Security.decryptingMethod(agent.getPseudonym()));
+        }
+    }
 }

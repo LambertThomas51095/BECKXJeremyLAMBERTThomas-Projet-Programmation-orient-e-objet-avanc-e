@@ -96,8 +96,8 @@ public class EditPanel extends JPanel {
 
                     String [] values = ((ProfilPanel) editPanels).getResult();
 
-                        agent.setLastname(values[0]);
-                        agent.setFirstname(values[1]);
+                        agent.setLastname(values[0].toUpperCase());
+                        agent.setFirstname(values[1].toUpperCase());
                         agent.setBirthdate(LocalDate.parse(values[2]));
                         agent.setPhoneNumber(values[3]);
                         agent.setGender(values[4]);

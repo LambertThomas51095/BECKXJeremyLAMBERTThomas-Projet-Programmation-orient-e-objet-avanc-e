@@ -22,20 +22,20 @@ public class CellPanel extends JPanel implements CreationPanel{
 
         cellLabel = new JLabel("Cellules : ");
         cellLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        cellComboBox = new JComboBox(getCellValues());
+        cellComboBox = new JComboBox(getCellNames());
         cellComboBox.setMaximumRowCount(3);
         this.add(cellLabel);
         this.add(cellComboBox);
     }
 
-    public String[] getCellValues(){
-        String [] values = new String[cells.size()];
+    public String[] getCellNames(){
+        String [] cellNames = new String[cells.size()];
 
         for(Integer iCell = 0; iCell < cells.size(); iCell++){
-            values[iCell] = cells.get(iCell).getName();
+            cellNames[iCell] = cells.get(iCell).getName();
         }
 
-        return values;
+        return cellNames;
     }
 
     public String [] getResult(){

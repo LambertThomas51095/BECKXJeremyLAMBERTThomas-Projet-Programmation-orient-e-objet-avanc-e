@@ -1,8 +1,7 @@
 package userInterface.searchPanels;
 
 import controller.ApplicationController;
-import exception.AccessException;
-import exception.ConnectionException;
+import model.Cell;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -11,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -18,12 +18,13 @@ public class FirstSeachPanel extends JPanel {
     private ApplicationController controller;
     private JPanel searchPanel, valuesPanel, buttonPanel;
     private JLabel cellLabel, birthdateLabel;
-    private JTextField cellTextField;
+    private JComboBox cellComboBox;
+    private JSpinner dateSpinner;
+    private JSpinner.DateEditor editor;
     private JButton searchButton;
     private JTable table;
     private AllAgentsLanguagesModel model;
-    private JSpinner dateSpinner;
-    private JSpinner.DateEditor editor;
+
 
     public FirstSeachPanel(){
         this.controller = new ApplicationController();
@@ -41,7 +42,7 @@ public class FirstSeachPanel extends JPanel {
 
         cellLabel = new JLabel("Nom de la cellule : ");
         cellLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        cellTextField = new JTextField(10);
+        cellComboBox = new JComboBox(getCellNames());
         birthdateLabel = new JLabel("Date de naissance maximale : ");
         birthdateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         Date today = new Date();
@@ -50,7 +51,7 @@ public class FirstSeachPanel extends JPanel {
         dateSpinner.setEditor(editor);
 
         valuesPanel.add(cellLabel);
-        valuesPanel.add(cellTextField);
+        valuesPanel.add(cellComboBox);
         valuesPanel.add(birthdateLabel);
         valuesPanel.add(dateSpinner);
 
@@ -66,10 +67,17 @@ public class FirstSeachPanel extends JPanel {
         searchPanel.add(buttonPanel);
     }
 
-    public String validateCellName() throws ConnectionException, AccessException {
-        String cellName = cellTextField.getText();
-        if(controller.getAllCells().stream().anyMatch(cell -> cell.getName().equals(cellName))){
-            return cellName;
+    public String[] getCellNames(){
+        try{
+            ArrayList<Cell> cells = controller.getAllCells();
+            String [] cellNames = new String[cells.size()];
+            for(Integer iCell = 0; iCell < cells.size(); iCell++){
+                cellNames[iCell] = cells.get(iCell).getName();
+            }
+
+            return cellNames;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -80,29 +88,20 @@ public class FirstSeachPanel extends JPanel {
             try{
                 JFormattedTextField dateText = ((JSpinner.DefaultEditor)editor).getTextField();
                 LocalDate date = LocalDate.parse(dateText.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                System.out.println(date);
-                
-                String cellName = validateCellName();
-                if(cellName != null){
-                    model = new AllAgentsLanguagesModel(controller.getAgentsLanguages(cellName, date));
-                    table = new JTable(model);
-                    if(FirstSeachPanel.this.getComponentCount() == 2){
-                        FirstSeachPanel.this.remove(1);
-                    }
-                    JScrollPane scrollPane = new JScrollPane(table);
-                    FirstSeachPanel.this.add(scrollPane, BorderLayout.CENTER);
 
-                    //Centrer le texte dans les cellules
-                    DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
-                    custom.setHorizontalAlignment(JLabel.CENTER);
-                    for(Integer i = 0; i < table.getColumnCount(); i++){
-                        table.getColumnModel().getColumn(i).setCellRenderer(custom);
-                    }
-                }else{
-                    if(FirstSeachPanel.this.getComponentCount() == 2){
-                        FirstSeachPanel.this.remove(1);
-                    }
-                    JOptionPane.showMessageDialog(null, "Une ou plusieurs données entrées sont érronées !", "Données incorrectes", JOptionPane.ERROR_MESSAGE);
+                model = new AllAgentsLanguagesModel(controller.getAgentsLanguages((String)cellComboBox.getSelectedItem(), date));
+                table = new JTable(model);
+                if(FirstSeachPanel.this.getComponentCount() == 2){
+                    FirstSeachPanel.this.remove(1);
+                }
+                JScrollPane scrollPane = new JScrollPane(table);
+                FirstSeachPanel.this.add(scrollPane, BorderLayout.CENTER);
+
+                //Centrer le texte dans les cellules
+                DefaultTableCellRenderer custom = new DefaultTableCellRenderer();
+                custom.setHorizontalAlignment(JLabel.CENTER);
+                for(Integer i = 0; i < table.getColumnCount(); i++){
+                    table.getColumnModel().getColumn(i).setCellRenderer(custom);
                 }
 
                 FirstSeachPanel.this.validate();
