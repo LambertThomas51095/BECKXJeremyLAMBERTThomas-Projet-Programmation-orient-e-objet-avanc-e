@@ -88,6 +88,19 @@ public class FirstSeachPanel extends JPanel {
             try{
                 JFormattedTextField dateText = ((JSpinner.DefaultEditor)editor).getTextField();
                 LocalDate date = LocalDate.parse(dateText.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+<<<<<<< HEAD
+=======
+                
+                String cellName = validateCellName();
+                if(cellName != null){
+                    model = new AllAgentsLanguagesModel(controller.getAgentsLanguages(cellName, date));
+                    table = new JTable(model);
+                    if(FirstSeachPanel.this.getComponentCount() == 2){
+                        FirstSeachPanel.this.remove(1);
+                    }
+                    JScrollPane scrollPane = new JScrollPane(table);
+                    FirstSeachPanel.this.add(scrollPane, BorderLayout.CENTER);
+>>>>>>> a133eb2a37df1e75d5752a05b3335dae9da9c370
 
                 model = new AllAgentsLanguagesModel(controller.getAgentsLanguages((String)cellComboBox.getSelectedItem(), date));
                 table = new JTable(model);
