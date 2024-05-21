@@ -5,6 +5,7 @@ public class Security {
     private static final Integer DECALAGE = 2003;
 
     public static String cryptingMethod(String word){
+        word = word.toUpperCase();
         Integer charactersNb = word.length();
         Character [] cryptCharacters = new Character[charactersNb];
 

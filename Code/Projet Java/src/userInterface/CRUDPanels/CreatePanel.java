@@ -58,7 +58,7 @@ public class CreatePanel extends JPanel {
                     try{
 
                         String [] values = ((ProfilPanel) creationPanels).getResult();
-                        agent = new Agent(values[0].toUpperCase(),values[1].toUpperCase(),LocalDate.parse(values[2]),values[3],values[4],values[6]);
+                        agent = new Agent(values[0],values[1],LocalDate.parse(values[2]),values[3],values[4],values[6]);
                         if(values[5] == "Célibataire"){
                             agent.setAlone(true);
                         }

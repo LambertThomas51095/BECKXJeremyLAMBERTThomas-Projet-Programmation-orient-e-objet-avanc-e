@@ -81,8 +81,8 @@ public class SecondSearchPanel extends JPanel {
     public Boolean validateInformations(Integer matricule) throws ConnectionException, AccessException{
         if(matricule == null){
             ArrayList<String> names = new ArrayList<>();
-            names.add(agentNameTextField.getText());
-            names.add(agentFirstNameTextField.getText());
+            names.add(agentNameTextField.getText().toUpperCase());
+            names.add(agentFirstNameTextField.getText().toUpperCase());
             if(!controller.getAllAgentsName().contains(names)){
                 return false;
             }
@@ -96,7 +96,7 @@ public class SecondSearchPanel extends JPanel {
             try{
                 Integer matricule = getMatricule();
                 if(validateInformations(matricule)){
-                    ArrayList<ArrayList<String>> agentMissions = controller.getAgentMissions(agentNameTextField.getText(), agentFirstNameTextField.getText(), matricule);
+                    ArrayList<ArrayList<String>> agentMissions = controller.getAgentMissions(agentNameTextField.getText().toUpperCase(), agentFirstNameTextField.getText().toUpperCase(), matricule);
                     if(agentMissions.size() > 0){
                         model = new AllAgentMissionsModel(agentMissions);
                         table = new JTable(model);
