@@ -150,10 +150,10 @@ private Agent agent1;
     // Security test
     @Test
     public void testCryptingName(){
-        assertEquals("ࡋ࠸ࡃࡄ࠼ࠧ",Security.cryptingMethod("Thomas"));
+            assertEquals("ࠫ࠘ࠣࠤࠜࠧ",Security.cryptingMethod("THOMAS"));
     }
     @Test
     public void testDecryptingName(){
-        assertEquals("Thomas",Security.decryptingMethod("ࡋ࠸ࡃࡄ࠼ࠧ"));
+        assertEquals("THOMAS",Security.decryptingMethod("ࠫ࠘ࠣࠤࠜࠧ"));
     }
 }
